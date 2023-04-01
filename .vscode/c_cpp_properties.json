@@ -5,6 +5,8 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "/usr/include/freetype2",
+                "${workspaceFolder}/glad/include",
+                "${workspaceFolder}/glad/include/KHR",
                 "${workspaceFolder}/glad/include"
             ],
             "defines": [],
