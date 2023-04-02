@@ -7,13 +7,8 @@ class Okno;
 class Skupina
 {
 public:
-    Okno *okno;
-
     bool aktivno = 1;
     std::string ime;
-
-    std::vector<Objekt *> tabObjektov;
-    std::vector<Skupina *> tabSkupn;
 
     Objekt *dodajObjekt(std::string ime);
     Objekt *poisciObjekt(std::string ime);
@@ -24,4 +19,9 @@ public:
     Skupina(Okno *okn, std::string _ime);
     void zanka();
     ~Skupina();
+
+private:
+    Okno *okno;
+    std::vector<Skupina *> tabSkupn;
+    std::vector<Objekt *> tabObjektov;
 };

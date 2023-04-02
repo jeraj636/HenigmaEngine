@@ -10,7 +10,6 @@ public:
     uint VAO, shaderProgram;
     GLFWwindow *okno;
     Barva barvaOdzadja;
-    std::vector<Scena *> tabScen;
     Okno(int width, int height, const char *naslov);
 
     void zanka();
@@ -18,6 +17,7 @@ public:
     ~Okno();
 
 private:
+    std::vector<Scena *> tabScen;
     static void posodobiVelikost(GLFWwindow *okko, int width, int height)
     {
         glViewport(0, 0, width, height);

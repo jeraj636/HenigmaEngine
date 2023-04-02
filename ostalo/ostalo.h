@@ -1,12 +1,15 @@
 #pragma once
 #include <fmt/core.h>
 #include <fmt/color.h>
+#include <string>
+
 class Barva
 {
 public:
     float a, b, g, r;
     Barva(int hexCode);
 };
+uint naloziTeksturo(const char *potDoSlike);
 namespace io
 {
     enum class type

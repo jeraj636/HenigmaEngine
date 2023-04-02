@@ -8,11 +8,9 @@ class Komponenta;
 class Objekt
 {
 public:
-    Okno *okno;
     Objekt(Okno *okn, std::string _ime);
     void zanka();
     bool aktivno = 1;
-    std::vector<Komponenta *> tabKomponent;
     template <class t>
     void dodajKomponento()
     {
@@ -33,4 +31,6 @@ public:
     ~Objekt();
 
 private:
+    std::vector<Komponenta *> tabKomponent;
+    Okno *okno;
 };

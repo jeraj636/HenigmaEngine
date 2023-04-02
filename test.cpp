@@ -20,6 +20,7 @@ int main()
     sk->dodajSkupino("neki");
     sk->poisciSkupinoo("neki")->dodajObjekt("t")->dodajKomponento<Upodabljalnik>();
     sk->poisciSkupinoo("neki")->poisciObjekt("t")->poisciKOmponento<Upodabljalnik>()->barvaObjekta = Barva(0xff0000ff);
+    uint tekstura = naloziTeksturo("../tt.png");
     while (!glfwWindowShouldClose(okno.okno))
     {
 

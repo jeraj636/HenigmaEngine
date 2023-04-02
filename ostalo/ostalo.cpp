@@ -1,5 +1,33 @@
 #include "ostalo.h"
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+uint naloziTeksturo(const char *potDoSlike)
+{
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+    uint tekstura;
+    glGenTextures(1, &tekstura);
+    glBindTexture(GL_TEXTURE_2D, tekstura);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    int width, height, chanels;
+    unsigned char *data = stbi_load(potDoSlike, &width, &height, &chanels, STBI_rgb_alpha);
+    if (data != NULL)
+    {
+        io::izpis("tukaj", io::type::msg);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+    }
+    else
+        io::izpis("NI SLIKE", io::type::msg);
+    return tekstura;
+}
 Barva::Barva(int hexCode)
 {
     a = hexCode & 0x000000ff;
