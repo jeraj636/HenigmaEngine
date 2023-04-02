@@ -134,3 +134,8 @@ Okno::Okno(int width, int height, const char *naslov)
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float)));
 }
+Okno::~Okno()
+{
+    for (int i = 0; i < tabScen.size(); i++)
+        delete tabScen[i];
+}

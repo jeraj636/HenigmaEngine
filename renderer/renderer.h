@@ -15,6 +15,7 @@ public:
 
     void zanka();
     Scena *dodajSceno();
+    ~Okno();
 
 private:
     static void posodobiVelikost(GLFWwindow *okko, int width, int height)

@@ -9,12 +9,17 @@ void Scena::zanka()
             tabSkupin[i]->zanka();
     }
 }
-Skupina *Scena::dodajSkupino()
+Skupina *Scena::dodajSkupino(std::string ime)
 {
-    tabSkupin.push_back(new Skupina(okno));
+    tabSkupin.push_back(new Skupina(okno, ime));
     return tabSkupin.back();
 }
 Scena::Scena(Okno *okn)
 {
     okno = okn;
+}
+Scena::~Scena()
+{
+    for (int i = 0; i < tabSkupin.size(); i++)
+        delete tabSkupin[i];
 }

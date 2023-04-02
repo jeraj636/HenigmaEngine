@@ -16,3 +16,8 @@ void Objekt::zanka()
             tabKomponent[i]->zanka();
     }
 }
+Objekt::~Objekt()
+{
+    for (int i = 0; i < tabKomponent.size(); i++)
+        delete tabKomponent[i];
+}

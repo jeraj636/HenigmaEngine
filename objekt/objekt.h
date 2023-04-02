@@ -20,16 +20,17 @@ public:
         tabKomponent.back()->nastavi(okno, this);
     }
     template <class t>
-    Komponenta *poisciKOmponento()
+    t *poisciKOmponento()
     {
         for (int i = 0; i < tabKomponent.size(); i++)
         {
             if (dynamic_cast<t *>(tabKomponent[i]) != nullptr)
-                return tabKomponent[i];
+                return (t *)tabKomponent[i];
         }
         return nullptr;
     }
     std::string ime;
+    ~Objekt();
 
 private:
 };
