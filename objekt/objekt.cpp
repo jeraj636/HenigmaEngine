@@ -1,13 +1,18 @@
 #include "objekt.h"
 #include "../renderer/renderer.h"
-Objekt::Objekt(Okno *okn)
+#include "../komponente/kompinenta.h"
+#include <vector>
+Objekt::Objekt(Okno *okn, std::string _ime)
 {
     okno = okn;
+    ime = _ime;
 }
 void Objekt::zanka()
 {
-    glUseProgram(okno->shaderProgram);
-    glBindVertexArray(okno->VAO);
-    glUniform4f(glGetUniformLocation(okno->shaderProgram, "barva"), 0, 1, 1, 1);
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+    for (int i = 0; i < tabKomponent.size(); i++)
+    {
+        if (tabKomponent[i]->aktivno)
+            tabKomponent[i]->zanka();
+    }
 }
