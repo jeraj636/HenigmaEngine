@@ -1,5 +1,6 @@
 #pragma once
 #include "upodabljalnik/upodabljalnik.h"
+#include "transformacija/transformacija.h"
 class Okno;
 class Objekt;
 class Komponenta

@@ -1,7 +1,8 @@
 #pragma once
 #include <vector>
 #include "../komponente/upodabljalnik/upodabljalnik.h"
-// #include "../komponente/kompinenta.h"
+#include "../komponente/transformacija/transformacija.h"
+#include "../komponente/kompinenta.h"
 #include <string>
 class Okno;
 class Komponenta;

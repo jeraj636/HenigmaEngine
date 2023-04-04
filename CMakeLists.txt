@@ -11,6 +11,7 @@ add_executable(${PROJECT_NAME}
         podEnote/skupina/skupina.cpp
         objekt/objekt.cpp
         komponente/upodabljalnik/upodabljalnik.cpp
+        komponente/transformacija/transformacija.cpp
 )
 
 include_directories(${PROJECT_NAME}

@@ -8,6 +8,7 @@
 #include "objekt/objekt.h"
 #include "komponente/kompinenta.h"
 #include "komponente/upodabljalnik/upodabljalnik.h"
+#include "komponente/transformacija/transformacija.h"
 int main()
 {
     Okno okno(800, 600, "HenigmeEngine");
