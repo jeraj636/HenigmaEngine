@@ -7,4 +7,5 @@ public:
     void zanka();
     Upodabljalnik();
     Barva barvaObjekta;
+    uint tekstura;
 };

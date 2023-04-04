@@ -3,8 +3,12 @@
 #include "stb_image.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <iostream>
 uint naloziTeksturo(const char *potDoSlike)
 {
+    char slika[40];
+    strcpy(slika, "../slike/");
+    strcat(slika, potDoSlike);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -14,15 +18,15 @@ uint naloziTeksturo(const char *potDoSlike)
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
+    stbi_set_flip_vertically_on_load(1);
     int width, height, chanels;
-    unsigned char *data = stbi_load(potDoSlike, &width, &height, &chanels, STBI_rgb_alpha);
+    unsigned char *data = stbi_load(slika, &width, &height, &chanels, STBI_rgb_alpha);
+
     if (data != NULL)
     {
-        io::izpis("tukaj", io::type::msg);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
     }
     else
         io::izpis("NI SLIKE", io::type::msg);

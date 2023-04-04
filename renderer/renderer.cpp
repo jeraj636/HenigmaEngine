@@ -103,11 +103,11 @@ Okno::Okno(int width, int height, const char *naslov)
         in vec2 Tpos;
 
         uniform vec4 barva;
-        //uniform sampler2d TID;
+        uniform  sampler2D TID;
         out vec4 FragColor;
         void main ()
         {
-            FragColor=vec4(barva);
+            FragColor=vec4(barva)*texture(TID,Tpos);
         }
     )";
     uint fragmentShader;

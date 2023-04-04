@@ -16,11 +16,8 @@ int main()
     Skupina *sk = glavna->dodajSkupino("sk");
     Objekt *t = sk->dodajObjekt("t");
     t->dodajKomponento<Upodabljalnik>();
-    sk->poisciObjekt("t")->poisciKOmponento<Upodabljalnik>()->aktivno = 0;
-    sk->dodajSkupino("neki");
-    sk->poisciSkupinoo("neki")->dodajObjekt("t")->dodajKomponento<Upodabljalnik>();
-    sk->poisciSkupinoo("neki")->poisciObjekt("t")->poisciKOmponento<Upodabljalnik>()->barvaObjekta = Barva(0xff0000ff);
-    uint tekstura = naloziTeksturo("../tt.png");
+    sk->poisciObjekt("t")->poisciKOmponento<Upodabljalnik>()->aktivno = 1;
+    sk->poisciObjekt("t")->poisciKOmponento<Upodabljalnik>()->tekstura = naloziTeksturo("chicken.png");
     while (!glfwWindowShouldClose(okno.okno))
     {
 
