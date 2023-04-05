@@ -1,9 +1,13 @@
 #pragma once
-#include "../kompinenta.h"
+#include "../komponenta.h"
 #include "../../ostalo/ostalo.h"
-class Trans : public Komponenta
+
+class Transformacija : public Komponenta
 {
 public:
     void zanka();
-    Trans();
+    Transformacija();
+    Vec3 pozicija;
+    Vec3 rotacija;
+    Vec3 velikost;
 };

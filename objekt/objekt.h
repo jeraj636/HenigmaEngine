@@ -2,7 +2,7 @@
 #include <vector>
 #include "../komponente/upodabljalnik/upodabljalnik.h"
 #include "../komponente/transformacija/transformacija.h"
-#include "../komponente/kompinenta.h"
+#include "../komponente/komponenta.h"
 #include <string>
 class Okno;
 class Komponenta;

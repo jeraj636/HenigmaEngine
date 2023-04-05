@@ -4,6 +4,12 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
+Vec3::Vec3(float _x, float _y, float _z)
+{
+    x = _x;
+    y = _y;
+    z = _z;
+}
 uint naloziTeksturo(const char *potDoSlike)
 {
     char slika[40];

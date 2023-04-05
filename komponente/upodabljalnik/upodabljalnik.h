@@ -1,5 +1,5 @@
 #pragma once
-#include "../kompinenta.h"
+#include "../komponenta.h"
 #include "../../ostalo/ostalo.h"
 class Upodabljalnik : public Komponenta
 {

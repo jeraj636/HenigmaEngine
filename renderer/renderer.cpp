@@ -83,9 +83,10 @@ Okno::Okno(int width, int height, const char *naslov)
         layout (location=0) in vec3 APos;
         layout (location=1) in vec2 TPos;
         out vec2 Tpos;
+        uniform mat4 pozicija;
         void main ()
         {
-            gl_Position=vec4(APos,1.0);
+            gl_Position=pozicija*vec4(APos,1.0);
             Tpos=TPos;
         }
     )";

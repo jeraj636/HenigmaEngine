@@ -1,18 +1,18 @@
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+
 #include "ostalo/ostalo.h"
 #include <iostream>
 #include "renderer/renderer.h"
 #include "podEnote/scena/scena.h"
 #include "podEnote/skupina/skupina.h"
 #include "objekt/objekt.h"
-#include "komponente/kompinenta.h"
+#include "komponente/komponenta.h"
 #include "komponente/upodabljalnik/upodabljalnik.h"
 #include "komponente/transformacija/transformacija.h"
 int main()
 {
     Okno okno(800, 600, "HenigmeEngine");
     Barva b(0xffff00ff);
+    okno.barvaOdzadja = b;
     Scena *glavna = okno.dodajSceno();
     Skupina *sk = glavna->dodajSkupino("sk");
     Objekt *t = sk->dodajObjekt("t");
@@ -21,7 +21,6 @@ int main()
     sk->poisciObjekt("t")->poisciKOmponento<Upodabljalnik>()->tekstura = naloziTeksturo("chicken.png");
     while (!glfwWindowShouldClose(okno.okno))
     {
-
         okno.zanka();
     };
     glfwTerminate();

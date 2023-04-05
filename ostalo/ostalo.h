@@ -21,3 +21,9 @@ namespace io
     };
     void izpis(const char *msg, const type &tip);
 }
+class Vec3
+{
+public:
+    float x, y, z;
+    Vec3(float _x, float _y, float _z);
+};

@@ -1,11 +1,12 @@
 #include "objekt.h"
 #include "../renderer/renderer.h"
-#include "../komponente/kompinenta.h"
+#include "../komponente/komponenta.h"
 #include <vector>
 Objekt::Objekt(Okno *okn, std::string _ime)
 {
     okno = okn;
     ime = _ime;
+    this->dodajKomponento<Transformacija>();
 }
 void Objekt::zanka()
 {
