@@ -1,6 +1,7 @@
 #include "renderer.h"
 void Okno::zanka()
 {
+    pravopis = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f);
     glClearColor(barvaOdzadja.r, barvaOdzadja.g, barvaOdzadja.b, barvaOdzadja.a);
     glClear(GL_COLOR_BUFFER_BIT);
     for (int i = 0; i < tabScen.size(); i++)
@@ -17,7 +18,7 @@ Scena *Okno::dodajSceno()
     return tabScen.back();
 }
 Okno::Okno(int width, int height, const char *naslov)
-    : barvaOdzadja(0xffffffff)
+    : barvaOdzadja(0xffffffff), pravopis(1)
 {
     if (!glfwInit())
         io::izpis("ni glfw-ja", io::type::error);
@@ -60,6 +61,7 @@ Okno::Okno(int width, int height, const char *naslov)
         0.0f,
         0.0f,
         1.0f};
+
     uint indeksi[6] = {
         0, 1, 2,
         0, 2, 3};
@@ -84,9 +86,10 @@ Okno::Okno(int width, int height, const char *naslov)
         layout (location=1) in vec2 TPos;
         out vec2 Tpos;
         uniform mat4 pozicija;
+        uniform mat4 pravopis;
         void main ()
         {
-            gl_Position=pozicija*vec4(APos,1.0);
+            gl_Position = pravopis * pozicija * vec4(APos,1.0);
             Tpos=TPos;
         }
     )";
@@ -134,6 +137,7 @@ Okno::Okno(int width, int height, const char *naslov)
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)0);
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float)));
+    pravopis = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f);
 }
 Okno::~Okno()
 {

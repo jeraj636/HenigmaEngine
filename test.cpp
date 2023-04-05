@@ -19,6 +19,8 @@ int main()
     t->dodajKomponento<Upodabljalnik>();
     sk->poisciObjekt("t")->poisciKOmponento<Upodabljalnik>()->aktivno = 1;
     sk->poisciObjekt("t")->poisciKOmponento<Upodabljalnik>()->tekstura = naloziTeksturo("chicken.png");
+    t->poisciKOmponento<Transformacija>()->velikost.x = 4;
+    t->poisciKOmponento<Transformacija>()->velikost.y = 4;
     while (!glfwWindowShouldClose(okno.okno))
     {
         okno.zanka();

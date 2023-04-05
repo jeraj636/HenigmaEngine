@@ -12,6 +12,7 @@ void Transformacija::zanka()
     matrika *= glm::translate(matrika, glm::vec3(pozicija.x, pozicija.y, pozicija.z));
     matrika *= glm::scale(matrika, glm::vec3(velikost.x, velikost.y, velikost.z));
     matrika *= glm::rotate(matrika, glm::radians(rotacija.z), glm::vec3(0, 0, 1));
+    glUniformMatrix4fv(glGetUniformLocation(okno->shaderProgram, "pravopis"), 1, GL_FALSE, &okno->pravopis[0][0]);
     glUniformMatrix4fv(glGetUniformLocation(okno->shaderProgram, "pozicija"), 1, GL_FALSE, &matrika[0][0]);
 }
 Transformacija::Transformacija()

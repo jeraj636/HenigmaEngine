@@ -4,6 +4,9 @@
 #include "../ostalo/ostalo.h"
 #include "../podEnote/scena/scena.h"
 #include <vector>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 class Okno
 {
 public:
@@ -11,7 +14,7 @@ public:
     GLFWwindow *okno;
     Barva barvaOdzadja;
     Okno(int width, int height, const char *naslov);
-
+    glm::mat4 pravopis;
     void zanka();
     Scena *dodajSceno();
     ~Okno();
