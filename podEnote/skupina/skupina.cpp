@@ -1,5 +1,7 @@
 #include "skupina.h"
 #include "../../renderer/renderer.h"
+#include "../../ostalo/ostalo.h"
+#include "../../objekt/objekt.h"
 void Skupina::zanka()
 {
     for (int i = 0; i < tabObjektov.size(); i++)

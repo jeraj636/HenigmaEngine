@@ -6,6 +6,7 @@ class Upodabljalnik : public Komponenta
 public:
     void zanka();
     Upodabljalnik();
+
     Barva barvaObjekta;
     uint tekstura;
 };

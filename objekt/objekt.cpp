@@ -1,7 +1,6 @@
 #include "objekt.h"
 #include "../renderer/renderer.h"
-#include "../komponente/komponenta.h"
-#include <vector>
+
 Objekt::Objekt(Okno *okn, std::string _ime)
 {
     okno = okn;

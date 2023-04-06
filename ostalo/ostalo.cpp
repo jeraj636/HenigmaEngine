@@ -1,9 +1,10 @@
-#include "ostalo.h"
 #define STB_IMAGE_IMPLEMENTATION
+#include "ostalo.h"
 #include "stb_image.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
+
 Vec3::Vec3(float _x, float _y, float _z)
 {
     x = _x;

@@ -1,7 +1,8 @@
 #include "upodabljalnik.h"
+
 #include "../../renderer/renderer.h"
 #include "../../objekt/objekt.h"
-#include "../komponenta.h"
+
 void Upodabljalnik::zanka()
 {
 

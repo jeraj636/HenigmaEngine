@@ -12,6 +12,7 @@ add_executable(${PROJECT_NAME}
         objekt/objekt.cpp
         komponente/upodabljalnik/upodabljalnik.cpp
         komponente/transformacija/transformacija.cpp
+        komponente/komponenta.cpp
 )
 
 include_directories(${PROJECT_NAME}

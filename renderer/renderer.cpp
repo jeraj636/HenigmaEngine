@@ -1,4 +1,6 @@
 #include "renderer.h"
+
+#include "../podEnote/scena/scena.h"
 void Okno::zanka()
 {
     pravopis = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f);

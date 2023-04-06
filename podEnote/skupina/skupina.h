@@ -1,9 +1,9 @@
 #pragma once
 #include <vector>
-#include "../../ostalo/ostalo.h"
-#include "../../objekt/objekt.h"
 #include <string>
+
 class Okno;
+class Objekt;
 class Skupina
 {
 public:
