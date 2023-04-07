@@ -14,6 +14,7 @@ add_executable(${PROJECT_NAME}
         komponente/transformacija/transformacija.cpp
         komponente/gumb/gumb.cpp
         komponente/komponenta.cpp
+        matematika/matematika.cpp
 )
 
 include_directories(${PROJECT_NAME}

@@ -23,8 +23,9 @@ int main()
     // test->poisciKomponento<Upodabljalnik>()->tekstura = naloziTeksturo("chicken.png");
     //  test->poisciKomponento<Transformacija>()->rotacija.z = 90;
     test->poisciKomponento<Transformacija>()->pozicija.x = 0;
-    test->poisciKomponento<Transformacija>()->velikost.y = 10;
-    test->poisciKomponento<Transformacija>()->velikost.x = 10;
+    test->poisciKomponento<Transformacija>()->velikost.y = 50;
+    test->poisciKomponento<Transformacija>()->velikost.x = 50;
+    test->poisciKomponento<Transformacija>()->rotacija.z = 45;
 
     while (!glfwWindowShouldClose(okno.okno))
     {
