@@ -1,9 +1,16 @@
 #include "../komponenta.h"
-// class Transformacija;
+
+class Transformacija;
+class Okno;
+class Objekt;
+
 class Gumb : public Komponenta
 {
 public:
     void zanka();
-    Gumb();
-    // Transformacija *tr;
+    Transformacija *tr;
+    void nastavi(Okno *okn, Objekt *obj);
+
+private:
+    void DobiPozicijoKazalca(int &x, int &y);
 };

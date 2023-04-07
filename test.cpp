@@ -8,6 +8,8 @@
 #include "komponente/komponenta.h"
 #include "komponente/upodabljalnik/upodabljalnik.h"
 #include "komponente/transformacija/transformacija.h"
+#include "komponente/gumb/gumb.h"
+#include "cmath"
 int main()
 {
     Okno okno(800, 600, "HenigmeEngine");
@@ -15,15 +17,19 @@ int main()
     okno.barvaOdzadja = b;
     Scena *glavna = okno.dodajSceno();
     Skupina *sk = glavna->dodajSkupino("sk");
-    Objekt *t = sk->dodajObjekt("t");
-    t->dodajKomponento<Upodabljalnik>();
-    sk->poisciObjekt("t")->poisciKOmponento<Upodabljalnik>()->aktivno = 1;
-    sk->poisciObjekt("t")->poisciKOmponento<Upodabljalnik>()->tekstura = naloziTeksturo("chicken.png");
-    t->poisciKOmponento<Transformacija>()->velikost.x = 4;
-    t->poisciKOmponento<Transformacija>()->velikost.y = 4;
+    Objekt *test = sk->dodajObjekt("test");
+    test->dodajKomponento<Upodabljalnik>();
+    test->dodajKomponento<Gumb>();
+    // test->poisciKomponento<Upodabljalnik>()->tekstura = naloziTeksturo("chicken.png");
+    //  test->poisciKomponento<Transformacija>()->rotacija.z = 90;
+    test->poisciKomponento<Transformacija>()->pozicija.x = 0;
+    test->poisciKomponento<Transformacija>()->velikost.y = 10;
+    test->poisciKomponento<Transformacija>()->velikost.x = 10;
+
     while (!glfwWindowShouldClose(okno.okno))
     {
         okno.zanka();
+        // test->poisciKomponento<Transformacija>()->rotacija.z = sin(glfwGetTime()) * 180 * 2;
     };
     glfwTerminate();
     return 0;

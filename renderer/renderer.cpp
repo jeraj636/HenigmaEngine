@@ -3,7 +3,9 @@
 #include "../podEnote/scena/scena.h"
 void Okno::zanka()
 {
-    pravopis = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f);
+    int dolzina, visina;
+    glfwGetWindowSize(okno, &dolzina, &visina);
+    pravopis = glm::ortho((float)-dolzina / 2, (float)dolzina / 2, (float)visina / 2, (float)-visina / 2);
     glClearColor(barvaOdzadja.r, barvaOdzadja.g, barvaOdzadja.b, barvaOdzadja.a);
     glClear(GL_COLOR_BUFFER_BIT);
     for (int i = 0; i < tabScen.size(); i++)
@@ -87,11 +89,13 @@ Okno::Okno(int width, int height, const char *naslov)
         layout (location=0) in vec3 APos;
         layout (location=1) in vec2 TPos;
         out vec2 Tpos;
-        uniform mat4 pozicija;
+        uniform mat4 poz;
+        uniform mat4 rot;
+        uniform mat4 vel;
         uniform mat4 pravopis;
         void main ()
         {
-            gl_Position = pravopis * pozicija * vec4(APos,1.0);
+            gl_Position = pravopis * (poz * rot * vel) * vec4(APos,1.0);
             Tpos=TPos;
         }
     )";

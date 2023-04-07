@@ -10,14 +10,18 @@
 
 void Transformacija::zanka()
 {
-    glm::mat4 matrika = glm::mat4(1);
+    glm::mat4 poz = glm::mat4(1);
+    glm::mat4 rot = glm::mat4(1);
+    glm::mat4 vel = glm::mat4(1);
 
-    matrika *= glm::translate(matrika, glm::vec3(pozicija.x, pozicija.y, pozicija.z));
-    matrika *= glm::scale(matrika, glm::vec3(velikost.x, velikost.y, velikost.z));
-    matrika *= glm::rotate(matrika, glm::radians(rotacija.z), glm::vec3(0, 0, 1));
+    poz = glm::translate(poz, glm::vec3(pozicija.x, pozicija.y, pozicija.z));
+    vel = glm::scale(vel, glm::vec3(velikost.x, velikost.y, velikost.z));
+    rot = glm::rotate(rot, glm::radians(rotacija.z), glm::vec3(0, 0, 1));
 
+    glUniformMatrix4fv(glGetUniformLocation(okno->shaderProgram, "poz"), 1, GL_FALSE, &poz[0][0]);
+    glUniformMatrix4fv(glGetUniformLocation(okno->shaderProgram, "rot"), 1, GL_FALSE, &rot[0][0]);
+    glUniformMatrix4fv(glGetUniformLocation(okno->shaderProgram, "vel"), 1, GL_FALSE, &vel[0][0]);
     glUniformMatrix4fv(glGetUniformLocation(okno->shaderProgram, "pravopis"), 1, GL_FALSE, &okno->pravopis[0][0]);
-    glUniformMatrix4fv(glGetUniformLocation(okno->shaderProgram, "pozicija"), 1, GL_FALSE, &matrika[0][0]);
 }
 
 Transformacija::Transformacija()

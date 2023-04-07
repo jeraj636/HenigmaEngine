@@ -19,7 +19,7 @@ public:
         tabKomponent.back()->nastavi(okno, this);
     }
     template <class t>
-    t *poisciKOmponento()
+    t *poisciKomponento()
     {
         for (int i = 0; i < tabKomponent.size(); i++)
         {

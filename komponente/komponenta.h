@@ -7,8 +7,11 @@ class Komponenta
 {
 public:
     virtual void zanka() = 0;
-    void nastavi(Okno *okn, Objekt *obj);
-
+    virtual void nastavi(Okno *okn, Objekt *obj)
+    {
+        okno = okn;
+        objekt = obj;
+    }
     Okno *okno;
     Objekt *objekt;
     bool aktivno = 1;
