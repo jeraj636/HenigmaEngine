@@ -3,6 +3,7 @@
 #include "../../renderer/renderer.h"
 #include "../../objekt/objekt.h"
 #include <iostream>
+#include <limits>
 
 void Gumb::zanka()
 {
@@ -12,25 +13,30 @@ void Gumb::zanka()
     mat::vec::Vec2 B(0, 0);
     mat::vec::Vec2 C(0, 0);
     mat::vec::Vec2 D(0, 0);
+
     mat::vec::Vec2 kazalec((float)x, (float)y);
+
     nastaviTocke(A, B, C, D);
 
     float kAD = mat::enacba::linearna::dobiK(A, D);
-
+    if (std::isinf(kAD))
+    {
+        kAD = 100000.0;
+    }
     float zAD = mat::enacba::linearna::dobiZ(A, kAD);
     float zBC = mat::enacba::linearna::dobiZ(B, kAD);
-    // std::cout << z << "  " << zBC << '\n';
 
     float kDC = mat::enacba::linearna::dobiK(D, C);
-
+    if (std::isinf(kDC))
+    {
+        kDC = 100000.0;
+    }
     float zDC = mat::enacba::linearna::dobiZ(D, kDC);
     float zAB = mat::enacba::linearna::dobiZ(A, kDC);
     if (aliSemPritisnjen(kazalec, zAD, zBC, zDC, zAB, kDC, kAD) && glfwGetMouseButton(okno->okno, GLFW_MOUSE_BUTTON_LEFT))
     {
-
-        tr->pozicija = kazalec;
+        io::izpis("ok", io::type::msg);
     }
-    // std::cout << "A: " << A.x << "  " << A.y << " B: " << B.x << "  " << B.y << " C: " << C.x << "  " << C.y << " D: " << D.x << "  " << D.y << '\n';
 }
 bool Gumb::aliSemPritisnjen(mat::vec::Vec2 kazalec, float zAD, float zBC, float zDC, float zAB, float kDC, float kAD)
 {
@@ -49,7 +55,6 @@ bool Gumb::aliSemPritisnjen(mat::vec::Vec2 kazalec, float zAD, float zBC, float 
     if (zAD <= mat::enacba::linearna::dobiZ(kazalec, kAD) && mat::enacba::linearna::dobiZ(kazalec, kAD) <= zBC)
     {
         if (zDC <= mat::enacba::linearna::dobiZ(kazalec, kDC) && mat::enacba::linearna::dobiZ(kazalec, kDC) <= zAB)
-            // std::cout << zAD << "  " << mat::enacba::linearna::dobiZ(kazalec, kAD) << "  " << zBC << "\n";
             return 1;
     }
     return 0;
@@ -66,7 +71,6 @@ void Gumb::nastavi(Okno *okn, Objekt *obj)
 }
 void Gumb::DobiPozicijoKazalca(double &x, double &y)
 {
-    // double x, y;
     glfwGetCursorPos(okno->okno, &x, &y);
     std::cout.flush();
     int dolzina, visina;
@@ -78,17 +82,17 @@ void Gumb::DobiPozicijoKazalca(double &x, double &y)
 }
 void Gumb::nastaviTocke(mat::vec::Vec2 &A, mat::vec::Vec2 &B, mat::vec::Vec2 &C, mat::vec::Vec2 &D)
 {
-    A.x = tr->velikost.x * -1 / 2;
-    A.y = tr->velikost.y * -1 / 2;
+    A.x = tr->velikost.x * -1;
+    A.y = tr->velikost.y * -1;
 
-    B.x = tr->velikost.x / 2;
-    B.y = tr->velikost.y * -1 / 2;
+    B.x = tr->velikost.x;
+    B.y = tr->velikost.y * -1;
 
-    C.x = tr->velikost.x / 2;
-    C.y = tr->velikost.y / 2;
+    C.x = tr->velikost.x;
+    C.y = tr->velikost.y;
 
-    D.x = tr->velikost.x * -1 / 2;
-    D.y = tr->velikost.y / 2;
+    D.x = tr->velikost.x * -1;
+    D.y = tr->velikost.y;
 
     A.x += tr->pozicija.x;
     A.y += tr->pozicija.y;

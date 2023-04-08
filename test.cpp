@@ -20,12 +20,12 @@ int main()
     Objekt *test = sk->dodajObjekt("test");
     test->dodajKomponento<Upodabljalnik>();
     test->dodajKomponento<Gumb>();
-    // test->poisciKomponento<Upodabljalnik>()->tekstura = naloziTeksturo("chicken.png");
+    test->poisciKomponento<Upodabljalnik>()->tekstura = naloziTeksturo("chicken.png");
     //  test->poisciKomponento<Transformacija>()->rotacija.z = 90;
     test->poisciKomponento<Transformacija>()->pozicija.x = 0;
-    test->poisciKomponento<Transformacija>()->velikost.y = 50;
-    test->poisciKomponento<Transformacija>()->velikost.x = 50;
-    test->poisciKomponento<Transformacija>()->rotacija.z = 45;
+    test->poisciKomponento<Transformacija>()->velikost.y = 100;
+    test->poisciKomponento<Transformacija>()->velikost.x = 100;
+    test->poisciKomponento<Transformacija>()->rotacija.z = 180;
 
     while (!glfwWindowShouldClose(okno.okno))
     {
