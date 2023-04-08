@@ -20,8 +20,8 @@ int main()
     Objekt *test = sk->dodajObjekt("test");
     test->dodajKomponento<Upodabljalnik>();
     test->dodajKomponento<Gumb>();
-    test->poisciKomponento<Upodabljalnik>()->tekstura = naloziTeksturo("chicken.png");
-    //  test->poisciKomponento<Transformacija>()->rotacija.z = 90;
+    test->poisciKomponento<Upodabljalnik>()->tekstura = naloziTeksturo("test.png");
+    test->poisciKomponento<Upodabljalnik>()->barvaObjekta = Barva(0x00ffffff);
     test->poisciKomponento<Transformacija>()->pozicija.x = 0;
     test->poisciKomponento<Transformacija>()->velikost.y = 100;
     test->poisciKomponento<Transformacija>()->velikost.x = 100;
@@ -30,7 +30,7 @@ int main()
     while (!glfwWindowShouldClose(okno.okno))
     {
         okno.zanka();
-        // test->poisciKomponento<Transformacija>()->rotacija.z = sin(glfwGetTime()) * 180 * 2;
+        test->poisciKomponento<Transformacija>()->rotacija.z = sin(glfwGetTime()) * 360;
     };
     glfwTerminate();
     return 0;

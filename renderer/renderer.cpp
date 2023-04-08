@@ -1,5 +1,5 @@
 #include "renderer.h"
-
+#include <iostream>
 #include "../podEnote/scena/scena.h"
 void Okno::zanka()
 {
@@ -118,6 +118,7 @@ Okno::Okno(int width, int height, const char *naslov)
         void main ()
         {
             FragColor=vec4(barva)*texture(TID,Tpos);
+
         }
     )";
     uint fragmentShader;
@@ -126,8 +127,12 @@ Okno::Okno(int width, int height, const char *naslov)
     glCompileShader(fragmentShader);
     glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &uspeh);
     if (!uspeh)
+    {
+        char info[512];
+        glGetShaderInfoLog(fragmentShader, 512, NULL, info);
+        std::cout << info;
         io::izpis("ni fragment shader-ja", io::type::error);
-
+    }
     // uint shaderProgram;
     shaderProgram = glCreateProgram();
     glAttachShader(shaderProgram, vertexShader);
