@@ -11,6 +11,7 @@ class Okno
 {
 public:
     uint VAO, shaderProgram;
+    uint BVAO;
     GLFWwindow *okno;
     Barva barvaOdzadja;
     Okno(int width, int height, const char *naslov);

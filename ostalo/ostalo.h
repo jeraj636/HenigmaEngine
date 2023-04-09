@@ -10,7 +10,7 @@ public:
     Barva(int hexCode);
 };
 
-uint naloziTeksturo(const char *potDoSlike);
+uint naloziTeksturo(const char *potDoSlike, bool obrni);
 namespace io
 {
     enum class type

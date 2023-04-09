@@ -26,5 +26,5 @@ void Upodabljalnik::zanka()
 Upodabljalnik::Upodabljalnik()
     : barvaObjekta(0xffffffff), barvaOdzadja(0xffffff00)
 {
-    tekstura = naloziTeksturo("tt.png");
+    tekstura = naloziTeksturo("tt.png", 1);
 }

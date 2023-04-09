@@ -12,6 +12,7 @@ add_executable(${PROJECT_NAME}
         objekt/objekt.cpp
         komponente/upodabljalnik/upodabljalnik.cpp
         komponente/transformacija/transformacija.cpp
+        komponente/besedilo/besedilo.cpp
         komponente/gumb/gumb.cpp
         komponente/komponenta.cpp
         matematika/matematika.cpp

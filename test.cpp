@@ -11,7 +11,7 @@
 #include "komponente/gumb/gumb.h"
 #include "cmath"
 #include <string>
-
+#include "matematika/matematika.h"
 int main()
 {
     Okno okno(800, 600, "HenigmeEngine");
@@ -21,19 +21,13 @@ int main()
     Skupina *sk = glavna->dodajSkupino("sk");
     Objekt *test = sk->dodajObjekt("test");
     test->dodajKomponento<Upodabljalnik>();
-    test->dodajKomponento<Gumb>();
-    test->poisciKomponento<Upodabljalnik>()->tekstura = naloziTeksturo("chicken.png");
-    test->poisciKomponento<Upodabljalnik>()->barvaObjekta = Barva(0x00ffffff);
-    test->poisciKomponento<Transformacija>()->pozicija.x = 0;
-    test->poisciKomponento<Transformacija>()->velikost.y = 100;
-    test->poisciKomponento<Transformacija>()->velikost.x = 100;
-    test->poisciKomponento<Transformacija>()->rotacija.z = 180;
+    test->poisciKomponento<Upodabljalnik>()->tekstura = naloziTeksturo("bitmap/courier.png", 0);
+    test->poisciKomponento<Transformacija>()->velikost = mat::vec::Vec2(400, 400);
+    // test->poisciKomponento<Transformacija>()->rotacija.z = 180;
 
     while (!glfwWindowShouldClose(okno.okno))
     {
         okno.zanka();
-        if (test->poisciKomponento<Gumb>()->aliSemPritisnjen)
-            test->poisciKomponento<Transformacija>()->rotacija.z = sin(glfwGetTime()) * 360;
     };
     glfwTerminate();
     return 0;

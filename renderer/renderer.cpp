@@ -45,26 +45,10 @@ Okno::Okno(int width, int height, const char *naslov)
     glfwSetFramebufferSizeCallback(okno, posodobiVelikost);
 
     float tocke[20] = {
-        1.0f,
-        1.0f,
-        0.0f,
-        1.0f,
-        1.0f,
-        1.0f,
-        -1.0f,
-        0.0f,
-        1.0f,
-        0.0f,
-        -1.0f,
-        -1.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-        -1.0f,
-        1.0f,
-        0.0f,
-        0.0f,
-        1.0f};
+        1.0f, 1.0f, 0.0f, 1.0f, 1.0f,
+        1.0f, -1.0f, 0.0f, 1.0f, 0.0f,
+        -1.0f, -1.0f, 0.0f, 0.0f, 0.0f,
+        -1.0f, 1.0f, 0.0f, 0.0f, 1.0f};
 
     uint indeksi[6] = {
         0, 1, 2,

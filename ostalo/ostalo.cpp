@@ -5,7 +5,7 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 
-uint naloziTeksturo(const char *potDoSlike)
+uint naloziTeksturo(const char *potDoSlike, bool obrni)
 {
     char slika[40];
     strcpy(slika, "../slike/");
@@ -21,7 +21,11 @@ uint naloziTeksturo(const char *potDoSlike)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    stbi_set_flip_vertically_on_load(1);
+    if (obrni)
+        stbi_set_flip_vertically_on_load(1);
+    else
+        stbi_set_flip_vertically_on_load(0);
+
     int width, height, chanels;
     unsigned char *data = stbi_load(slika, &width, &height, &chanels, STBI_rgb_alpha);
 
