@@ -33,12 +33,12 @@ void Gumb::zanka()
     }
     float zDC = mat::enacba::linearna::dobiZ(D, kDC);
     float zAB = mat::enacba::linearna::dobiZ(A, kDC);
-    if (aliSemPritisnjen(kazalec, zAD, zBC, zDC, zAB, kDC, kAD) && glfwGetMouseButton(okno->okno, GLFW_MOUSE_BUTTON_LEFT))
-    {
-        io::izpis("ok", io::type::msg);
-    }
+    if (_aliSemPritisnjen(kazalec, zAD, zBC, zDC, zAB, kDC, kAD) && glfwGetMouseButton(okno->okno, GLFW_MOUSE_BUTTON_LEFT))
+        aliSemPritisnjen = 1;
+    else
+        aliSemPritisnjen = 0;
 }
-bool Gumb::aliSemPritisnjen(mat::vec::Vec2 kazalec, float zAD, float zBC, float zDC, float zAB, float kDC, float kAD)
+bool Gumb::_aliSemPritisnjen(mat::vec::Vec2 kazalec, float zAD, float zBC, float zDC, float zAB, float kDC, float kAD)
 {
     if (zAD > zBC)
     {
