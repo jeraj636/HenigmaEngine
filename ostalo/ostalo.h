@@ -11,6 +11,7 @@ public:
 };
 
 uint naloziTeksturo(const char *potDoSlike, bool obrni);
+uint naloziTeksturo(const char *potDoSlike, bool obrni, int &dolzina, int &visina);
 namespace io
 {
     enum class type

@@ -11,6 +11,7 @@
 #include "komponente/gumb/gumb.h"
 #include "komponente/besedilo/besedilo.h"
 #include "cmath"
+#include "unistd.h"
 #include <string>
 #include "matematika/matematika.h"
 int main()
@@ -22,17 +23,27 @@ int main()
     Skupina *sk = glavna->dodajSkupino("sk");
     Objekt *test = sk->dodajObjekt("test");
     test->dodajKomponento<Upodabljalnik>();
-    test->poisciKomponento<Upodabljalnik>()->tekstura = naloziTeksturo("bitmap/courier.png", 0);
+    test->poisciKomponento<Upodabljalnik>()->tekstura = naloziTeksturo("bitmap/CourierPrime.png", 0);
+    test->poisciKomponento<Upodabljalnik>()->aktivno = 0;
     test->poisciKomponento<Upodabljalnik>()->barvaOdzadja = Barva(0xffffffff);
     test->poisciKomponento<Upodabljalnik>()->barvaObjekta = Barva(0xff0000ff);
     test->poisciKomponento<Transformacija>()->velikost = mat::vec::Vec2(400, 400);
     test->dodajKomponento<Gumb>();
+    test->dodajKomponento<Besedilo>();
+    Besedilo *bes = test->poisciKomponento<Besedilo>();
+    bes->vsebina = ' ';
+    bes->naloziPisavo("bitmap/a.png");
+    bes->barvaObjekta = Barva(0xff0000ff);
+    bes->barvaOdzadja = Barva(0x00ff00ff);
     // test->poisciKomponento<Transformacija>()->rotacija.z = 180;
 
     while (!glfwWindowShouldClose(okno.okno))
     {
-        if (test->poisciKomponento<Gumb>()->aliSemPritisnjen)
-            test->poisciKomponento<Transformacija>()->rotacija.z = sin(glfwGetTime()) * 360;
+
+        bes->vsebina++;
+        sleep(2);
+        if (bes->vsebina >= 127)
+            bes->vsebina = ' ';
         okno.zanka();
     };
     glfwTerminate();

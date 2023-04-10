@@ -17,6 +17,26 @@ namespace mat
                 return *this;
             }
         };
+        class Vec4
+        {
+        public:
+            float x, y, z, w;
+            Vec4(float _x, float _y, float _z, float _w)
+            {
+                x = _x;
+                y = _y;
+                z = _z;
+                w = _w;
+            }
+            Vec4 &operator=(const Vec4 novaVr)
+            {
+                x = novaVr.x;
+                y = novaVr.y;
+                z = novaVr.z;
+                w = novaVr.w;
+                return *this;
+            }
+        };
         class Vec3
         {
         public:

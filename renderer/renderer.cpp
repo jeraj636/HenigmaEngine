@@ -54,7 +54,7 @@ Okno::Okno(int width, int height, const char *naslov)
         0, 1, 2,
         0, 2, 3};
     // uint VAO;
-    uint VBO, BVBO;
+    uint VBO;
 
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
