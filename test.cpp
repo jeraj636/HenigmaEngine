@@ -9,6 +9,7 @@
 #include "komponente/upodabljalnik/upodabljalnik.h"
 #include "komponente/transformacija/transformacija.h"
 #include "komponente/gumb/gumb.h"
+#include "komponente/besedilo/besedilo.h"
 #include "cmath"
 #include <string>
 #include "matematika/matematika.h"
@@ -22,11 +23,16 @@ int main()
     Objekt *test = sk->dodajObjekt("test");
     test->dodajKomponento<Upodabljalnik>();
     test->poisciKomponento<Upodabljalnik>()->tekstura = naloziTeksturo("bitmap/courier.png", 0);
+    test->poisciKomponento<Upodabljalnik>()->barvaOdzadja = Barva(0xffffffff);
+    test->poisciKomponento<Upodabljalnik>()->barvaObjekta = Barva(0xff0000ff);
     test->poisciKomponento<Transformacija>()->velikost = mat::vec::Vec2(400, 400);
+    test->dodajKomponento<Gumb>();
     // test->poisciKomponento<Transformacija>()->rotacija.z = 180;
 
     while (!glfwWindowShouldClose(okno.okno))
     {
+        if (test->poisciKomponento<Gumb>()->aliSemPritisnjen)
+            test->poisciKomponento<Transformacija>()->rotacija.z = sin(glfwGetTime()) * 360;
         okno.zanka();
     };
     glfwTerminate();

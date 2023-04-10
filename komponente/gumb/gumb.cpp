@@ -82,17 +82,17 @@ void Gumb::DobiPozicijoKazalca(double &x, double &y)
 }
 void Gumb::nastaviTocke(mat::vec::Vec2 &A, mat::vec::Vec2 &B, mat::vec::Vec2 &C, mat::vec::Vec2 &D)
 {
-    A.x = tr->velikost.x * -1;
-    A.y = tr->velikost.y * -1;
+    A.x = tr->velikost.x * -1 / 2;
+    A.y = tr->velikost.y * -1 / 2;
 
-    B.x = tr->velikost.x;
-    B.y = tr->velikost.y * -1;
+    B.x = tr->velikost.x / 2;
+    B.y = tr->velikost.y * -1 / 2;
 
-    C.x = tr->velikost.x;
-    C.y = tr->velikost.y;
+    C.x = tr->velikost.x / 2;
+    C.y = tr->velikost.y / 2;
 
-    D.x = tr->velikost.x * -1;
-    D.y = tr->velikost.y;
+    D.x = tr->velikost.x * -1 / 2;
+    D.y = tr->velikost.y / 2;
 
     A.x += tr->pozicija.x;
     A.y += tr->pozicija.y;

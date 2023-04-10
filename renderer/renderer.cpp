@@ -54,13 +54,26 @@ Okno::Okno(int width, int height, const char *naslov)
         0, 1, 2,
         0, 2, 3};
     // uint VAO;
+    uint VBO, BVBO;
+
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
-    uint VBO;
+
     glGenBuffers(1, &VBO);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(tocke), tocke, GL_STATIC_DRAW);
+
+    glGenVertexArrays(1, &BVAO);
+    glBindVertexArray(BVAO);
+
+    glGenBuffers(1, &BVBO);
+
+    glBindBuffer(GL_ARRAY_BUFFER, BVBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(tocke), tocke, GL_DYNAMIC_DRAW);
+
+    glBindVertexArray(VAO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
     uint EBO;
     glGenBuffers(1, &EBO);
@@ -68,6 +81,13 @@ Okno::Okno(int width, int height, const char *naslov)
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indeksi), indeksi, GL_STATIC_DRAW);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 
+    glBindVertexArray(BVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, BVBO);
+    uint BEBO;
+    glGenBuffers(1, &BEBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, BEBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indeksi), indeksi, GL_STATIC_DRAW);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, BEBO);
     const char *vertexShaderSource = R"(
         #version 330 core
         layout (location=0) in vec3 APos;
@@ -128,10 +148,21 @@ Okno::Okno(int width, int height, const char *naslov)
     glDeleteShader(fragmentShader);
     glDeleteShader(vertexShader);
     glUseProgram(shaderProgram);
+
+    glBindVertexArray(VAO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)0);
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float)));
+
+    glBindVertexArray(BVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, BVBO);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)0);
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float)));
+
     pravopis = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f);
 }
 Okno::~Okno()

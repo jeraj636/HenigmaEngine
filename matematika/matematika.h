@@ -35,6 +35,15 @@ namespace mat
                 z = novaVr.z;
                 return *this;
             }
+            template <typename T>
+            Vec3 &
+            operator/(const T st)
+            {
+                x /= st;
+                y /= st;
+                z /= st;
+                return *this;
+            }
         };
 
     }

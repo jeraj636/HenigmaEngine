@@ -15,7 +15,8 @@ void Transformacija::zanka()
     glm::mat4 vel = glm::mat4(1);
 
     poz = glm::translate(poz, glm::vec3(pozicija.x, pozicija.y, pozicija.z));
-    vel = glm::scale(vel, glm::vec3(velikost.x, velikost.y, velikost.z));
+    // vel = glm::scale(vel, glm::vec3(velikost.x, velikost.y, velikost.z));
+    vel = glm::scale(vel, glm::vec3(velikost.x / 2, velikost.y / 2, velikost.z / 2));
     rot = glm::rotate(rot, glm::radians(rotacija.z), glm::vec3(0, 0, 1));
 
     glUniformMatrix4fv(glGetUniformLocation(okno->shaderProgram, "poz"), 1, GL_FALSE, &poz[0][0]);
