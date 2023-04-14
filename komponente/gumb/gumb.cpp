@@ -1,10 +1,11 @@
 #include "gumb.h"
 #include "../transformacija/transformacija.h"
+#include "../besedilo/besedilo.h"
 #include "../../renderer/renderer.h"
 #include "../../objekt/objekt.h"
 #include <iostream>
 #include <limits>
-
+#include <string>
 void Gumb::zanka()
 {
     double x, y;
@@ -93,6 +94,23 @@ void Gumb::nastaviTocke(mat::vec::Vec2 &A, mat::vec::Vec2 &B, mat::vec::Vec2 &C,
 
     D.x = tr->velikost.x * -1 / 2;
     D.y = tr->velikost.y / 2;
+    Besedilo *bes = objekt->poisciKomponento<Besedilo>();
+    if (bes != nullptr)
+    {
+        if (bes->aktivno)
+        {
+            B.x = bes->vsebina.size() * tr->velikost.x - tr->velikost.x / 2;
+        }
+        else
+        {
+            B.x = tr->velikost.x / 2;
+        }
+    }
+    else
+    {
+        B.x = tr->velikost.x / 2;
+    }
+    C.x = B.x;
 
     A.x += tr->pozicija.x;
     A.y += tr->pozicija.y;

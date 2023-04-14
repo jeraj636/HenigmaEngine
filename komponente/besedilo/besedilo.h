@@ -13,7 +13,7 @@ public:
     void nastavi(Okno *okn, Objekt *obj);
     // unsigned int font;
     void naloziPisavo(const char *potDoPisave);
-    char vsebina;
+    std::string vsebina;
     Barva barvaOdzadja;
     Barva barvaObjekta;
     Besedilo();

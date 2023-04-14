@@ -28,6 +28,7 @@ int main()
     test->poisciKomponento<Upodabljalnik>()->barvaOdzadja = Barva(0xffffffff);
     test->poisciKomponento<Upodabljalnik>()->barvaObjekta = Barva(0xff0000ff);
     test->poisciKomponento<Transformacija>()->velikost = mat::vec::Vec2(200, 400);
+    test->poisciKomponento<Transformacija>()->pozicija.x = -700;
     test->dodajKomponento<Gumb>();
     test->dodajKomponento<Besedilo>();
     Besedilo *bes = test->poisciKomponento<Besedilo>();
@@ -35,20 +36,15 @@ int main()
     bes->naloziPisavo("bitmap/a.png");
     bes->barvaObjekta = Barva(0xff0000ff);
     bes->barvaOdzadja = Barva(0x00ff00ff);
+    bes->vsebina = "JAKOB";
     test->dodajKomponento<Gumb>();
     // test->poisciKomponento<Transformacija>()->rotacija.z = 180;
     float koncas = glfwGetTime() + 0.5;
     while (!glfwWindowShouldClose(okno.okno))
     {
-        if (glfwGetTime() >= koncas)
-        {
-            bes->vsebina++;
-            koncas = glfwGetTime() + 0.5;
-        }
-        if (bes->vsebina >= 'Z' - 'A')
-            bes->vsebina = 0;
+
         if (test->poisciKomponento<Gumb>()->aliSemPritisnjen)
-            test->poisciKomponento<Transformacija>()->rotacija.z = tan(glfwGetTime()) * 360;
+            io::izpis("gumb", io::type::warning);
         okno.zanka();
     };
     glfwTerminate();
