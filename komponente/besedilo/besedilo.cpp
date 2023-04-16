@@ -11,6 +11,8 @@
 #include "../../matematika/matematika.h"
 #include <unistd.h>
 
+// #define neki 92.11111f
+#define neki 95.0f
 void Besedilo::zanka()
 {
     glActiveTexture(GL_TEXTURE0);
@@ -18,23 +20,39 @@ void Besedilo::zanka()
     glBindBuffer(GL_ARRAY_BUFFER, okno->BVBO);
 
     mat::vec::Vec3 pozicija = objekt->poisciKomponento<Transformacija>()->pozicija;
+    mat::vec::Vec3 rotacija = objekt->poisciKomponento<Transformacija>()->rotacija;
+    mat::vec::Vec3 velikost = objekt->poisciKomponento<Transformacija>()->velikost;
 
     for (int i = 0; i < vsebina.length(); i++)
     {
         char c = vsebina[i];
-        c -= 'A';
+
+        c -= ' ';
         float tocke[20] = {
-            1.0f, 1.0f, 0.0f, lokacija[c] + 1.0f / 26.0f, 1.0f,
-            1.0f, -1.0f, 0.0f, lokacija[c] + 1.0f / 26.0f, 0.0f,
+            1.0f, 1.0f, 0.0f, lokacija[c] + 1.0f / neki, 1.0f,
+            1.0f, -1.0f, 0.0f, lokacija[c] + 1.0f / neki, 0.0f,
             -1.0f, -1.0f, 0.0f, lokacija[c], 0.0f,
             -1.0f, 1.0f, 0.0f, lokacija[c], 1.0f};
 
-        glm::mat4 premik = glm::mat4(1);
-        premik = glm::translate(premik, glm::vec3(pozicija.x, pozicija.y, pozicija.z));
+        //! glm::mat4 premik = glm::mat4(1);
+        //! premik = glm::translate(premik, glm::vec3(pozicija.x, pozicija.y, pozicija.z));
 
+        glm::mat4 poz = glm::mat4(1);
+        glm::mat4 rot = glm::mat4(1);
+        glm::mat4 vel = glm::mat4(1);
+
+        poz = glm::translate(poz, glm::vec3(pozicija.x, pozicija.y, pozicija.z));
+        // vel = glm::scale(vel, glm::vec3(velikost.x, velikost.y, velikost.z));
+        vel = glm::scale(vel, glm::vec3(velikost.x / 2, velikost.y / 2, velikost.z / 2));
+        rot = glm::rotate(rot, glm::radians(rotacija.z), glm::vec3(0, 0, 1));
+
+        glUniformMatrix4fv(glGetUniformLocation(okno->shaderProgram, "poz"), 1, GL_FALSE, &poz[0][0]);
+        glUniformMatrix4fv(glGetUniformLocation(okno->shaderProgram, "rot"), 1, GL_FALSE, &rot[0][0]);
+        glUniformMatrix4fv(glGetUniformLocation(okno->shaderProgram, "vel"), 1, GL_FALSE, &vel[0][0]);
+        glUniformMatrix4fv(glGetUniformLocation(okno->shaderProgram, "pravopis"), 1, GL_FALSE, &okno->pravopis[0][0]);
         glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(tocke), tocke);
 
-        glUniformMatrix4fv(glGetUniformLocation(okno->shaderProgram, "poz"), 1, GL_FALSE, &premik[0][0]);
+        // glUniformMatrix4fv(glGetUniformLocation(okno->shaderProgram, "poz"), 1, GL_FALSE, &premik[0][0]);
         glUniform1i(glGetUniformLocation(okno->shaderProgram, "TID"), 0);
         glUniform4f(glGetUniformLocation(okno->shaderProgram, "odzadje"), barvaOdzadja.r, barvaOdzadja.g, barvaOdzadja.b, barvaOdzadja.a);
         glUniform4f(glGetUniformLocation(okno->shaderProgram, "barva"), barvaObjekta.r, barvaObjekta.g, barvaObjekta.b, barvaObjekta.a);
@@ -53,8 +71,8 @@ void Besedilo::nastavi(Okno *okn, Objekt *obj)
 void Besedilo::naloziPisavo(const char *potDoPisave)
 {
     _pisiava = naloziTeksturo(potDoPisave, 0);
-    float x = 1.0 / 26;
-    for (int i = 0; i <= 'Z' - 'A'; i++)
+    float x = 1.0 / neki;
+    for (int i = 0; i <= '~' - ' '; i++)
     {
         // lokacija[i] = lokacija[i - 1] + x;
         lokacija[i] = i * x;

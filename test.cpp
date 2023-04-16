@@ -22,29 +22,34 @@ int main()
     Scena *glavna = okno.dodajSceno();
     Skupina *sk = glavna->dodajSkupino("sk");
     Objekt *test = sk->dodajObjekt("test");
-    test->dodajKomponento<Upodabljalnik>();
-    test->poisciKomponento<Upodabljalnik>()->tekstura = naloziTeksturo("bitmap/CourierPrime.png", 0);
-    test->poisciKomponento<Upodabljalnik>()->aktivno = 0;
-    test->poisciKomponento<Upodabljalnik>()->barvaOdzadja = Barva(0xffffffff);
-    test->poisciKomponento<Upodabljalnik>()->barvaObjekta = Barva(0xff0000ff);
+
     test->poisciKomponento<Transformacija>()->velikost = mat::vec::Vec2(200, 400);
     test->poisciKomponento<Transformacija>()->pozicija.x = -700;
     test->dodajKomponento<Gumb>();
+
     test->dodajKomponento<Besedilo>();
+
     Besedilo *bes = test->poisciKomponento<Besedilo>();
-    bes->vsebina = ' ';
     bes->naloziPisavo("bitmap/a.png");
+    bes->vsebina = "Jakob";
+    bes->vsebina = " ";
+
     bes->barvaObjekta = Barva(0xff0000ff);
     bes->barvaOdzadja = Barva(0x00ff00ff);
-    bes->vsebina = "JAKOB";
     test->dodajKomponento<Gumb>();
     // test->poisciKomponento<Transformacija>()->rotacija.z = 180;
-    float koncas = glfwGetTime() + 0.5;
+    float konc = glfwGetTime() + 0.5;
     while (!glfwWindowShouldClose(okno.okno))
     {
 
-        if (test->poisciKomponento<Gumb>()->aliSemPritisnjen)
-            io::izpis("gumb", io::type::warning);
+        if (glfwGetTime() >= konc)
+        {
+            konc = glfwGetTime() + 0.5;
+            bes->vsebina[0]++;
+            if (bes->vsebina[0] == '~')
+                bes->vsebina[0] = ' ';
+        }
+
         okno.zanka();
     };
     glfwTerminate();
