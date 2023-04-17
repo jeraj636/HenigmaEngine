@@ -3,6 +3,8 @@
 #include "../podEnote/scena/scena.h"
 void Okno::zanka()
 {
+    if (glfwGetKey(okno, GLFW_KEY_ESCAPE))
+        glfwSetWindowShouldClose(okno, 1);
     int dolzina, visina;
     glfwGetWindowSize(okno, &dolzina, &visina);
     pravopis = glm::ortho((float)-dolzina / 2, (float)dolzina / 2, (float)visina / 2, (float)-visina / 2);
@@ -97,9 +99,12 @@ Okno::Okno(int width, int height, const char *naslov)
         uniform mat4 rot;
         uniform mat4 vel;
         uniform mat4 pravopis;
+        uniform mat4 SPoz;
+        uniform mat4 SRot;
+        
         void main ()
         {
-            gl_Position = pravopis * (poz * rot * vel) * vec4(APos,1.0);
+            gl_Position =  pravopis * ((poz*SPoz )* (rot*SRot) * vel) * vec4(APos,1.0);
             Tpos=TPos;
         }
     )";

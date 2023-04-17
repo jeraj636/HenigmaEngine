@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <string>
+#include "../../matematika/matematika.h"
 
 class Okno;
 class Objekt;
@@ -12,10 +13,8 @@ public:
 
     Objekt *dodajObjekt(std::string ime);
     Objekt *poisciObjekt(std::string ime);
-
-    Skupina *dodajSkupino(std::string ime);
-    Skupina *poisciSkupinoo(std::string ime);
-
+    mat::vec::Vec3 pozicija;
+    mat::vec::Vec3 rotacija;
     Skupina(Okno *okn, std::string _ime);
     void zanka();
     ~Skupina();

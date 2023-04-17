@@ -22,34 +22,15 @@ int main()
     Scena *glavna = okno.dodajSceno();
     Skupina *sk = glavna->dodajSkupino("sk");
     Objekt *test = sk->dodajObjekt("test");
+    test->dodajKomponento<Upodabljalnik>();
+    test->poisciKomponento<Transformacija>()->velikost = mat::vec::Vec3(100, 100, 0);
+    test->poisciKomponento<Upodabljalnik>()->barvaObjekta = Barva(0xff000000);
+    test->poisciKomponento<Upodabljalnik>()->barvaOdzadja = Barva(0xff0000ff);
+    // bes->barvaObjekta = Barva(0xff0000ff);
+    // bes->barvaOdzadja = Barva(0x00ff00ff);
 
-    test->poisciKomponento<Transformacija>()->velikost = mat::vec::Vec2(200, 400);
-    test->poisciKomponento<Transformacija>()->pozicija.x = -700;
-    test->dodajKomponento<Gumb>();
-
-    test->dodajKomponento<Besedilo>();
-
-    Besedilo *bes = test->poisciKomponento<Besedilo>();
-    bes->naloziPisavo("bitmap/a.png");
-    bes->vsebina = "Jakob";
-    bes->vsebina = " ";
-
-    bes->barvaObjekta = Barva(0xff0000ff);
-    bes->barvaOdzadja = Barva(0x00ff00ff);
-    test->dodajKomponento<Gumb>();
-    // test->poisciKomponento<Transformacija>()->rotacija.z = 180;
-    float konc = glfwGetTime() + 0.5;
     while (!glfwWindowShouldClose(okno.okno))
     {
-
-        if (glfwGetTime() >= konc)
-        {
-            konc = glfwGetTime() + 0.5;
-            bes->vsebina[0]++;
-            if (bes->vsebina[0] == '~')
-                bes->vsebina[0] = ' ';
-        }
-
         okno.zanka();
     };
     glfwTerminate();
