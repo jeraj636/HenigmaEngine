@@ -13,8 +13,7 @@ void Upodabljalnik::zanka()
     glUseProgram(okno->shaderProgram);
     glBindVertexArray(okno->VAO);
     glActiveTexture(GL_TEXTURE0);
-
-    glBindTexture(GL_TEXTURE_2D, 1);
+    glBindTexture(GL_TEXTURE_2D, tekstura);
 
     mat::vec::Vec3 pozicija = objekt->poisciKomponento<Transformacija>()->pozicija;
     mat::vec::Vec3 rotacija = objekt->poisciKomponento<Transformacija>()->rotacija;
@@ -33,11 +32,8 @@ void Upodabljalnik::zanka()
     glUniformMatrix4fv(glGetUniformLocation(okno->shaderProgram, "vel"), 1, GL_FALSE, &vel[0][0]);
     glUniformMatrix4fv(glGetUniformLocation(okno->shaderProgram, "pravopis"), 1, GL_FALSE, &okno->pravopis[0][0]);
     glUniform1i(glGetUniformLocation(okno->shaderProgram, "TID"), 0);
-    glUniform4f(glGetUniformLocation(okno->shaderProgram, "barva"), barvaOdzadja.r, barvaOdzadja.g, barvaOdzadja.b, barvaOdzadja.a);
+    glUniform4f(glGetUniformLocation(okno->shaderProgram, "odzadje"), barvaOdzadja.r, barvaOdzadja.g, barvaOdzadja.b, barvaOdzadja.a);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-    io::izpis("tukaj sem    ", io::type::msg);
-
-    glBindTexture(GL_TEXTURE_2D, tekstura);
 
     glUniform1i(glGetUniformLocation(okno->shaderProgram, "TID"), 0);
     glUniform4f(glGetUniformLocation(okno->shaderProgram, "barva"), barvaObjekta.r, barvaObjekta.g, barvaObjekta.b, barvaObjekta.a);

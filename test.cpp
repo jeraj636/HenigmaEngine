@@ -24,8 +24,9 @@ int main()
     Objekt *test = sk->dodajObjekt("test");
     test->dodajKomponento<Upodabljalnik>();
     test->poisciKomponento<Transformacija>()->velikost = mat::vec::Vec3(100, 100, 0);
-    test->poisciKomponento<Upodabljalnik>()->barvaObjekta = Barva(0xff000000);
-    test->poisciKomponento<Upodabljalnik>()->barvaOdzadja = Barva(0xff0000ff);
+    test->poisciKomponento<Upodabljalnik>()->barvaObjekta = Barva(0xff0000ff);
+    test->poisciKomponento<Upodabljalnik>()->barvaOdzadja = Barva(0xff0ff0ff);
+    test->poisciKomponento<Upodabljalnik>()->tekstura = naloziTeksturo("chicken.png", 1);
     // bes->barvaObjekta = Barva(0xff0000ff);
     // bes->barvaOdzadja = Barva(0x00ff00ff);
 
