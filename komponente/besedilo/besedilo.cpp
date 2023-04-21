@@ -10,9 +10,8 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "../../matematika/matematika.h"
 #include <unistd.h>
-
 // #define neki 92.11111f
-#define neki 95.0f
+#define neki 93.9999f
 void Besedilo::zanka()
 {
     glActiveTexture(GL_TEXTURE0);
@@ -27,12 +26,12 @@ void Besedilo::zanka()
     {
         char c = vsebina[i];
 
-        c -= ' ';
+        c -= '!'+1;
         float tocke[20] = {
-            1.0f, 1.0f, 0.0f, lokacija[c] + 1.0f / neki, 1.0f,
-            1.0f, -1.0f, 0.0f, lokacija[c] + 1.0f / neki, 0.0f,
-            -1.0f, -1.0f, 0.0f, lokacija[c], 0.0f,
-            -1.0f, 1.0f, 0.0f, lokacija[c], 1.0f};
+            1.0f, 1.0f, 0.0f, 1.0f, lokacija[c] + 1.1f/neki,
+            1.0f, -1.0f, 0.0f, 1.0f, lokacija[c],
+            -1.0f, -1.0f, 0.0f, 0.0f, lokacija[c],
+            -1.0f, 1.0f, 0.0f, 0.0f, lokacija[c]+1.1f/neki};
 
         //! glm::mat4 premik = glm::mat4(1);
         //! premik = glm::translate(premik, glm::vec3(pozicija.x, pozicija.y, pozicija.z));
@@ -72,7 +71,7 @@ void Besedilo::naloziPisavo(const char *potDoPisave)
 {
     _pisiava = naloziTeksturo(potDoPisave, 0);
     float x = 1.0 / neki;
-    for (int i = 0; i <= '~' - ' '; i++)
+    for (int i = 0; i <= '~' - '!'; i++)
     {
         // lokacija[i] = lokacija[i - 1] + x;
         lokacija[i] = i * x;

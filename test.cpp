@@ -19,17 +19,17 @@ int main()
     Okno okno(800, 600, "HenigmeEngine");
     Barva b(0xffff00ff);
     okno.barvaOdzadja = b;
+    Barva obj(0xff0000ff);
+    Barva ozd(0xffff00ff);
     Scena *glavna = okno.dodajSceno();
     Skupina *sk = glavna->dodajSkupino("sk");
     Objekt *test = sk->dodajObjekt("test");
-    test->dodajKomponento<Upodabljalnik>();
-    test->poisciKomponento<Transformacija>()->velikost = mat::vec::Vec3(100, 100, 0);
-    test->poisciKomponento<Upodabljalnik>()->barvaObjekta = Barva(0xff0000ff);
-    test->poisciKomponento<Upodabljalnik>()->barvaOdzadja = Barva(0xff0ff0ff);
-    test->poisciKomponento<Upodabljalnik>()->tekstura = naloziTeksturo("chicken.png", 1);
-    // bes->barvaObjekta = Barva(0xff0000ff);
-    // bes->barvaOdzadja = Barva(0x00ff00ff);
-
+    test->poisciKomponento<Transformacija>()->velikost=mat::vec::Vec3(100,50,0);
+    test->dodajKomponento<Besedilo>();
+    test->poisciKomponento<Besedilo>()->naloziPisavo("bitmap/a.png");
+    test->poisciKomponento<Besedilo>()->vsebina = "JAKOB";
+    test->poisciKomponento<Besedilo>()->barvaObjekta = obj;
+    test->poisciKomponento<Besedilo>()->barvaOdzadja=ozd;
     while (!glfwWindowShouldClose(okno.okno))
     {
         okno.zanka();

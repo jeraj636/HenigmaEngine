@@ -20,5 +20,5 @@ public:
 
 private:
     unsigned int _pisiava;
-    float lokacija['~' - ' '];
+    float lokacija['~' - '!'];
 };
