@@ -134,6 +134,24 @@ Okno::Okno(int width, int height, const char *naslov)
 
         }
     )";
+    const char *besFragmentShaderSource = R"(
+        #version 330 core
+        in vec2 Tpos;
+
+        uniform vec4 barva;
+        uniform vec4 odzadje;
+        uniform  sampler2D TID;
+        out vec4 FragColor;
+        void main ()
+        {
+            texture neki=texture(TID,Tpos);
+            if(texture(TID,Tpos).a<=0.5)
+            FragColor=vec4(odzadje);
+            else 
+            FragColor=vec4(barva)*texture(TID,Tpos);
+
+        }
+    )";
     uint fragmentShader;
     fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
@@ -146,7 +164,8 @@ Okno::Okno(int width, int height, const char *naslov)
         std::cout << info;
         io::izpis("ni fragment shader-ja", io::type::error);
     }
-    // uint shaderProgram;
+
+        // uint shaderProgram;
     shaderProgram = glCreateProgram();
     glAttachShader(shaderProgram, vertexShader);
     glAttachShader(shaderProgram, fragmentShader);

@@ -2,6 +2,8 @@
 #include "../../matematika/matematika.h"
 #include "../../ostalo/ostalo.h"
 #include <string>
+#include <vector>
+
 class Transformacija;
 class Okno;
 class Objekt;
@@ -20,5 +22,7 @@ public:
 
 private:
     unsigned int _pisiava;
-    float lokacija['~' - '!'];
+    // float lokacija['~' - '!'];
+
+        std::vector<mat::vec::Vec2 *> lokacija;
 };

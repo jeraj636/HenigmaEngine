@@ -24,14 +24,25 @@ int main()
     Scena *glavna = okno.dodajSceno();
     Skupina *sk = glavna->dodajSkupino("sk");
     Objekt *test = sk->dodajObjekt("test");
-    test->poisciKomponento<Transformacija>()->velikost=mat::vec::Vec3(100,50,0);
+    test->poisciKomponento<Transformacija>()->velikost = mat::vec::Vec3(25, 15, 0);
     test->dodajKomponento<Besedilo>();
-    test->poisciKomponento<Besedilo>()->naloziPisavo("bitmap/a.png");
+    test->poisciKomponento<Besedilo>()->naloziPisavo("bitmap/a.bmp");
     test->poisciKomponento<Besedilo>()->vsebina = "JAKOB";
     test->poisciKomponento<Besedilo>()->barvaObjekta = obj;
-    test->poisciKomponento<Besedilo>()->barvaOdzadja=ozd;
+    test->poisciKomponento<Besedilo>()->barvaOdzadja = ozd;
+    test->poisciKomponento<Besedilo>()->vsebina = " ";
+    float koncas = glfwGetTime() + 2.0f;
+    // test->poisciKomponento<Besedilo>()->aktivno = 0;
+    // test->dodajKomponento<Upodabljalnik>();
+    // test->poisciKomponento<Upodabljalnik>()->tekstura = naloziTeksturo("bitmap/a.bmp", 0);
+
     while (!glfwWindowShouldClose(okno.okno))
     {
+        if (glfwGetTime() > koncas)
+        {
+            koncas = glfwGetTime() + 2.0f;
+            test->poisciKomponento<Besedilo>()->vsebina[0]++;
+        }
         okno.zanka();
     };
     glfwTerminate();
