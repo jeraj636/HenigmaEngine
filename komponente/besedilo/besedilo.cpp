@@ -18,7 +18,7 @@ void Besedilo::zanka()
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, _pisiava);
     glBindBuffer(GL_ARRAY_BUFFER, okno->BVBO);
-
+    glUseProgram(okno->BShaderProgram);
     mat::vec::Vec3 pozicija = objekt->poisciKomponento<Transformacija>()->pozicija;
     mat::vec::Vec3 rotacija = objekt->poisciKomponento<Transformacija>()->rotacija;
     mat::vec::Vec3 velikost = objekt->poisciKomponento<Transformacija>()->velikost;

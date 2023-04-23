@@ -10,7 +10,7 @@ class Scena;
 class Okno
 {
 public:
-    uint VAO, shaderProgram;
+    uint VAO, shaderProgram, BShaderProgram;
     uint BVAO, BVBO;
     GLFWwindow *okno;
     Barva barvaOdzadja;

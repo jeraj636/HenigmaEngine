@@ -134,24 +134,7 @@ Okno::Okno(int width, int height, const char *naslov)
 
         }
     )";
-    const char *besFragmentShaderSource = R"(
-        #version 330 core
-        in vec2 Tpos;
 
-        uniform vec4 barva;
-        uniform vec4 odzadje;
-        uniform  sampler2D TID;
-        out vec4 FragColor;
-        void main ()
-        {
-            texture neki=texture(TID,Tpos);
-            if(texture(TID,Tpos).a<=0.5)
-            FragColor=vec4(odzadje);
-            else 
-            FragColor=vec4(barva)*texture(TID,Tpos);
-
-        }
-    )";
     uint fragmentShader;
     fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
@@ -165,7 +148,7 @@ Okno::Okno(int width, int height, const char *naslov)
         io::izpis("ni fragment shader-ja", io::type::error);
     }
 
-        // uint shaderProgram;
+    // uint shaderProgram;
     shaderProgram = glCreateProgram();
     glAttachShader(shaderProgram, vertexShader);
     glAttachShader(shaderProgram, fragmentShader);
@@ -174,9 +157,50 @@ Okno::Okno(int width, int height, const char *naslov)
     if (!uspeh)
         io::izpis("ni shader programa", io::type::error);
     glDeleteShader(fragmentShader);
-    glDeleteShader(vertexShader);
     glUseProgram(shaderProgram);
 
+    const char *besFragmentShaderSource = R"(
+        #version 330 core
+        in vec2 Tpos;
+
+        uniform vec4 barva;
+        uniform vec4 odzadje;
+        uniform  sampler2D TID;
+        out vec4 FragColor;
+        void main ()
+        {
+            vec4 neki=texture(TID,Tpos);
+            if(texture(TID,Tpos).a<=0.5)
+            FragColor=vec4(odzadje);
+            else
+            FragColor=vec4(barva)*texture(TID,Tpos);
+
+        }
+    )";
+    // uint fragmentShader;
+    fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+    glShaderSource(fragmentShader, 1, &besFragmentShaderSource, NULL);
+    glCompileShader(fragmentShader);
+    glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &uspeh);
+    if (!uspeh)
+    {
+        char info[512];
+        glGetShaderInfoLog(fragmentShader, 512, NULL, info);
+        std::cout << info;
+        io::izpis("ni fragment shader-ja", io::type::error);
+    }
+
+    BShaderProgram = glCreateProgram();
+    glAttachShader(BShaderProgram, vertexShader);
+    glAttachShader(BShaderProgram, fragmentShader);
+    glLinkProgram(shaderProgram);
+    glGetProgramiv(shaderProgram, GL_LINK_STATUS, &uspeh);
+    if (!uspeh)
+        io::izpis("ni shader programa", io::type::error);
+    glDeleteShader(fragmentShader);
+
+    glDeleteShader(vertexShader);
+    glUseProgram(shaderProgram);
     glBindVertexArray(VAO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glEnableVertexAttribArray(0);
@@ -184,6 +208,7 @@ Okno::Okno(int width, int height, const char *naslov)
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float)));
 
+    glUseProgram(BShaderProgram);
     glBindVertexArray(BVAO);
     glBindBuffer(GL_ARRAY_BUFFER, BVBO);
     glEnableVertexAttribArray(0);

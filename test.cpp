@@ -19,8 +19,8 @@ int main()
     Okno okno(800, 600, "HenigmeEngine");
     Barva b(0xffff00ff);
     okno.barvaOdzadja = b;
-    Barva obj(0xff0000ff);
-    Barva ozd(0xffff00ff);
+    Barva obj(0xff000000);
+    Barva ozd(0x00ff00ff);
     Scena *glavna = okno.dodajSceno();
     Skupina *sk = glavna->dodajSkupino("sk");
     Objekt *test = sk->dodajObjekt("test");
