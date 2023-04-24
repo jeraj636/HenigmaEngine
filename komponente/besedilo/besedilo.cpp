@@ -16,7 +16,7 @@
 void Besedilo::zanka()
 {
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, _pisiava);
+    glBindTexture(GL_TEXTURE_2D, pisava);
     glBindBuffer(GL_ARRAY_BUFFER, okno->BVBO);
     glUseProgram(okno->BShaderProgram);
     mat::vec::Vec3 pozicija = objekt->poisciKomponento<Transformacija>()->pozicija;
@@ -49,15 +49,18 @@ void Besedilo::zanka()
         glm::mat4 poz = glm::mat4(1);
         glm::mat4 rot = glm::mat4(1);
         glm::mat4 vel = glm::mat4(1);
+        glm::mat4 matrika = glm::mat4(1);
 
         poz = glm::translate(poz, glm::vec3(pozicija.x, pozicija.y, pozicija.z));
         // vel = glm::scale(vel, glm::vec3(velikost.x, velikost.y, velikost.z));
         vel = glm::scale(vel, glm::vec3(velikost.x / 2, velikost.y / 2, velikost.z / 2));
         rot = glm::rotate(rot, glm::radians(rotacija.z), glm::vec3(0, 0, 1));
-
-        glUniformMatrix4fv(glGetUniformLocation(okno->shaderProgram, "poz"), 1, GL_FALSE, &poz[0][0]);
-        glUniformMatrix4fv(glGetUniformLocation(okno->shaderProgram, "rot"), 1, GL_FALSE, &rot[0][0]);
-        glUniformMatrix4fv(glGetUniformLocation(okno->shaderProgram, "vel"), 1, GL_FALSE, &vel[0][0]);
+        matrika*=poz;
+        matrika*=rot;
+        matrika*=vel;
+        glUniformMatrix4fv(glGetUniformLocation(okno->shaderProgram, "poz"), 1, GL_FALSE, &matrika[0][0]);
+       // glUniformMatrix4fv(glGetUniformLocation(okno->shaderProgram, "rot"), 1, GL_FALSE, &rot[0][0]);
+        //glUniformMatrix4fv(glGetUniformLocation(okno->shaderProgram, "vel"), 1, GL_FALSE, &vel[0][0]);
         glUniformMatrix4fv(glGetUniformLocation(okno->shaderProgram, "pravopis"), 1, GL_FALSE, &okno->pravopis[0][0]);
 
         // glUniformMatrix4fv(glGetUniformLocation(okno->shaderProgram, "poz"), 1, GL_FALSE, &premik[0][0]);
@@ -67,7 +70,7 @@ void Besedilo::zanka()
 
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
-        pozicija.x += objekt->poisciKomponento<Transformacija>()->velikost.x;
+        pozicija.x += objekt->poisciKomponento<Transformacija>()->velikost.x/3*2;
     }
 }
 void Besedilo::nastavi(Okno *okn, Objekt *obj)
@@ -78,16 +81,16 @@ void Besedilo::nastavi(Okno *okn, Objekt *obj)
 }
 void Besedilo::naloziPisavo(const char *potDoPisave)
 {
-    _pisiava = naloziTeksturo(potDoPisave, 1);
+    pisava = naloziTeksturo(potDoPisave, 1);
     for (int i = 7; i >= 0; i--)
     {
         for (int j = 0; j < 16; j++)
         {
             lokacija.push_back(new mat::vec::Vec2(j * xVel, i * yVel));
             // std::cout << lokacija.size() - 1 << "    " << lokacija.back()->x << "   " << lokacija.back()->y << '\n';
-            std::cout << (char)(lokacija.size() - 1) << "    " << j << "   " << i << '\n';
+            //std::cout << (char)(lokacija.size() - 1) << "    " << j << "   " << i << '\n';
         }
-        std::cout << "\n\n";
+        //std::cout << "\n\n";
     }
 }
 Besedilo::Besedilo()

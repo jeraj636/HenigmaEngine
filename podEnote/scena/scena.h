@@ -12,7 +12,6 @@ public:
     bool aktivno = 1;
     Scena(Okno *okn);
     ~Scena();
-
 private:
     std::vector<Skupina *> tabSkupin;
     Okno *okno;

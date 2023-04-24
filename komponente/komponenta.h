@@ -15,6 +15,5 @@ public:
     Okno *okno;
     Objekt *objekt;
     bool aktivno = 1;
-
 private:
 };

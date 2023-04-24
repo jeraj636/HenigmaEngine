@@ -96,15 +96,14 @@ Okno::Okno(int width, int height, const char *naslov)
         layout (location=1) in vec2 TPos;
         out vec2 Tpos;
         uniform mat4 poz;
-        uniform mat4 rot;
-        uniform mat4 vel;
         uniform mat4 pravopis;
         uniform mat4 SPoz;
         uniform mat4 SRot;
         
         void main ()
         {
-            gl_Position =  pravopis * ((poz*SPoz )* (rot*SRot) * vel) * vec4(APos,1.0);
+            //gl_Position =  pravopis * ((poz*SPoz )* (rot*SRot) * vel) * vec4(APos,1.0);
+            gl_Position =  pravopis * poz * vec4(APos,1.0);
             Tpos=TPos;
         }
     )";
@@ -169,32 +168,32 @@ Okno::Okno(int width, int height, const char *naslov)
         out vec4 FragColor;
         void main ()
         {
-            vec4 neki=texture(TID,Tpos);
-            if(texture(TID,Tpos).a<=0.5)
+            vec4 tek=texture(TID,Tpos);
+            if(tek.r<0.6&&tek.g<0.6&&tek.b<0.6)
             FragColor=vec4(odzadje);
             else
             FragColor=vec4(barva)*texture(TID,Tpos);
 
         }
     )";
-    // uint fragmentShader;
-    fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragmentShader, 1, &besFragmentShaderSource, NULL);
-    glCompileShader(fragmentShader);
-    glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &uspeh);
+     uint BfragmentShader;
+    BfragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+    glShaderSource(BfragmentShader, 1, &besFragmentShaderSource, NULL);
+    glCompileShader(BfragmentShader);
+    glGetShaderiv(BfragmentShader, GL_COMPILE_STATUS, &uspeh);
     if (!uspeh)
     {
         char info[512];
-        glGetShaderInfoLog(fragmentShader, 512, NULL, info);
+        glGetShaderInfoLog(BfragmentShader, 512, NULL, info);
         std::cout << info;
         io::izpis("ni fragment shader-ja", io::type::error);
     }
 
     BShaderProgram = glCreateProgram();
     glAttachShader(BShaderProgram, vertexShader);
-    glAttachShader(BShaderProgram, fragmentShader);
-    glLinkProgram(shaderProgram);
-    glGetProgramiv(shaderProgram, GL_LINK_STATUS, &uspeh);
+    glAttachShader(BShaderProgram, BfragmentShader);
+    glLinkProgram(BShaderProgram);
+    glGetProgramiv(BShaderProgram, GL_LINK_STATUS, &uspeh);
     if (!uspeh)
         io::izpis("ni shader programa", io::type::error);
     glDeleteShader(fragmentShader);

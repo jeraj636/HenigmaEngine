@@ -27,9 +27,13 @@ void Upodabljalnik::zanka()
     // vel = glm::scale(vel, glm::vec3(velikost.x, velikost.y, velikost.z));
     vel = glm::scale(vel, glm::vec3(velikost.x / 2, velikost.y / 2, velikost.z / 2));
     rot = glm::rotate(rot, glm::radians(rotacija.z), glm::vec3(0, 0, 1));
-    glUniformMatrix4fv(glGetUniformLocation(okno->shaderProgram, "poz"), 1, GL_FALSE, &poz[0][0]);
-    glUniformMatrix4fv(glGetUniformLocation(okno->shaderProgram, "rot"), 1, GL_FALSE, &rot[0][0]);
-    glUniformMatrix4fv(glGetUniformLocation(okno->shaderProgram, "vel"), 1, GL_FALSE, &vel[0][0]);
+    glm::mat4 matrika(1);
+    matrika*=poz;
+    matrika*=rot;
+    matrika*=vel;
+    glUniformMatrix4fv(glGetUniformLocation(okno->shaderProgram, "poz"), 1, GL_FALSE, &matrika[0][0]);
+  //  glUniformMatrix4fv(glGetUniformLocation(okno->shaderProgram, "rot"), 1, GL_FALSE, &rot[0][0]);
+   // glUniformMatrix4fv(glGetUniformLocation(okno->shaderProgram, "vel"), 1, GL_FALSE, &vel[0][0]);
     glUniformMatrix4fv(glGetUniformLocation(okno->shaderProgram, "pravopis"), 1, GL_FALSE, &okno->pravopis[0][0]);
     glUniform1i(glGetUniformLocation(okno->shaderProgram, "TID"), 0);
     glUniform4f(glGetUniformLocation(okno->shaderProgram, "odzadje"), barvaOdzadja.r, barvaOdzadja.g, barvaOdzadja.b, barvaOdzadja.a);

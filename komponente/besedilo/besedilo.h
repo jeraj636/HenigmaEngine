@@ -19,9 +19,9 @@ public:
     Barva barvaOdzadja;
     Barva barvaObjekta;
     Besedilo();
+    unsigned int pisava;
 
 private:
-    unsigned int _pisiava;
     // float lokacija['~' - '!'];
 
         std::vector<mat::vec::Vec2 *> lokacija;
