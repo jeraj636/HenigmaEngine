@@ -10,11 +10,10 @@ class Skupina
 public:
     bool aktivno = 1;
     std::string ime;
-
+    void uniciObjekt(Objekt *obj);
     Objekt *dodajObjekt(std::string ime);
     Objekt *poisciObjekt(std::string ime);
     mat::vec::Vec3 pozicija;
-    mat::vec::Vec3 rotacija;
     Skupina(Okno *okn, std::string _ime);
     void zanka();
     ~Skupina();

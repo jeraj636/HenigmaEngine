@@ -98,7 +98,6 @@ Okno::Okno(int width, int height, const char *naslov)
         uniform mat4 poz;
         uniform mat4 pravopis;
         uniform mat4 SPoz;
-        uniform mat4 SRot;
         
         void main ()
         {

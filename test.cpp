@@ -31,7 +31,7 @@ int main()
     test->poisciKomponento<Besedilo>()->vsebina = "Jakob";
     test->poisciKomponento<Besedilo>()->barvaObjekta = obj;
     test->poisciKomponento<Besedilo>()->barvaOdzadja = ozd;
-
+    sk->uniciObjekt(test);
     while (!glfwWindowShouldClose(okno.okno))
     {
         okno.zanka();
