@@ -1,0 +1,12 @@
+# ZA NAREDITI LIST
+-   **Renderer**
+    - Init
+    - Narisi
+    - DodajSceno
+    - AktivirajSceno
+    - Zanka
+- **Scena**
+  - Zacetek
+  - Zanka
+  - Narisi
+- neki
