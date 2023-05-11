@@ -5,8 +5,8 @@
     - DodajSceno
     - AktivirajSceno
     - Zanka
-- **Scena**
+- **Scena** (override)
   - Zacetek
   - Zanka
   - Narisi
-- neki
+  - Konec
