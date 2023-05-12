@@ -5,6 +5,7 @@
     - DodajSceno
     - AktivirajSceno
     - Zanka
+    - NaloziTeksturo
 - [ ] **Scena** (override)
   - Zacetek
   - Zanka

@@ -1,8 +1,14 @@
 #include <iostream>
-#include "SPL/Tabela.h"
-
+#include "Render/Render.h"
 int main()
 {
-    Tabela<Tabela<int>> tab;
-    tab.Porini(Tabela<int>());
+    std::cout << "Pozdravljen svet!\n";
+    Render rend("HenigmaEngine");
+    rend.Init("HenigmaEngine");
+    while (!rend.AliSeMoramZapreti())
+    {
+        rend.OkvirZac();
+        rend.Zanka();
+        rend.OkvirKon();
+    }
 }
