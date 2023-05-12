@@ -1,12 +1,18 @@
 # ZA NAREDITI LIST
--   **Renderer**
+-  [ ] **Renderer**
     - Init
     - Narisi
     - DodajSceno
     - AktivirajSceno
     - Zanka
-- **Scena** (override)
+- [ ] **Scena** (override)
   - Zacetek
   - Zanka
   - Narisi
   - Konec
+- [ ] **Text**
+  - Narisi
+  - vsebina
+- [ ] **Matematika**
+
+
