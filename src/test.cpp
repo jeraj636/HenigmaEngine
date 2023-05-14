@@ -9,6 +9,7 @@ int main()
     {
         rend.OkvirZac();
         rend.Zanka();
+        rend.Narisi();
         rend.OkvirKon();
     }
 }

@@ -10,9 +10,10 @@ class Render
 public:
     Render(std::string ime);
     void Init(std::string ime);
-    // void Narisi();
+    void Narisi();
     // void DodajSceno();
     // void AktivirajSceno();
+    // uint32_t NaloziTeksturo();
     void Zanka();
     bool AliSeMoramZapreti();
     void OkvirZac();
@@ -21,13 +22,15 @@ public:
 
 private:
     GLFWwindow *m_okno;
-    static void PosodobiVelOkna(GLFWwindow *okno, int dolzina, int visina)
-    {
-        glViewport(0, 0, dolzina, visina);
-    }
-    void DobiVhod()
-    {
-        if (glfwGetKey(m_okno, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-            glfwSetWindowShouldClose(m_okno, GLFW_TRUE);
-    }
+    static void PosodobiVelOkna(GLFWwindow *okno, int dolzina, int visina);
+
+    void DobiVhod();
+
+    void NastaviBuferje();
+    void NastaviShaderje();
+
+    uint32_t m_SVBO;
+    uint32_t m_SVAO;
+    uint32_t m_SEBO;
+    uint32_t m_shaderProgram;
 };
