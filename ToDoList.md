@@ -2,15 +2,14 @@
 -  [ ] **Renderer**
     - [X] Init
     - [ ] Narisi
-    - [ ] DodajSceno
-    - [ ] AktivirajSceno
+    - [X] DodajSceno
+    - [X] AktivirajSceno
     - [X] Zanka
     - [X] NaloziTeksturo
-- [ ] **Scena** (override)
-  - [ ] Zacetek
-  - [ ] Zanka
-  - [ ] Narisi
-  - [ ] Konec
+- [X] **Scena** (override)
+  - [X] Zacetek
+  - [X] Zanka
+  - [X] Konec
 - [ ] **Text**
   - [ ] Narisi
   - [ ] vsebina

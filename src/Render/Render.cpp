@@ -3,7 +3,18 @@
 #include <iostream>
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
-
+void Render::DodajSceno(Scena *scena, std::string ime)
+{
+    scene.insert({ime, scena});
+}
+void Render::AktivirajSceno(std::string ime)
+{
+    if(m_aktivnaScena!=NULL)
+    m_aktivnaScena->Konec();
+    auto najdeno = scene.find(ime);
+    m_aktivnaScena = najdeno->second;
+    m_aktivnaScena->Zacetek();
+}
 uint32_t Render::NaloziTeksturo(std::string pot)
 {
     uint32_t tekstura;
@@ -59,7 +70,7 @@ void Render::Init(std::string ime)
     }
 
     glfwSetFramebufferSizeCallback(m_okno, PosodobiVelOkna);
-    //glfwSwapInterval(0);
+    // glfwSwapInterval(0);
     NastaviShaderje();
     NastaviBuferje();
 
@@ -90,6 +101,8 @@ void Render::OkvirZac()
 }
 void Render::Zanka()
 {
+    if(m_aktivnaScena!=NULL)
+    m_aktivnaScena->Zanka();
 }
 void Render::Narisi(uint32_t tekstura)
 {

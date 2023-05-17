@@ -5,14 +5,16 @@
 #include <GLFW/glfw3.h>
 #include <string>
 #include "../ostalo/ostalo.h"
+#include <map>
+#include "../Scena/Scena.h"
 class Render
 {
 public:
     Render();
     void Init(std::string ime);
     void Narisi(uint32_t tekstura);
-    // void DodajSceno();
-    // void AktivirajSceno();
+    void DodajSceno(Scena *scena, std::string ime);
+    void AktivirajSceno(std::string ime);
     uint32_t NaloziTeksturo(std::string pot);
     void Zanka();
     bool AliSeMoramZapreti();
@@ -21,6 +23,8 @@ public:
     Barva Odzadje;
 
 private:
+Scena *m_aktivnaScena=NULL;
+    std::map <std::string,Scena*>scene;
     GLFWwindow *m_okno;
     static void PosodobiVelOkna(GLFWwindow *okno, int dolzina, int visina);
 
