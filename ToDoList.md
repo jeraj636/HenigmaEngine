@@ -1,19 +1,19 @@
 # ZA NAREDITI LIST
 -  [ ] **Renderer**
-    - Init
-    - Narisi
-    - DodajSceno
-    - AktivirajSceno
-    - Zanka
-    - NaloziTeksturo
+    - [X] Init
+    - [ ] Narisi
+    - [ ] DodajSceno
+    - [ ] AktivirajSceno
+    - [X] Zanka
+    - [X] NaloziTeksturo
 - [ ] **Scena** (override)
-  - Zacetek
-  - Zanka
-  - Narisi
-  - Konec
+  - [ ] Zacetek
+  - [ ] Zanka
+  - [ ] Narisi
+  - [ ] Konec
 - [ ] **Text**
-  - Narisi
-  - vsebina
+  - [ ] Narisi
+  - [ ] vsebina
 - [ ] **Matematika**
 
 

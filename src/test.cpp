@@ -3,13 +3,15 @@
 int main()
 {
     std::cout << "Pozdravljen svet!\n";
-    Render rend("HenigmaEngine");
+    std::cout.flush();
+    Render rend;
     rend.Init("HenigmaEngine");
+    uint32_t tek=rend.NaloziTeksturo("jakob");
     while (!rend.AliSeMoramZapreti())
     {
         rend.OkvirZac();
         rend.Zanka();
-        rend.Narisi();
+        rend.Narisi(tek);
         rend.OkvirKon();
     }
 }

@@ -1,9 +1,43 @@
 #include "Render.h"
 #include "../ostalo/ostalo.h"
-Render::Render(std::string ime)
+#include <iostream>
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+
+uint32_t Render::NaloziTeksturo(std::string pot)
+{
+    uint32_t tekstura;
+    glGenTextures(1, &tekstura);
+    glBindTexture(GL_TEXTURE_2D, tekstura);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    int dolzina, visina, kanali;
+    stbi_set_flip_vertically_on_load(1);
+    unsigned char *data = stbi_load("logo.png", &dolzina, &visina, &kanali, 0);
+    // std::cout << kanali << std::endl;
+    if (!data)
+        io::izpis("NI TEKSTURE", io::type::error);
+    else
+    {
+        switch (kanali)
+        {
+        case 4:
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, dolzina, visina, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+            break;
+        case 3:
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, dolzina, visina, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+            break;
+        }
+    }
+    stbi_image_free(data);
+    return tekstura;
+}
+Render::Render()
     : Odzadje(0xffffffff)
 {
-    // Init(ime);
 }
 void Render::Init(std::string ime)
 {
@@ -25,12 +59,17 @@ void Render::Init(std::string ime)
     }
 
     glfwSetFramebufferSizeCallback(m_okno, PosodobiVelOkna);
-
+    //glfwSwapInterval(0);
     NastaviShaderje();
     NastaviBuferje();
 
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)0);
     glEnableVertexAttribArray(0);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
+
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 bool Render::AliSeMoramZapreti()
 {
@@ -46,14 +85,17 @@ void Render::OkvirKon()
 void Render::OkvirZac()
 {
     DobiVhod();
-}
-void Render::Zanka()
-{
     glClearColor(Odzadje.r, Odzadje.g, Odzadje.b, Odzadje.a);
     glClear(GL_COLOR_BUFFER_BIT);
 }
-void Render::Narisi()
+void Render::Zanka()
 {
+}
+void Render::Narisi(uint32_t tekstura)
+{
+    glActiveTexture(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE0, tekstura);
+    glUniform1i(glGetUniformLocation(m_shaderProgram, "tekID"), 0);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
 
@@ -63,10 +105,12 @@ void Render::NastaviShaderje()
     const char *vertexShaderSource = R"(
             #version 330 core
             layout (location = 0) in vec3 Vpos;
-
+            layout (location = 1) in vec2 Tpos;
+            out vec2 tpos;
             void main()
             {
                 gl_Position = vec4(Vpos,1.0);
+                tpos=Tpos;
             }
         )";
     uint32_t vertexShader;
@@ -81,9 +125,13 @@ void Render::NastaviShaderje()
             #version 330 core
 
             out vec4 FragColor;
+            uniform sampler2D tekID;
+            in vec2 tpos;
             void main()
             {
-                FragColor=vec4(1.0,0.0,0.0,1.0);
+                //texture teks(tekID,tpos);
+               // FragColor=vec4(1.0,0.0,0.0,1.0)*texture(tekID,tpos);
+               FragColor=texture(tekID,tpos);
             }
         )";
     uint32_t fragmentShader;

@@ -8,12 +8,12 @@
 class Render
 {
 public:
-    Render(std::string ime);
+    Render();
     void Init(std::string ime);
-    void Narisi();
+    void Narisi(uint32_t tekstura);
     // void DodajSceno();
     // void AktivirajSceno();
-    // uint32_t NaloziTeksturo();
+    uint32_t NaloziTeksturo(std::string pot);
     void Zanka();
     bool AliSeMoramZapreti();
     void OkvirZac();
