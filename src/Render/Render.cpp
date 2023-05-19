@@ -72,8 +72,8 @@ void Render::Init(const std::string &ime)
         glfwTerminate();
         io::izpis("NI USTVARILO GLAD-a", io::type::error);
     }
-    glViewport(0,0,800,600);
-    
+    glViewport(0, 0, 800, 600);
+
     glfwSetFramebufferSizeCallback(m_okno, PosodobiVelOkna);
 
     glfwSwapInterval(0);
@@ -88,7 +88,6 @@ void Render::Init(const std::string &ime)
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
-
 }
 bool Render::AliSeMoramZapreti()
 {
@@ -116,9 +115,6 @@ void Render::Narisi(uint32_t tekstura)
     glBindTexture(GL_TEXTURE0, tekstura);
     glUniform1i(glGetUniformLocation(m_shaderProgram, "tekID"), 0);
 
-
-
-
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
 
@@ -130,9 +126,10 @@ void Render::NastaviShaderje()
             layout (location = 0) in vec3 Vpos;
             layout (location = 1) in vec2 Tpos;
             out vec2 tpos;
+            uniform mat4 trans;
             void main()
             {
-                gl_Position = vec4(Vpos,1.0);
+                gl_Position = vec4(Vpos,1.0)*trans;
                 tpos=Tpos;
             }
         )";

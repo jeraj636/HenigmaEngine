@@ -7,6 +7,7 @@ add_executable(${PROJECT_NAME}
         src/glad/src/glad.c
         src/Render/Render.cpp
         src/ostalo/ostalo.cpp
+        src/Matematika/Matematika.cpp
 )
 
 include_directories(${PROJECT_NAME}
