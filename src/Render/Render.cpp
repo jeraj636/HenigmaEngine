@@ -3,6 +3,7 @@
 #include <iostream>
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
+// #include "../Matematika/Matematika.h"
 void Render::DodajSceno(Scena *scena, const std::string &ime)
 {
     scene.insert({ime, scena});
@@ -27,7 +28,7 @@ uint32_t Render::NaloziTeksturo(const std::string &pot)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     int dolzina, visina, kanali;
     stbi_set_flip_vertically_on_load(1);
-    unsigned char *data = stbi_load("logo.png", &dolzina, &visina, &kanali, 0);
+    unsigned char *data = stbi_load("logo260.png", &dolzina, &visina, &kanali, 0);
     // std::cout << kanali << std::endl;
     if (!data)
         io::izpis("NI TEKSTURE", io::type::error);
@@ -76,7 +77,7 @@ void Render::Init(const std::string &ime)
 
     glfwSetFramebufferSizeCallback(m_okno, PosodobiVelOkna);
 
-    glfwSwapInterval(0);
+    // glfwSwapInterval(0);
 
     NastaviShaderje();
     NastaviBuferje();
@@ -109,12 +110,18 @@ void Render::Zanka()
 {
     m_aktivnaScena->Zanka();
 }
-void Render::Narisi(uint32_t tekstura)
+void Render::Narisi(uint32_t tekstura, spl::vec3 poz, float rot, spl::vec3 vel, Barva BObj, Barva BOzd)
 {
     glActiveTexture(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE0, tekstura);
     glUniform1i(glGetUniformLocation(m_shaderProgram, "tekID"), 0);
 
+    glm::mat4 matrika = glm::mat4(1);
+    matrika = glm::translate(matrika, glm::vec3(poz.x, poz.y, 0));
+
+    matrika = glm::scale(matrika, glm::vec3(vel.x, vel.y, 0));
+    matrika = glm::rotate(matrika, glm::radians(rot), glm::vec3(0, 0, 1));
+    glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram, "matrika"), 1, GL_FALSE, &matrika[0][0]);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
 
@@ -126,10 +133,10 @@ void Render::NastaviShaderje()
             layout (location = 0) in vec3 Vpos;
             layout (location = 1) in vec2 Tpos;
             out vec2 tpos;
-            uniform mat4 trans;
+            uniform mat4 matrika;
             void main()
             {
-                gl_Position = vec4(Vpos,1.0)*trans;
+                gl_Position = matrika * vec4(Vpos,1.0);
                 tpos=Tpos;
             }
         )";
