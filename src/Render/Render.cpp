@@ -3,19 +3,19 @@
 #include <iostream>
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
-void Render::DodajSceno(Scena *scena, std::string ime)
+void Render::DodajSceno(Scena *scena, const std::string &ime)
 {
     scene.insert({ime, scena});
 }
-void Render::AktivirajSceno(std::string ime)
+void Render::AktivirajSceno(const std::string &ime)
 {
-    if(m_aktivnaScena!=NULL)
-    m_aktivnaScena->Konec();
+    if (m_aktivnaScena != NULL)
+        m_aktivnaScena->Konec();
     auto najdeno = scene.find(ime);
     m_aktivnaScena = najdeno->second;
     m_aktivnaScena->Zacetek();
 }
-uint32_t Render::NaloziTeksturo(std::string pot)
+uint32_t Render::NaloziTeksturo(const std::string &pot)
 {
     uint32_t tekstura;
     glGenTextures(1, &tekstura);
@@ -47,10 +47,10 @@ uint32_t Render::NaloziTeksturo(std::string pot)
     return tekstura;
 }
 Render::Render()
-    : Odzadje(0xffffffff)
+    : Odzadje(0x000000ff)
 {
 }
-void Render::Init(std::string ime)
+void Render::Init(const std::string &ime)
 {
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -61,47 +61,53 @@ void Render::Init(std::string ime)
 
     if (m_okno == NULL)
     {
+        glfwTerminate();
         io::izpis("NI USTVARILO OKNA", io::type::error);
     }
+
     glfwMakeContextCurrent(m_okno);
+
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
+        glfwTerminate();
         io::izpis("NI USTVARILO GLAD-a", io::type::error);
     }
-
+    glViewport(0,0,800,600);
+    
     glfwSetFramebufferSizeCallback(m_okno, PosodobiVelOkna);
-    // glfwSwapInterval(0);
+
+    glfwSwapInterval(0);
+
     NastaviShaderje();
     NastaviBuferje();
+
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)0);
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
 
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 bool Render::AliSeMoramZapreti()
 {
-    if (glfwWindowShouldClose(m_okno))
-        return true;
-    return false;
+    return glfwWindowShouldClose(m_okno);
 }
 void Render::OkvirKon()
 {
-    glfwSwapBuffers(m_okno);
     glfwPollEvents();
+    glfwSwapBuffers(m_okno);
 }
 void Render::OkvirZac()
 {
     DobiVhod();
+
     glClearColor(Odzadje.r, Odzadje.g, Odzadje.b, Odzadje.a);
     glClear(GL_COLOR_BUFFER_BIT);
 }
 void Render::Zanka()
 {
-    if(m_aktivnaScena!=NULL)
     m_aktivnaScena->Zanka();
 }
 void Render::Narisi(uint32_t tekstura)
@@ -109,6 +115,10 @@ void Render::Narisi(uint32_t tekstura)
     glActiveTexture(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE0, tekstura);
     glUniform1i(glGetUniformLocation(m_shaderProgram, "tekID"), 0);
+
+
+
+
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
 

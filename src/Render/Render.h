@@ -11,11 +11,11 @@ class Render
 {
 public:
     Render();
-    void Init(std::string ime);
+    void Init(const std::string &ime);
     void Narisi(uint32_t tekstura);
-    void DodajSceno(Scena *scena, std::string ime);
-    void AktivirajSceno(std::string ime);
-    uint32_t NaloziTeksturo(std::string pot);
+    void DodajSceno(Scena *scena,const std::string &ime);
+    void AktivirajSceno(const std::string &ime);
+    uint32_t NaloziTeksturo(const std::string &pot);
     void Zanka();
     bool AliSeMoramZapreti();
     void OkvirZac();

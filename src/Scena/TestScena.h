@@ -14,7 +14,7 @@ public:
     }
     void Zanka()
     {
-        std::cout << "zanka"<<std::endl;
+       // std::cout << "zanka"<<std::endl;
     }
     Scena *Naslov()
     {
