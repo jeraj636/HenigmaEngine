@@ -110,18 +110,24 @@ void Render::Zanka()
 {
     m_aktivnaScena->Zanka();
 }
-void Render::Narisi(uint32_t tekstura, spl::vec3 poz, float rot, spl::vec3 vel, Barva BObj, Barva BOzd)
+void Render::Narisi(uint32_t tekstura, spl::vec3 poz, float rot, spl::vec3 vel, Barva obj, Barva ozd)
 {
     glActiveTexture(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE0, tekstura);
     glUniform1i(glGetUniformLocation(m_shaderProgram, "tekID"), 0);
 
+    glUniform4f(glGetUniformLocation(m_shaderProgram, "obj"), obj.r, obj.g, obj.b, obj.a);
+    glUniform4f(glGetUniformLocation(m_shaderProgram, "ozd"), ozd.r, ozd.g, ozd.b, ozd.a);
+
     glm::mat4 matrika = glm::mat4(1);
+
     matrika = glm::translate(matrika, glm::vec3(poz.x, poz.y, 0));
 
     matrika = glm::scale(matrika, glm::vec3(vel.x, vel.y, 0));
+
     matrika = glm::rotate(matrika, glm::radians(rot), glm::vec3(0, 0, 1));
     glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram, "matrika"), 1, GL_FALSE, &matrika[0][0]);
+
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
 
@@ -153,12 +159,16 @@ void Render::NastaviShaderje()
 
             out vec4 FragColor;
             uniform sampler2D tekID;
+            uniform vec4 obj;
+            uniform vec4 ozd;
             in vec2 tpos;
             void main()
             {
-                //texture teks(tekID,tpos);
-               // FragColor=vec4(1.0,0.0,0.0,1.0)*texture(tekID,tpos);
-               FragColor=texture(tekID,tpos);
+                vec4 slika=texture(tekID,tpos);
+                if(slika.w<0.3)
+                FragColor=ozd;
+                else
+                FragColor=slika*obj;
             }
         )";
     uint32_t fragmentShader;

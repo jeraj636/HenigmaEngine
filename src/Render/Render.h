@@ -16,7 +16,7 @@ class Render
 public:
     Render();
     void Init(const std::string &ime);
-    void Narisi(uint32_t tekstura, spl::vec3 poz, float rot, spl::vec3 vel, Barva BObj, Barva BOzd);
+    void Narisi(uint32_t tekstura, spl::vec3 poz, float rot, spl::vec3 vel, Barva BObj = Barva(0xffffffff), Barva BOzd = Barva(0xffffffff));
     void DodajSceno(Scena *scena, const std::string &ime);
     void AktivirajSceno(const std::string &ime);
     uint32_t NaloziTeksturo(const std::string &pot);
