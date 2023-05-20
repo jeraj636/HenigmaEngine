@@ -3,7 +3,9 @@
 #include <iostream>
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
-// #include "../Matematika/Matematika.h"
+
+#include <ft2build.h>
+
 void Render::DodajSceno(Scena *scena, const std::string &ime)
 {
     scene.insert({ime, scena});
@@ -18,7 +20,10 @@ void Render::AktivirajSceno(const std::string &ime)
 }
 uint32_t Render::NaloziTeksturo(const std::string &pot)
 {
+    std::string dejpot = "../";
+    dejpot += pot;
     uint32_t tekstura;
+
     glGenTextures(1, &tekstura);
     glBindTexture(GL_TEXTURE_2D, tekstura);
 
@@ -28,7 +33,7 @@ uint32_t Render::NaloziTeksturo(const std::string &pot)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     int dolzina, visina, kanali;
     stbi_set_flip_vertically_on_load(1);
-    unsigned char *data = stbi_load("logo260.png", &dolzina, &visina, &kanali, 0);
+    unsigned char *data = stbi_load(dejpot.c_str(), &dolzina, &visina, &kanali, 0);
     // std::cout << kanali << std::endl;
     if (!data)
         io::izpis("NI TEKSTURE", io::type::error);
@@ -84,11 +89,27 @@ void Render::Init(const std::string &ime)
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    /*
+        BindajStaticneBufferje();
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)0);
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float)));
+        glEnableVertexAttribArray(1);
+        BindajDinamicneBufferje();
+        */
+}
+void Render::BindajStaticneBufferje()
+{
+    glBindVertexArray(m_SVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, m_SVBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_SEBO);
+}
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)0);
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float)));
-    glEnableVertexAttribArray(1);
+void Render::BindajDinamicneBufferje()
+{
+    glBindVertexArray(m_DVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, m_DVBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_DEBO);
 }
 bool Render::AliSeMoramZapreti()
 {
@@ -191,11 +212,15 @@ void Render::NastaviShaderje()
 }
 void Render::NastaviBuferje()
 {
+    //! staticni
     glGenVertexArrays(1, &m_SVAO);
     glBindVertexArray(m_SVAO);
 
     glGenBuffers(1, &m_SVBO);
     glBindBuffer(GL_ARRAY_BUFFER, m_SVBO);
+
+    glGenBuffers(1, &m_SEBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_SEBO);
 
     float tocke[] =
         {
@@ -209,9 +234,30 @@ void Render::NastaviBuferje()
             0, 2, 3};
 
     glBufferData(GL_ARRAY_BUFFER, sizeof(tocke), tocke, GL_STATIC_DRAW);
-    glGenBuffers(1, &m_SEBO);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_SEBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indeksi), indeksi, GL_STATIC_DRAW);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)0);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
+
+    //! dinamicni
+    glGenVertexArrays(1, &m_DVAO);
+    glBindVertexArray(m_DVAO);
+
+    glGenBuffers(1, &m_DVBO);
+    glBindBuffer(GL_ARRAY_BUFFER, m_DVBO);
+
+    glGenBuffers(1, &m_DEBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_DEBO);
+
+    glBufferData(GL_ARRAY_BUFFER, sizeof(tocke), tocke, GL_DYNAMIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indeksi), indeksi, GL_DYNAMIC_DRAW);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)0);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
 }
 
 void Render::PosodobiVelOkna(GLFWwindow *okno, int dolzina, int visina)

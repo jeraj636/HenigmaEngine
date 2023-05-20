@@ -11,6 +11,17 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include "../Matematika/Matematika.h"
+
+class Font
+{
+public:
+    Font();
+    Font(const std::string &pot, int velikost);
+
+private:
+    void NaloziFont(const std::string &pot, int velikost);
+};
+
 class Render
 {
 public:
@@ -31,7 +42,8 @@ private:
     std::map<std::string, Scena *> scene;
     GLFWwindow *m_okno;
     static void PosodobiVelOkna(GLFWwindow *okno, int dolzina, int visina);
-
+    void BindajStaticneBufferje();
+    void BindajDinamicneBufferje();
     void DobiVhod();
 
     void NastaviBuferje();
@@ -40,5 +52,10 @@ private:
     uint32_t m_SVBO;
     uint32_t m_SVAO;
     uint32_t m_SEBO;
+
+    uint32_t m_DVBO;
+    uint32_t m_DVAO;
+    uint32_t m_DEBO;
+
     uint32_t m_shaderProgram;
 };

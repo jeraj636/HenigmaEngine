@@ -1,11 +1,13 @@
 # ZA NAREDITI LIST
 -  [ ] **Renderer**
     - [X] Init
-    - [ ] Narisi
+    - [X] Narisi
     - [X] DodajSceno
     - [X] AktivirajSceno
     - [X] Zanka
+    - [ ] NaloziFont
     - [X] NaloziTeksturo
+    - [ ] Orthografich proj
 - [X] **Scena** (override)
   - [X] Zacetek
   - [X] Zanka
@@ -13,6 +15,6 @@
 - [ ] **Text**
   - [ ] Narisi
   - [ ] vsebina
-- [ ] **Matematika**
+- [X] **Matematika**
 
 

@@ -11,13 +11,15 @@ add_executable(${PROJECT_NAME}
 
 include_directories(${PROJECT_NAME}
         src/glad/include/
-
+        /usr/include/freetype2 
+        /usr/include/freetype2/config
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
         glfw
         GL 
         fmt 
+        freetype
 )
 
 

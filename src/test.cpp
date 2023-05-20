@@ -13,7 +13,7 @@ int main()
     rend.DodajSceno(test.Naslov(), "test");
     rend.AktivirajSceno("test");
 
-    uint32_t tek = rend.NaloziTeksturo("jakob");
+    uint32_t tek = rend.NaloziTeksturo("Materiali/Slike/logo260.png");
     spl::vec3 poz(0.0f, 0.0f, 0);
     spl::vec3 vel(0.5f, 0.5f, 1);
     float rot = 0;
