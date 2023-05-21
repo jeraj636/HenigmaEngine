@@ -5,7 +5,7 @@
 #include "stb_image.h"
 
 #include <ft2build.h>
-
+#include FT_FREETYPE_H
 void Render::DodajSceno(Scena *scena, const std::string &ime)
 {
     scene.insert({ime, scena});
