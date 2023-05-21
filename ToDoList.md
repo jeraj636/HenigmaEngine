@@ -7,7 +7,7 @@
     - [X] Zanka
     - [ ] NaloziFont
     - [X] NaloziTeksturo
-    - [ ] Orthografich proj
+    - [X] Orthografich proj
 - [X] **Scena** (override)
   - [X] Zacetek
   - [X] Zanka

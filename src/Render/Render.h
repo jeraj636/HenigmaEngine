@@ -11,15 +11,24 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include "../Matematika/Matematika.h"
-
+class Okno
+{
+public:
+    int visina, dolzina;
+};
+class Kazalec
+{
+public:
+    double x, y;
+};
 class Font
 {
 public:
     Font();
     Font(const std::string &pot, int velikost);
+    void NaloziFont(const std::string &pot, int velikost);
 
 private:
-    void NaloziFont(const std::string &pot, int velikost);
 };
 
 class Render
@@ -36,11 +45,14 @@ public:
     void OkvirZac();
     void OkvirKon();
     Barva Odzadje;
+    Okno okno;
+    Kazalec kazalec;
 
 private:
     Scena *m_aktivnaScena = NULL;
     std::map<std::string, Scena *> scene;
     GLFWwindow *m_okno;
+    glm::mat4 m_proj;
     static void PosodobiVelOkna(GLFWwindow *okno, int dolzina, int visina);
     void BindajStaticneBufferje();
     void BindajDinamicneBufferje();

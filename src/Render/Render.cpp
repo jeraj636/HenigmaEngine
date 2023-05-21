@@ -53,7 +53,7 @@ uint32_t Render::NaloziTeksturo(const std::string &pot)
     return tekstura;
 }
 Render::Render()
-    : Odzadje(0x000000ff)
+    : Odzadje(0x000000ff), m_proj(1)
 {
 }
 void Render::Init(const std::string &ime)
@@ -104,7 +104,6 @@ void Render::BindajStaticneBufferje()
     glBindBuffer(GL_ARRAY_BUFFER, m_SVBO);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_SEBO);
 }
-
 void Render::BindajDinamicneBufferje()
 {
     glBindVertexArray(m_DVAO);
@@ -129,6 +128,11 @@ void Render::OkvirZac()
 }
 void Render::Zanka()
 {
+
+    glfwGetWindowSize(m_okno, &okno.dolzina, &okno.visina);
+    glfwGetCursorPos(m_okno, &kazalec.x, &kazalec.y);
+    m_proj = glm::ortho(0.0f, (float)okno.dolzina, (float)okno.visina, 0.0f);
+
     m_aktivnaScena->Zanka();
 }
 void Render::Narisi(uint32_t tekstura, spl::vec3 poz, float rot, spl::vec3 vel, Barva obj, Barva ozd)
@@ -139,6 +143,8 @@ void Render::Narisi(uint32_t tekstura, spl::vec3 poz, float rot, spl::vec3 vel, 
 
     glUniform4f(glGetUniformLocation(m_shaderProgram, "obj"), obj.r, obj.g, obj.b, obj.a);
     glUniform4f(glGetUniformLocation(m_shaderProgram, "ozd"), ozd.r, ozd.g, ozd.b, ozd.a);
+
+    glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram, "proj"), 1, GL_FALSE, &m_proj[0][0]);
 
     glm::mat4 matrika = glm::mat4(1);
 
@@ -151,7 +157,6 @@ void Render::Narisi(uint32_t tekstura, spl::vec3 poz, float rot, spl::vec3 vel, 
 
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
-
 void Render::NastaviShaderje()
 {
     int uspeh;
@@ -161,9 +166,10 @@ void Render::NastaviShaderje()
             layout (location = 1) in vec2 Tpos;
             out vec2 tpos;
             uniform mat4 matrika;
+            uniform mat4 proj;
             void main()
             {
-                gl_Position = matrika * vec4(Vpos,1.0);
+                gl_Position =proj * matrika  * vec4(Vpos,1.0);
                 tpos=Tpos;
             }
         )";
@@ -259,7 +265,6 @@ void Render::NastaviBuferje()
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
 }
-
 void Render::PosodobiVelOkna(GLFWwindow *okno, int dolzina, int visina)
 {
     glViewport(0, 0, dolzina, visina);
