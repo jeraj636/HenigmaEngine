@@ -13,6 +13,7 @@ include_directories(${PROJECT_NAME}
         src/glad/include/
         /usr/include/freetype2 
         /usr/include/freetype2/config
+        src/glfw/include/GLFW
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
@@ -21,7 +22,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
         fmt 
         freetype
 )
-
+add_subdirectory(src/glfw/)
 
 
 

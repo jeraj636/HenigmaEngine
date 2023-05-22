@@ -146,6 +146,7 @@ void Render::Narisi(uint32_t tekstura, spl::vec3 poz, float rot, spl::vec3 vel, 
     glBindTexture(GL_TEXTURE0, tekstura);
     glUniform1i(glGetUniformLocation(m_shaderProgram, "tekID"), 0);
 
+    
     glUniform4f(glGetUniformLocation(m_shaderProgram, "obj"), obj.r, obj.g, obj.b, obj.a);
     glUniform4f(glGetUniformLocation(m_shaderProgram, "ozd"), ozd.r, ozd.g, ozd.b, ozd.a);
 
@@ -159,11 +160,15 @@ void Render::Narisi(uint32_t tekstura, spl::vec3 poz, float rot, spl::vec3 vel, 
 
     matrika = glm::rotate(matrika, glm::radians(rot), glm::vec3(0, 0, 1));
     glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram, "matrika"), 1, GL_FALSE, &matrika[0][0]);
+    
+    glBindVertexArray(m_SVAO);
+    glUseProgram(m_shaderProgram);
 
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
 void Render::NastaviShaderje()
 {
+    //! navadni shaderjji
     int uspeh;
     const char *vertexShaderSource = R"(
             #version 330 core
@@ -210,7 +215,7 @@ void Render::NastaviShaderje()
     glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &uspeh);
     if (!uspeh)
         spl::io::err("NI FRAGMENT- SHADER PROGRAMA");
-        spl::io::msg("DELA FRAGMENT SHADER");
+    spl::io::msg("DELA FRAGMENT SHADER");
     m_shaderProgram = glCreateProgram();
     glAttachShader(m_shaderProgram, vertexShader);
     glAttachShader(m_shaderProgram, fragmentShader);
@@ -218,10 +223,72 @@ void Render::NastaviShaderje()
     glGetProgramiv(m_shaderProgram, GL_LINK_STATUS, &uspeh);
     if (!uspeh)
         spl::io::err("NI SHADER PROGRAMA");
-        spl::io::msg("SHADER PROGRAM DELUJE");
+    spl::io::msg("SHADER PROGRAM DELUJE");
     glUseProgram(m_shaderProgram);
     glDeleteShader(fragmentShader);
     glDeleteShader(vertexShader);
+
+    //! shaderji za besedilo
+
+    const char *vertexShaderSourceBes = R"(
+        #version 330 core
+        layout (location = 0) in vec4 vertex;
+        out vec2 TexCor;
+        uniform mat4 proj;
+
+        void main()
+        {
+            gl_Position=proj*vec4(vertex.xy,0.0f,1.0);
+            TexCor=vertex.zw;
+        }
+
+    )";
+
+    vertexShader = glCreateShader(GL_VERTEX_SHADER);
+    glShaderSource(vertexShader, 1, &vertexShaderSourceBes, NULL);
+    glCompileShader(vertexShader);
+    glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &uspeh);
+    if (!uspeh)
+        spl::io::err("NI BESEDILNEGA VERTEX SHADERJA");
+    spl::io::msg("DELA BESEDILNI VERTEX SHADER");
+
+    const char *fragmentShaderSourceBes = R"(
+        #version 330 core
+        in vec2 TexCor;
+        out vec4 color;
+
+        uniform sampler2D TekID;
+        uniform vec4 textColor;
+        uniform vec4 ozdColor;
+
+        void main()
+        {
+            vec4 tek=vec4(1.0,1.0,1.0,texture(TekID,TexCor).r);
+            if(tek.a<0.3)
+                color=ozdColor;
+            else
+                color=tek*textColor;
+        }
+    )";
+    fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+    glShaderSource(fragmentShader, 1, &fragmentShaderSourceBes, NULL);
+    glCompileShader(fragmentShader);
+    glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &uspeh);
+    if (!uspeh)
+        spl::io::err("NI BESEDILNEGA FRAGMENT SHADERJA");
+    spl::io::msg("BESEDILNI FRAGMENT SHADER");
+    m_shaderProgramBes = glCreateProgram();
+    glAttachShader(m_shaderProgramBes, vertexShader);
+    glAttachShader(m_shaderProgramBes, fragmentShader);
+    glLinkProgram(m_shaderProgramBes);
+    glGetProgramiv(m_shaderProgramBes, GL_LINK_STATUS, &uspeh);
+    if(!uspeh)
+        spl::io::err("NI BESEDILNEGA PROGRAMA");
+    spl::io::msg("BESDILNI SHADER PROGRAM");
+    glUseProgram(m_shaderProgram);
+    glDeleteShader(fragmentShader);
+    glDeleteShader(vertexShader);
+
 }
 void Render::NastaviBuferje()
 {
@@ -248,6 +315,7 @@ void Render::NastaviBuferje()
 
     glBufferData(GL_ARRAY_BUFFER, sizeof(tocke), tocke, GL_STATIC_DRAW);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indeksi), indeksi, GL_STATIC_DRAW);
+    glUseProgram(m_shaderProgram);
 
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)0);
     glEnableVertexAttribArray(0);
@@ -255,6 +323,14 @@ void Render::NastaviBuferje()
     glEnableVertexAttribArray(1);
 
     //! dinamicni
+
+        float tockeBes[] =
+        {
+            -1.0f, -1.0f, 0.0f, 0.0f,
+            1.0f, -1.0f, 1.0f, 0.0f,
+            1.0f, 1.0f, 1.0f, 1.0f,
+            -1.0f, 1.0f, 0.0f, 1.0f};
+
     glGenVertexArrays(1, &m_DVAO);
     glBindVertexArray(m_DVAO);
 
@@ -264,13 +340,12 @@ void Render::NastaviBuferje()
     glGenBuffers(1, &m_DEBO);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_DEBO);
 
-    glBufferData(GL_ARRAY_BUFFER, sizeof(tocke), tocke, GL_DYNAMIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(tockeBes), tocke, GL_DYNAMIC_DRAW);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indeksi), indeksi, GL_DYNAMIC_DRAW);
+    glUseProgram(m_shaderProgramBes);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)0);
+    glVertexAttribPointer(0,4,GL_FLOAT,GL_FALSE,4*sizeof(float),(void*)0);
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float)));
-    glEnableVertexAttribArray(1);
 }
 void Render::PosodobiVelOkna(GLFWwindow *okno, int dolzina, int visina)
 {
@@ -280,4 +355,56 @@ void Render::DobiVhod()
 {
     if (glfwGetKey(m_okno, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(m_okno, GLFW_TRUE);
+}
+Font::Font(const std::string &pot, int velikost)
+{
+    NaloziFont(pot, velikost);
+}
+void Font::NaloziFont(const std::string &pot, int velikost)
+{
+    FT_Library ft;
+
+    if (FT_Init_FreeType(&ft))
+    {
+        spl::io::err("NI NALOZILO TTF");
+    }
+    spl::io::msg("DELUJE TTF");
+
+    FT_Face face;
+
+    if (FT_New_Face(ft, pot.c_str(), 0, &face))
+    {
+        spl::io::err("NI NALOZILO GLAVE");
+    }
+    spl::io::msg("DELUJE OBRAZ");
+
+    FT_Set_Pixel_Sizes(face, 0, 25);
+
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    for (int i = 0; i < 128; i++)
+    {
+        if (FT_Load_Char(face, i, FT_LOAD_RENDER))
+        {
+            spl::io::war("NI NALOZILO ZNAKA");
+            continue;
+        }
+        spl::io::msg("ZNAK NALOZEN");
+        uint32_t tekstura;
+        glGenTextures(1, &tekstura);
+        glBindTexture(GL_TEXTURE_2D, tekstura);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, face->glyph->bitmap.width, face->glyph->bitmap.rows, 0, GL_RED, GL_UNSIGNED_BYTE, face->glyph->bitmap.buffer);
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+        znaki[i].TeksturaID = tekstura;
+        znaki[i].velikost = spl::vec2(face->glyph->bitmap.width, face->glyph->bitmap.rows);
+        znaki[i].ofset = spl::vec2(face->glyph->bitmap_left, face->glyph->bitmap_top);
+        znaki[i].odmik = face->glyph->advance.x;
+    }
+
+    FT_Done_Face(face);
+    FT_Done_FreeType(ft);
 }

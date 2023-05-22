@@ -10,16 +10,9 @@ public:
     Barva(int hexCode);
 };
 
-namespace io
-{
-    enum class type
-    {
-        msg,
-        warning,
-        error
-    };
-    void izpis(const char *msg, const type &tip);
-}
+
+
+
 namespace spl
 {
     class io
@@ -31,4 +24,3 @@ namespace spl
     private:
     };
 }
-

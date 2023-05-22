@@ -11,16 +11,29 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include "../Matematika/Matematika.h"
+
+//* neumno poimenovanje
 class Okno
 {
 public:
     int visina, dolzina;
 };
+
+//* neumno poimenovanje
 class Kazalec
 {
 public:
     double x, y;
 };
+
+struct Znak
+{
+    uint32_t TeksturaID;
+    uint32_t odmik;
+    spl::vec2 ofset;
+    spl::vec2 velikost;
+};
+
 class Font
 {
 public:
@@ -29,6 +42,8 @@ public:
     void NaloziFont(const std::string &pot, int velikost);
 
 private:
+    Znak znaki[128];
+
 };
 
 class Render
@@ -70,4 +85,6 @@ private:
     uint32_t m_DEBO;
 
     uint32_t m_shaderProgram;
+    uint32_t m_shaderProgramBes;
+
 };

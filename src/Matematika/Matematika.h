@@ -93,5 +93,86 @@ namespace spl
 
         float x, y, z;
     };
+    class vec2
+    {
+    public:
+        vec2(float t_x, float t_y)
+        {
+            x = t_x;
+            y = t_y;
+        }
+        vec2(vec2 &v)
+        {
+            x = v.x;
+            y = v.y;
+        }
+        vec2()
+        {
+            vec2(0, 0);
+        }
+        vec2 &operator=(const vec2 &o)
+        {
+            this->x = o.x;
+            this->y = o.y;
+            return *this;
+        }
+        vec2 &operator=(const float f)
+        {
+            this->x = f;
+            this->y = f;
+            return *this;
+        }
+        vec2 operator+(const vec2 &o)
+        {
+            vec2 rez;
+            rez.x = x + o.x;
+            rez.y = y + o.y;
+            return rez;
+        }
+        vec2 &operator+=(const vec3 &o)
+        {
+            this->x += o.x;
+            this->y += o.y;
+            return *this;
+        }
+        vec2 operator-(const vec2 &o)
+        {
+            vec2 rez;
+            rez.x = x - o.x;
+            rez.y = y - o.y;
+            return rez;
+        }
+        vec2 &operator-=(const vec2 &o)
+        {
+            this->x -= o.x;
+            this->y -= o.y;
+            return *this;
+        }
+
+        vec2 operator+(const float v)
+        {
+            vec2 rez(x + v, y + v);
+            return rez;
+        }
+        vec2 &operator+=(const float v)
+        {
+            x += v;
+            y += v;
+            return *this;
+        }
+        vec2 operator-(const float v)
+        {
+            vec2 rez(x - v, y - v);
+            return rez;
+        }
+        vec2 &operator-=(const float v)
+        {
+            x -= v;
+            y -= v;
+            return *this;
+        }
+
+        float x, y;
+    };
 }
 #endif

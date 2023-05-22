@@ -17,6 +17,7 @@ Barva::Barva(int hexCode)
     g /= 0xff;
     b /= 0xff;
 }
+
 #define _DEBUG
 #ifdef _DEBUG
 void spl::io::err(const std::string &sporocilo)
