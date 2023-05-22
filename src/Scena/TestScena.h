@@ -6,11 +6,11 @@ class TestScena : public Scena
 public:
     void Zacetek()
     {
-        std::cout << "zacetek"<<std::endl;
+        //std::cout << "zacetek"<<std::endl;
     }
     void Konec()
     {
-        std::cout << "konec"<<std::endl;
+        //std::cout << "konec"<<std::endl;
     }
     void Zanka()
     {

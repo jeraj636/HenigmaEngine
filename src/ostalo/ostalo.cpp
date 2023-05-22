@@ -3,7 +3,6 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 
-
 Barva::Barva(int hexCode)
 {
     a = hexCode & 0x000000ff;
@@ -18,26 +17,36 @@ Barva::Barva(int hexCode)
     g /= 0xff;
     b /= 0xff;
 }
-namespace io
+#define _DEBUG
+#ifdef _DEBUG
+void spl::io::err(const std::string &sporocilo)
 {
-    void izpis(const char *msg, const type &tip)
-    {
-        static int w = 0;
-        static int s = 0;
-        if (tip == type::error)
-        {
-            fmt::print(fg(fmt::color::red), "ERROR: {}\nKONEC PROGRAMA!\n", msg);
-            exit(-1);
-        }
-        else if (tip == type::msg)
-        {
-            fmt::print(fg(fmt::color::green), "{}: MSG: ", s++);
-            fmt::print("{}\n", msg);
-        }
-        else if (tip == type::warning)
-        {
-            fmt::print(fg(fmt::color::green), "{}: WARNING: ", w++);
-            fmt::print("{}\n", msg);
-        }
-    }
+    fmt::print(fg(fmt::color::red), "ERROR: {}\nKONEC PROGRAMA!\n", sporocilo.c_str());
+    exit(-1);
 }
+void spl::io::war(const std::string &sporocilo)
+{
+    fmt::print(fg(fmt::color::violet), "WARNING: ");
+    fmt::print("{}\n", sporocilo.c_str());
+}
+void spl::io::msg(const std::string &sporocilo)
+{
+    fmt::print(fg(fmt::color::green), "MSG: ");
+    fmt::print("{}\n", sporocilo.c_str());
+}
+
+
+#else
+
+void spl::io::err(const std::string &sporocilo)
+{
+   
+}
+void spl::io::war(const std::string &sporocilo)
+{
+    
+}
+void spl::io::msg(const std::string &sporocilo)
+{
+}
+#endif

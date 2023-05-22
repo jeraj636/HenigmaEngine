@@ -20,3 +20,15 @@ namespace io
     };
     void izpis(const char *msg, const type &tip);
 }
+namespace spl
+{
+    class io
+    {
+    public:
+        static void err(const std::string& sporocilo);
+        static void war(const std::string& sporocilo);
+        static void msg(const std::string& sporocilo);
+    private:
+    };
+}
+

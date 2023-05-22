@@ -1,4 +1,5 @@
 #include "Render.h"
+
 #include "../ostalo/ostalo.h"
 #include <iostream>
 #define STB_IMAGE_IMPLEMENTATION
@@ -36,9 +37,10 @@ uint32_t Render::NaloziTeksturo(const std::string &pot)
     unsigned char *data = stbi_load(dejpot.c_str(), &dolzina, &visina, &kanali, 0);
     // std::cout << kanali << std::endl;
     if (!data)
-        io::izpis("NI TEKSTURE", io::type::error);
+        spl::io::err("NI TEKSTURE");
     else
     {
+        spl::io::msg("TEKSTURA DELUJE");
         switch (kanali)
         {
         case 4:
@@ -68,16 +70,19 @@ void Render::Init(const std::string &ime)
     if (m_okno == NULL)
     {
         glfwTerminate();
-        io::izpis("NI USTVARILO OKNA", io::type::error);
+        spl::io::err("NI OKNA");
     }
+    spl::io::msg("OKNO DELUJE");
 
     glfwMakeContextCurrent(m_okno);
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
         glfwTerminate();
-        io::izpis("NI USTVARILO GLAD-a", io::type::error);
+        spl::io::err("NI GLADA");
     }
+    spl::io::msg("GLAD DELUJE");
+
     glViewport(0, 0, 800, 600);
 
     glfwSetFramebufferSizeCallback(m_okno, PosodobiVelOkna);
@@ -179,8 +184,8 @@ void Render::NastaviShaderje()
     glCompileShader(vertexShader);
     glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &uspeh);
     if (!uspeh)
-        io::izpis("NI VERTEX-SHADER PROGRAMA", io::type::error);
-
+        spl::io::err("NI VERTEX SHADER-ja");
+    spl::io::msg("DELUJE VERTEX SHADER");
     const char *fragemntShaderSource = R"(
             #version 330 core
 
@@ -204,14 +209,16 @@ void Render::NastaviShaderje()
     glCompileShader(fragmentShader);
     glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &uspeh);
     if (!uspeh)
-        io::izpis("NI FRAGMENT-SHADER PROGRAMA", io::type::error);
+        spl::io::err("NI FRAGMENT- SHADER PROGRAMA");
+        spl::io::msg("DELA FRAGMENT SHADER");
     m_shaderProgram = glCreateProgram();
     glAttachShader(m_shaderProgram, vertexShader);
     glAttachShader(m_shaderProgram, fragmentShader);
     glLinkProgram(m_shaderProgram);
     glGetProgramiv(m_shaderProgram, GL_LINK_STATUS, &uspeh);
     if (!uspeh)
-        io::izpis("NI SHADER PROGRAMA", io::type::error);
+        spl::io::err("NI SHADER PROGRAMA");
+        spl::io::msg("SHADER PROGRAM DELUJE");
     glUseProgram(m_shaderProgram);
     glDeleteShader(fragmentShader);
     glDeleteShader(vertexShader);

@@ -4,10 +4,13 @@
 #include "Scena/TestScena.h"
 #include "Matematika/Matematika.h"
 
+#include "ostalo/ostalo.h"
 int main()
 {
     Render rend;
     rend.Init("HenigmaEngine");
+
+   // spl::io::err("hoj");
 
     TestScena test;
     rend.DodajSceno(test.Naslov(), "test");
