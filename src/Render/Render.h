@@ -26,6 +26,8 @@ public:
     double x, y;
 };
 
+
+
 struct Znak
 {
     uint32_t TeksturaID;

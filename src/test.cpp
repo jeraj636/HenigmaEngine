@@ -19,19 +19,20 @@ int main()
 
     Font bold;
     uint32_t tek = rend.NaloziTeksturo("Materiali/Slike/logo260.png");
-    bold.NaloziFont("../Materiali/Font/CourierPrime-Bold.ttf",50);
+    bold.NaloziFont("../Materiali/Font/CourierPrime-Bold.ttf",500);
 
 
     spl::vec3 poz(400.0f, 300.0f, 0);
-    spl::vec3 vel(50.0f, 50.0f, 1);
+    spl::vec3 vel(10.0f, 10.0f, 1);
     float rot = 0;
-    Barva SP(0xff0000ff), OZ(0xffffff00);
+    Barva SP(0xffff00ff), OZ(0xffffff00);
 
     while (!rend.AliSeMoramZapreti())
     {
         rend.OkvirZac();
         rend.Zanka();
-        rend.Narisi(tek, poz, sin(glfwGetTime()) * 360, vel, OZ, SP);
+       // rend.Narisi(tek, poz, sin(glfwGetTime()) * 360, vel, OZ, SP);
+       rend.NarisiZnak(bold.znaki['J'].TeksturaID,poz,sin(glfwGetTime())*180,vel,SP,OZ);
         rend.OkvirKon();
     }
 }

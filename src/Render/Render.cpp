@@ -8,7 +8,29 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
+void Render::NarisiZnak(uint32_t &tekstura, spl::vec3 poz, float rot, spl::vec3 vel, Barva BObj, Barva BOzd)
+{
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, tekstura);
 
+    glm::mat4 matrika = glm::mat4(1);
+    matrika = glm::translate(matrika, glm::vec3(poz.x, poz.y, poz.z));
+    matrika = glm::scale(matrika, glm::vec3(vel.x, vel.y, vel.z));
+    matrika = glm::rotate(matrika, glm::radians(rot), glm::vec3(0, 0, 1));
+
+    glUniformMatrix4fv(glGetUniformLocation(m_shaderProgramBes, "matrika"), 1, GL_FALSE, &matrika[0][0]);
+    glUniformMatrix4fv(glGetUniformLocation(m_shaderProgramBes, "proj"), 1, GL_FALSE, &m_proj[0][0]);
+
+    glUniform1i(glGetUniformLocation(m_shaderProgramBes, "TekID"), 0);
+
+    glUniform4f(glGetUniformLocation(m_shaderProgramBes, "textColor"), BObj.r, BObj.g, BObj.b, BObj.a);
+
+    glUniform4f(glGetUniformLocation(m_shaderProgramBes, "ozdColor"), BOzd.r, BOzd.g, BOzd.b, BOzd.a);
+
+    glBindVertexArray(m_SVAO);
+    glUseProgram(m_shaderProgramBes);
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+}
 void Render::DodajSceno(Scena *scena, const std::string &ime)
 {
     scene.insert({ime, scena});
@@ -34,7 +56,6 @@ uint32_t Render::NaloziTeksturo(const std::string &pot)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
 
     int dolzina, visina, kanali;
     stbi_set_flip_vertically_on_load(1);
@@ -151,7 +172,6 @@ void Render::Narisi(uint32_t &tekstura, spl::vec3 poz, float rot, spl::vec3 vel,
 
     glUniform1i(glGetUniformLocation(m_shaderProgram, "tekID"), 0);
 
-    
     glUniform4f(glGetUniformLocation(m_shaderProgram, "obj"), obj.r, obj.g, obj.b, obj.a);
     glUniform4f(glGetUniformLocation(m_shaderProgram, "ozd"), ozd.r, ozd.g, ozd.b, ozd.a);
 
@@ -165,7 +185,7 @@ void Render::Narisi(uint32_t &tekstura, spl::vec3 poz, float rot, spl::vec3 vel,
 
     matrika = glm::rotate(matrika, glm::radians(rot), glm::vec3(0, 0, 1));
     glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram, "matrika"), 1, GL_FALSE, &matrika[0][0]);
-    
+
     glBindVertexArray(m_SVAO);
     glUseProgram(m_shaderProgram);
 
@@ -236,16 +256,17 @@ void Render::NastaviShaderje()
     //! shaderji za besedilo
 
     const char *vertexShaderSourceBes = R"(
-        #version 330 core
-        layout (location = 0) in vec4 vertex;
-        out vec2 TexCor;
-        uniform mat4 proj;
-
-        void main()
-        {
-            gl_Position=proj*vec4(vertex.xy,0.0f,1.0);
-            TexCor=vertex.zw;
-        }
+            #version 330 core
+            layout (location = 0) in vec3 Vpos;
+            layout (location = 1) in vec2 Tpos;
+            out vec2 tpos;
+            uniform mat4 matrika;
+            uniform mat4 proj;
+            void main()
+            {
+                gl_Position =proj * matrika  * vec4(Vpos,1.0);
+                tpos=Tpos;
+            }
 
     )";
 
@@ -259,7 +280,7 @@ void Render::NastaviShaderje()
 
     const char *fragmentShaderSourceBes = R"(
         #version 330 core
-        in vec2 TexCor;
+        in vec2 tpos;
         out vec4 color;
 
         uniform sampler2D TekID;
@@ -268,11 +289,11 @@ void Render::NastaviShaderje()
 
         void main()
         {
-            vec4 tek=vec4(1.0,1.0,1.0,texture(TekID,TexCor).r);
-            if(tek.a<0.3)
+            vec4 tek=texture(TekID,tpos);
+            if(tek.r<0.3f)
                 color=ozdColor;
-            else
-                color=tek*textColor;
+            else 
+                color=vec4(tek.r,tek.r,tek.r,1)*textColor;
         }
     )";
     fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
@@ -287,13 +308,12 @@ void Render::NastaviShaderje()
     glAttachShader(m_shaderProgramBes, fragmentShader);
     glLinkProgram(m_shaderProgramBes);
     glGetProgramiv(m_shaderProgramBes, GL_LINK_STATUS, &uspeh);
-    if(!uspeh)
+    if (!uspeh)
         spl::io::err("NI BESEDILNEGA PROGRAMA");
     spl::io::msg("BESDILNI SHADER PROGRAM");
     glUseProgram(m_shaderProgram);
     glDeleteShader(fragmentShader);
     glDeleteShader(vertexShader);
-
 }
 void Render::NastaviBuferje()
 {
@@ -329,13 +349,6 @@ void Render::NastaviBuferje()
 
     //! dinamicni
 
-        float tockeBes[] =
-        {
-            -1.0f, -1.0f, 0.0f, 0.0f,
-            1.0f, -1.0f, 1.0f, 0.0f,
-            1.0f, 1.0f, 1.0f, 1.0f,
-            -1.0f, 1.0f, 0.0f, 1.0f};
-
     glGenVertexArrays(1, &m_DVAO);
     glBindVertexArray(m_DVAO);
 
@@ -345,12 +358,14 @@ void Render::NastaviBuferje()
     glGenBuffers(1, &m_DEBO);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_DEBO);
 
-    glBufferData(GL_ARRAY_BUFFER, sizeof(tockeBes), tocke, GL_DYNAMIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(tocke), tocke, GL_DYNAMIC_DRAW);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indeksi), indeksi, GL_DYNAMIC_DRAW);
     glUseProgram(m_shaderProgramBes);
 
-    glVertexAttribPointer(0,4,GL_FLOAT,GL_FALSE,4*sizeof(float),(void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)0);
     glEnableVertexAttribArray(0);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
 }
 void Render::PosodobiVelOkna(GLFWwindow *okno, int dolzina, int visina)
 {
@@ -361,14 +376,11 @@ void Render::DobiVhod()
     if (glfwGetKey(m_okno, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(m_okno, GLFW_TRUE);
 }
-
 Font::Font(const std::string &pot, int velikost)
 {
     NaloziFont(pot, velikost);
 }
-
-Font::Font()=default;
-
+Font::Font() = default;
 void Font::NaloziFont(const std::string &pot, int velikost)
 {
     FT_Library ft;
@@ -407,10 +419,7 @@ void Font::NaloziFont(const std::string &pot, int velikost)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-
-
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, face->glyph->bitmap.width, face->glyph->bitmap.rows, 0, GL_RED, GL_UNSIGNED_BYTE, face->glyph->bitmap.buffer);
-
 
         znaki[i].TeksturaID = tekstura;
         znaki[i].velikost = spl::vec2(face->glyph->bitmap.width, face->glyph->bitmap.rows);
