@@ -41,9 +41,9 @@ public:
     Font(const std::string &pot, int velikost);
     void NaloziFont(const std::string &pot, int velikost);
 
-private:
     Znak znaki[128];
 
+private:
 };
 
 class Render
@@ -51,7 +51,8 @@ class Render
 public:
     Render();
     void Init(const std::string &ime);
-    void Narisi(uint32_t tekstura, spl::vec3 poz, float rot, spl::vec3 vel, Barva BObj = Barva(0xffffffff), Barva BOzd = Barva(0xffffffff));
+    void Narisi(uint32_t &tekstura, spl::vec3 poz, float rot, spl::vec3 vel, Barva BObj = Barva(0xffffffff), Barva BOzd = Barva(0xffffffff));
+    void NarisiZnak(uint32_t &tekstura, spl::vec3 poz, float rot, spl::vec3 vel, Barva BObj = Barva(0xffffffff), Barva BOzd = Barva(0x000000ff));
     void DodajSceno(Scena *scena, const std::string &ime);
     void AktivirajSceno(const std::string &ime);
     uint32_t NaloziTeksturo(const std::string &pot);
@@ -86,5 +87,4 @@ private:
 
     uint32_t m_shaderProgram;
     uint32_t m_shaderProgramBes;
-
 };

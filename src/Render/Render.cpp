@@ -7,6 +7,8 @@
 
 #include <ft2build.h>
 #include FT_FREETYPE_H
+
+
 void Render::DodajSceno(Scena *scena, const std::string &ime)
 {
     scene.insert({ime, scena});
@@ -32,6 +34,8 @@ uint32_t Render::NaloziTeksturo(const std::string &pot)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+
     int dolzina, visina, kanali;
     stbi_set_flip_vertically_on_load(1);
     unsigned char *data = stbi_load(dejpot.c_str(), &dolzina, &visina, &kanali, 0);
@@ -140,10 +144,11 @@ void Render::Zanka()
 
     m_aktivnaScena->Zanka();
 }
-void Render::Narisi(uint32_t tekstura, spl::vec3 poz, float rot, spl::vec3 vel, Barva obj, Barva ozd)
+void Render::Narisi(uint32_t &tekstura, spl::vec3 poz, float rot, spl::vec3 vel, Barva obj, Barva ozd)
 {
-    glActiveTexture(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE0, tekstura);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, tekstura);
+
     glUniform1i(glGetUniformLocation(m_shaderProgram, "tekID"), 0);
 
     
@@ -356,10 +361,14 @@ void Render::DobiVhod()
     if (glfwGetKey(m_okno, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(m_okno, GLFW_TRUE);
 }
+
 Font::Font(const std::string &pot, int velikost)
 {
     NaloziFont(pot, velikost);
 }
+
+Font::Font()=default;
+
 void Font::NaloziFont(const std::string &pot, int velikost)
 {
     FT_Library ft;
@@ -392,12 +401,16 @@ void Font::NaloziFont(const std::string &pot, int velikost)
         uint32_t tekstura;
         glGenTextures(1, &tekstura);
         glBindTexture(GL_TEXTURE_2D, tekstura);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, face->glyph->bitmap.width, face->glyph->bitmap.rows, 0, GL_RED, GL_UNSIGNED_BYTE, face->glyph->bitmap.buffer);
 
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+
+
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, face->glyph->bitmap.width, face->glyph->bitmap.rows, 0, GL_RED, GL_UNSIGNED_BYTE, face->glyph->bitmap.buffer);
+
 
         znaki[i].TeksturaID = tekstura;
         znaki[i].velikost = spl::vec2(face->glyph->bitmap.width, face->glyph->bitmap.rows);

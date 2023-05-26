@@ -16,7 +16,12 @@ int main()
     rend.DodajSceno(test.Naslov(), "test");
     rend.AktivirajSceno("test");
 
+
+    Font bold;
     uint32_t tek = rend.NaloziTeksturo("Materiali/Slike/logo260.png");
+    bold.NaloziFont("../Materiali/Font/CourierPrime-Bold.ttf",50);
+
+
     spl::vec3 poz(400.0f, 300.0f, 0);
     spl::vec3 vel(50.0f, 50.0f, 1);
     float rot = 0;
