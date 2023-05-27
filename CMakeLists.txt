@@ -7,6 +7,8 @@ add_executable(${PROJECT_NAME}
         ../src/glad/src/glad.c
         ../src/Render/Render.cpp
         ../src/Render/Font.cpp
+        ../src/Render/Risalnik.cpp
+        ../src/Render/Scene.cpp
         ../src/ostalo/ostalo.cpp
         ../src/Matematika/Matematika.cpp
 )

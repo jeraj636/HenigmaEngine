@@ -82,10 +82,6 @@ private:
     uint32_t m_SVAO;
     uint32_t m_SEBO;
 
-    uint32_t m_DVBO;
-    uint32_t m_DVAO;
-    uint32_t m_DEBO;
-
     uint32_t m_shaderProgram;
     uint32_t m_shaderProgramBes;
 };

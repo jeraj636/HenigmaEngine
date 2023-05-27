@@ -4,42 +4,6 @@
 #include <iostream>
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
-
-void Render::NarisiZnak(Znak &znak, spl::vec3 poz, float rot, Barva BObj, Barva BOzd)
-{
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, znak.TeksturaID);
-
-    glm::mat4 matrika = glm::mat4(1);
-    matrika = glm::translate(matrika, glm::vec3(poz.x, poz.y, poz.z));
-    matrika = glm::scale(matrika, glm::vec3(znak.velikost.x, znak.velikost.y, 0));
-    matrika = glm::rotate(matrika, glm::radians(rot), glm::vec3(0, 0, 1));
-
-    glUniformMatrix4fv(glGetUniformLocation(m_shaderProgramBes, "matrika"), 1, GL_FALSE, &matrika[0][0]);
-    glUniformMatrix4fv(glGetUniformLocation(m_shaderProgramBes, "proj"), 1, GL_FALSE, &m_proj[0][0]);
-
-    glUniform1i(glGetUniformLocation(m_shaderProgramBes, "TekID"), 0);
-
-    glUniform4f(glGetUniformLocation(m_shaderProgramBes, "textColor"), BObj.r, BObj.g, BObj.b, BObj.a);
-
-    glUniform4f(glGetUniformLocation(m_shaderProgramBes, "ozdColor"), BOzd.r, BOzd.g, BOzd.b, BOzd.a);
-
-    glBindVertexArray(m_SVAO);
-    glUseProgram(m_shaderProgramBes);
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-}
-void Render::DodajSceno(Scena *scena, const std::string &ime)
-{
-    scene.insert({ime, scena});
-}
-void Render::AktivirajSceno(const std::string &ime)
-{
-    if (m_aktivnaScena != NULL)
-        m_aktivnaScena->Konec();
-    auto najdeno = scene.find(ime);
-    m_aktivnaScena = najdeno->second;
-    m_aktivnaScena->Zacetek();
-}
 uint32_t Render::NaloziTeksturo(const std::string &pot)
 {
     std::string dejpot = "../";
@@ -131,12 +95,6 @@ void Render::BindajStaticneBufferje()
     glBindBuffer(GL_ARRAY_BUFFER, m_SVBO);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_SEBO);
 }
-void Render::BindajDinamicneBufferje()
-{
-    glBindVertexArray(m_DVAO);
-    glBindBuffer(GL_ARRAY_BUFFER, m_DVBO);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_DEBO);
-}
 bool Render::AliSeMoramZapreti()
 {
     return glfwWindowShouldClose(m_okno);
@@ -162,32 +120,7 @@ void Render::Zanka()
 
     m_aktivnaScena->Zanka();
 }
-void Render::Narisi(uint32_t &tekstura, spl::vec3 poz, float rot, spl::vec3 vel, Barva obj, Barva ozd)
-{
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, tekstura);
 
-    glUniform1i(glGetUniformLocation(m_shaderProgram, "tekID"), 0);
-
-    glUniform4f(glGetUniformLocation(m_shaderProgram, "obj"), obj.r, obj.g, obj.b, obj.a);
-    glUniform4f(glGetUniformLocation(m_shaderProgram, "ozd"), ozd.r, ozd.g, ozd.b, ozd.a);
-
-    glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram, "proj"), 1, GL_FALSE, &m_proj[0][0]);
-
-    glm::mat4 matrika = glm::mat4(1);
-
-    matrika = glm::translate(matrika, glm::vec3(poz.x, poz.y, 0));
-
-    matrika = glm::scale(matrika, glm::vec3(vel.x, vel.y, 0));
-
-    matrika = glm::rotate(matrika, glm::radians(rot), glm::vec3(0, 0, 1));
-    glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram, "matrika"), 1, GL_FALSE, &matrika[0][0]);
-
-    glBindVertexArray(m_SVAO);
-    glUseProgram(m_shaderProgram);
-
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-}
 void Render::NastaviShaderje()
 {
     //! navadni shaderjji
@@ -343,26 +276,6 @@ void Render::NastaviBuferje()
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
-
-    //! dinamicni
-
-    glGenVertexArrays(1, &m_DVAO);
-    glBindVertexArray(m_DVAO);
-
-    glGenBuffers(1, &m_DVBO);
-    glBindBuffer(GL_ARRAY_BUFFER, m_DVBO);
-
-    glGenBuffers(1, &m_DEBO);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_DEBO);
-
-    glBufferData(GL_ARRAY_BUFFER, sizeof(tocke), tocke, GL_DYNAMIC_DRAW);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indeksi), indeksi, GL_DYNAMIC_DRAW);
-    glUseProgram(m_shaderProgramBes);
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)0);
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float)));
-    glEnableVertexAttribArray(1);
 }
 void Render::PosodobiVelOkna(GLFWwindow *okno, int dolzina, int visina)
 {
@@ -372,15 +285,4 @@ void Render::DobiVhod()
 {
     if (glfwGetKey(m_okno, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(m_okno, GLFW_TRUE);
-}
-void Render::NarisiNiz(const std::string &vsebina, Font &font, spl::vec3 poz, float rot, spl::vec3 vel, Barva BObj, Barva BOzd)
-{
-    // spl::vec3 dejPoz = poz;
-    for (int i = 0; i < vsebina.size(); i++)
-    {
-        // std::cout << vsebina[i];
-        // poz.y += font.znaki[vsebina[i]].ofset.y;
-        NarisiZnak(font.znaki[vsebina.at(i)], poz - spl::vec3(font.znaki[vsebina[i]].ofset.x, font.znaki[vsebina[i]].ofset.y, 0), rot, BObj, BOzd);
-        poz.x += vel.x * 2 + font.znaki[vsebina[i]].odmik / 100;
-    }
 }
