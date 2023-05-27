@@ -6,7 +6,9 @@ add_executable(${PROJECT_NAME}
         ../src/test.cpp
         ../src/glad/src/glad.c
         ../src/Render/Render.cpp
+        ../src/Render/Font.cpp
         ../src/ostalo/ostalo.cpp
+        ../src/Matematika/Matematika.cpp
 )
 
 include_directories(${PROJECT_NAME}
@@ -14,6 +16,7 @@ include_directories(${PROJECT_NAME}
         /usr/include/freetype2 
         /usr/include/freetype2/config
         src/glfw/include/GLFW
+        
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
