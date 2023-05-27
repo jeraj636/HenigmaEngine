@@ -5,16 +5,17 @@
     - [X] DodajSceno
     - [X] AktivirajSceno
     - [X] Zanka
-    - [ ] NaloziFont
+    - [ ] UpodobiNiz
+    - [X] NaloziFont
     - [X] NaloziTeksturo
     - [X] Orthografich proj
 - [X] **Scena** (override)
   - [X] Zacetek
   - [X] Zanka
   - [X] Konec
-- [ ] **Text**
-  - [ ] Narisi
-  - [ ] vsebina
+- [X] **Text**
+  - [X] Narisi
+  - [X] vsebina
 - [X] **Matematika**
 
 
