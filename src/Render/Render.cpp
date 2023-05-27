@@ -5,14 +5,14 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
-void Render::NarisiZnak(uint32_t &tekstura, spl::vec3 poz, float rot, spl::vec3 vel, Barva BObj, Barva BOzd)
+void Render::NarisiZnak(Znak &znak, spl::vec3 poz, float rot, Barva BObj, Barva BOzd)
 {
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, tekstura);
+    glBindTexture(GL_TEXTURE_2D, znak.TeksturaID);
 
     glm::mat4 matrika = glm::mat4(1);
     matrika = glm::translate(matrika, glm::vec3(poz.x, poz.y, poz.z));
-    matrika = glm::scale(matrika, glm::vec3(vel.x, vel.y, vel.z));
+    matrika = glm::scale(matrika, glm::vec3(znak.velikost.x, znak.velikost.y, 0));
     matrika = glm::rotate(matrika, glm::radians(rot), glm::vec3(0, 0, 1));
 
     glUniformMatrix4fv(glGetUniformLocation(m_shaderProgramBes, "matrika"), 1, GL_FALSE, &matrika[0][0]);
@@ -372,4 +372,15 @@ void Render::DobiVhod()
 {
     if (glfwGetKey(m_okno, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(m_okno, GLFW_TRUE);
+}
+void Render::NarisiNiz(const std::string &vsebina, Font &font, spl::vec3 poz, float rot, spl::vec3 vel, Barva BObj, Barva BOzd)
+{
+    // spl::vec3 dejPoz = poz;
+    for (int i = 0; i < vsebina.size(); i++)
+    {
+        // std::cout << vsebina[i];
+        // poz.y += font.znaki[vsebina[i]].ofset.y;
+        NarisiZnak(font.znaki[vsebina.at(i)], poz - spl::vec3(font.znaki[vsebina[i]].ofset.x, font.znaki[vsebina[i]].ofset.y, 0), rot, BObj, BOzd);
+        poz.x += vel.x * 2 + font.znaki[vsebina[i]].odmik / 100;
+    }
 }
