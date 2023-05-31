@@ -1,11 +1,12 @@
 #include "Render.h"
-
 #include "../ostalo/ostalo.h"
 #include <iostream>
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
+
 uint32_t Render::NaloziTeksturo(const std::string &pot)
 {
+    // dej je okrajsava ua dejanska
     std::string dejpot = "../";
     dejpot += pot;
     uint32_t tekstura;
@@ -73,21 +74,13 @@ void Render::Init(const std::string &ime)
 
     glfwSetFramebufferSizeCallback(m_okno, PosodobiVelOkna);
 
-    // glfwSwapInterval(0);
-
     NastaviShaderje();
     NastaviBuferje();
 
+    glfwSwapInterval(0);
+
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    /*
-        BindajStaticneBufferje();
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)0);
-        glEnableVertexAttribArray(0);
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float)));
-        glEnableVertexAttribArray(1);
-        BindajDinamicneBufferje();
-        */
 }
 void Render::BindajStaticneBufferje()
 {
