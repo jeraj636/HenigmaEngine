@@ -11,5 +11,5 @@ void Render::AktivirajSceno(const std::string &ime)
     auto najdeno = scene[ime];
 
     m_aktivnaScena = najdeno;
-    m_aktivnaScena->Zacetek();
+    m_aktivnaScena->Zacetek(this);
 }
