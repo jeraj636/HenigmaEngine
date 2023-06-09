@@ -2,7 +2,42 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
-
+int vDec(char c)
+{
+    switch (c)
+    {
+    case 'a':
+        return 10;
+    case 'b':
+        return 11;
+    case 'c':
+        return 12;
+    case 'd':
+        return 13;
+    case 'e':
+        return 14;
+    case 'f':
+        return 15;
+    case '0':
+    case '1':
+    case '2':
+    case '3':
+    case '4':
+    case '5':
+    case '6':
+    case '7':
+    case '8':
+    case '9':
+        return c - 48;
+    }
+}
+Barva::Barva(std::string hexCode)
+{
+    a = vDec(hexCode[hexCode.size() - 1]) + vDec(hexCode[hexCode.size() - 2]) * 16;
+    b = vDec(hexCode[hexCode.size() - 3]) + vDec(hexCode[hexCode.size() - 4]) * 16;
+    g = vDec(hexCode[hexCode.size() - 5]) + vDec(hexCode[hexCode.size() - 6]) * 16;
+    r = vDec(hexCode[hexCode.size() - 7]) + vDec(hexCode[hexCode.size() - 8]) * 16;
+}
 Barva::Barva(int hexCode)
 {
     a = hexCode & 0x000000ff;
@@ -17,7 +52,13 @@ Barva::Barva(int hexCode)
     g /= 0xff;
     b /= 0xff;
 }
-
+Barva::Barva()
+{
+    a = 0xff;
+    b = 0xff;
+    g = 0xff;
+    r = 0xff;
+}
 #define _DEBUG
 #ifdef _DEBUG
 void spl::io::err(const std::string &sporocilo)
@@ -36,16 +77,13 @@ void spl::io::msg(const std::string &sporocilo)
     fmt::print("{}\n", sporocilo.c_str());
 }
 
-
 #else
 
 void spl::io::err(const std::string &sporocilo)
 {
-   
 }
 void spl::io::war(const std::string &sporocilo)
 {
-    
 }
 void spl::io::msg(const std::string &sporocilo)
 {

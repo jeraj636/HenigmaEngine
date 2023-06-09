@@ -8,19 +8,19 @@ class Barva
 public:
     float a, b, g, r;
     Barva(int hexCode);
+    Barva();
+    Barva(std::string hexCode);
 };
-
-
-
 
 namespace spl
 {
     class io
     {
     public:
-        static void err(const std::string& sporocilo);
-        static void war(const std::string& sporocilo);
-        static void msg(const std::string& sporocilo);
+        static void err(const std::string &sporocilo);
+        static void war(const std::string &sporocilo);
+        static void msg(const std::string &sporocilo);
+
     private:
     };
 }
