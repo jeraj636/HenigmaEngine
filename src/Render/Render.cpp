@@ -109,7 +109,8 @@ void Render::Zanka()
 
     glfwGetWindowSize(m_okno, &okno.dolzina, &okno.visina);
     glfwGetCursorPos(m_okno, &kazalec.x, &kazalec.y);
-    m_proj = glm::ortho(0.0f, (float)okno.dolzina, (float)okno.visina, 0.0f);
+    m_proj = glm::mat4(0);
+    m_proj = glm::ortho(0.0f, (float)okno.dolzina, (float)okno.visina, 0.0f, -1.0f, 1.0f);
 
     m_aktivnaScena->Zanka();
 }
@@ -127,7 +128,7 @@ void Render::NastaviShaderje()
             uniform mat4 proj;
             void main()
             {
-                gl_Position =proj * matrika  * vec4(Vpos,1.0);
+                gl_Position =proj * (matrika  * vec4(Vpos,1.0));
                 tpos=Tpos;
             }
         )";
@@ -252,10 +253,10 @@ void Render::NastaviBuferje()
 
     float tocke[] =
         {
-            -1.0f, -1.0f, 0.0f, 0.0f, 0.0f,
-            1.0f, -1.0f, 0.0f, 1.0f, 0.0f,
-            1.0f, 1.0f, 0.0f, 1.0f, 1.0f,
-            -1.0f, 1.0f, 0.0f, 0.0f, 1.0f};
+            -0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
+            0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+            0.5f, 0.5f, 0.0f, 1.0f, 1.0f,
+            -0.5f, 0.5f, 0.0f, 0.0f, 1.0f};
     uint32_t indeksi[] =
         {
             0, 1, 2,
