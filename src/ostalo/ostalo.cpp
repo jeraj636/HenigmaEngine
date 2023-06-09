@@ -38,6 +38,10 @@ Barva::Barva(std::string hexCode)
     b = vDec(hexCode[hexCode.size() - 3]) + vDec(hexCode[hexCode.size() - 4]) * 16;
     g = vDec(hexCode[hexCode.size() - 5]) + vDec(hexCode[hexCode.size() - 6]) * 16;
     r = vDec(hexCode[hexCode.size() - 7]) + vDec(hexCode[hexCode.size() - 8]) * 16;
+    a /= 0xff;
+    r /= 0xff;
+    g /= 0xff;
+    b /= 0xff;
 }
 Barva::Barva(int hexCode)
 {
