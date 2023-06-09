@@ -30,6 +30,7 @@ int vDec(char c)
     case '9':
         return c - 48;
     }
+    return 0;
 }
 Barva::Barva(std::string hexCode)
 {
