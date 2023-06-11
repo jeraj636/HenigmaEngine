@@ -64,6 +64,7 @@ public:
     Barva Odzadje;
     Okno okno;
     Kazalec kazalec;
+    static char trenutenZnak;
 
 private:
     Scena *m_aktivnaScena = NULL;
@@ -71,6 +72,7 @@ private:
     GLFWwindow *m_okno;
     glm::mat4 m_proj;
     static void PosodobiVelOkna(GLFWwindow *okno, int dolzina, int visina);
+    static void CharCallBack(GLFWwindow *okno, uint32_t znak);
     void BindajStaticneBufferje();
     void BindajDinamicneBufferje();
     void DobiVhod();

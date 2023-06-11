@@ -3,6 +3,10 @@
 #include <iostream>
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
+void Render::CharCallBack(GLFWwindow *okno, uint32_t znak)
+{
+    Render::trenutenZnak = znak;
+}
 
 uint32_t Render::NaloziTeksturo(const std::string &pot)
 {
@@ -73,7 +77,7 @@ void Render::Init(const std::string &ime)
     glViewport(0, 0, 800, 600);
 
     glfwSetFramebufferSizeCallback(m_okno, PosodobiVelOkna);
-
+    glfwSetCharCallback(m_okno, CharCallBack);
     NastaviShaderje();
     NastaviBuferje();
 
