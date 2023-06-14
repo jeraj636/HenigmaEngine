@@ -1,12 +1,15 @@
 ## Henigma Engine
   - [ ] **Render**
     - [ ] Narisi
+      - [ ] Besedilo
+      - [ ] Znak
+      - [ ] Kvadrat
     - [ ] Init
     - [ ] Barva Odzadja
-  - [ ] **Log sistem**
-    - [ ] err
-    - [ ] msg
-    - [ ] war
+  - [x] **Log sistem**
+    - [X] err
+    - [X] msg
+    - [X] war
   - [ ] **Scene**
     - [ ] Zacetek
     - [ ] Zanka
