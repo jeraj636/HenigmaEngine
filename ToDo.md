@@ -1,0 +1,20 @@
+## Henigma Engine
+  - [ ] **Render**
+    - [ ] Narisi
+    - [ ] Init
+    - [ ] Barva Odzadja
+  - [ ] **Log sistem**
+    - [ ] err
+    - [ ] msg
+    - [ ] war
+  - [ ] **Scene**
+    - [ ] Zacetek
+    - [ ] Zanka
+    - [ ] Konec
+  - [ ] **Pisava**
+    - [ ] NaloziPisavo
+  - [ ] **Tekstura**
+    - [ ] Nalozi Teksturo
+  - [ ] **Barva**
+  - [ ] **Objekt**
+  - [ ] **Matematika**
