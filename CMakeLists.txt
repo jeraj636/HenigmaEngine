@@ -4,7 +4,9 @@ project(HenigmaEngine)
 
 add_executable(${PROJECT_NAME}
     ../src/test.cpp 
-    ../src/Risalnik/Risalnik.cpp 
+    ../src/Risalnik/Risalnik.cpp
+    ../src/glad/src/glad.c 
+    ../src/Matematika/Matematika.cpp
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC 
