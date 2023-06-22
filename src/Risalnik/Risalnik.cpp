@@ -1,5 +1,6 @@
 #include "../../Include/Risalnik.h"
 #include "../../Include/Log.h"
+#include "../../Include/Font.h"
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -39,11 +40,14 @@ void Risalnik::Init(const char *naslov)
     glfwSetFramebufferSizeCallback(m_okno, VelikostOknaCallBack);
     glfwSetKeyCallback(m_okno, GumbCallBack);
     NarediShaderje();
+    NarediBesedilneShaderje();
     NaloziBufferje();
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     // glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ZERO);
+
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
     glfwSwapInterval(0);
 }
@@ -106,6 +110,12 @@ void Risalnik::NaloziBufferje()
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint32_t) * 6, indeksi, GL_STATIC_DRAW);
 
     glUseProgram(m_shaderProgram);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)0);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
+
+    glUseProgram(m_shaderProgramB);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)0);
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float)));
@@ -197,9 +207,70 @@ void Risalnik::NarediShaderje()
     io::msg("SHADER PROGRAM DELUJE");
 
     glUseProgram(m_shaderProgram);
-    glDeleteShader(m_vertexShader);
+
+    /*
+    ! m_vertexShader uporabimše v besedilnih
+    ! shaderjih zato ga izbrisem tam
+    */
+    // glDeleteShader(m_vertexShader);
+
     glDeleteShader(m_fragmentShader);
 }
+
+void Risalnik::NarediBesedilneShaderje()
+{
+    const char *fragmentShaderSRC = R"(
+        #version 330  core
+
+        in vec2 iTekPos;
+
+        uniform vec4 uBozd;
+        uniform vec4 uBobj;
+        uniform sampler2D uTekID;
+
+        out vec4 FragColor;
+
+        void main()
+        {
+            vec4 tekColor = texture(uTekID,iTekPos);
+            if(tekColor.a==1.0)
+            FragColor=uBobj;
+            else
+            FragColor=uBozd;
+        }
+    )";
+    int uspeh;
+    m_fragmentShaderB = glCreateShader(GL_FRAGMENT_SHADER);
+    glShaderSource(m_fragmentShaderB, 1, &fragmentShaderSRC, NULL);
+    glCompileShader(m_fragmentShaderB);
+
+    glGetShaderiv(m_fragmentShaderB, GL_COMPILE_STATUS, &uspeh);
+
+    if (!uspeh)
+    {
+        char infoLog[512];
+        glGetShaderInfoLog(m_fragmentShaderB, 512, NULL, infoLog);
+        std::cout << infoLog;
+        io::err("NI BESEDILNEGA FRAGMENT SHADERJA");
+    }
+    io::msg("DELUJE BESEDILNI FRAGMENT SHADER");
+
+    m_shaderProgramB = glCreateProgram();
+    glAttachShader(m_shaderProgramB, m_vertexShader);
+    glAttachShader(m_shaderProgramB, m_fragmentShaderB);
+
+    glLinkProgram(m_shaderProgramB);
+    glGetProgramiv(m_shaderProgramB, GL_LINK_STATUS, &uspeh);
+
+    if (!uspeh)
+        io::err("NI SHADER PROGRAMA BESEDILNEGA");
+    io::msg("SHADER PROGRAM DELUJE BESEDILNEGA");
+
+    glUseProgram(m_shaderProgramB);
+    glDeleteShader(m_vertexShader);
+    glDeleteShader(m_fragmentShaderB);
+}
+
 void Risalnik::Narisi(uint32_t tekID, Barva Bobj, Barva Bozd, vec3 poz, float rot, vec3 vel)
 {
     glActiveTexture(GL_TEXTURE0);
@@ -219,6 +290,7 @@ void Risalnik::Narisi(uint32_t tekID, Barva Bobj, Barva Bozd, vec3 poz, float ro
 
     glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram, "uTrans"), 1, GL_FALSE, &matrika[0][0]);
     glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram, "uOrto"), 1, GL_FALSE, &m_orto[0][0]);
+
     glBindVertexArray(m_VAO);
     glUseProgram(m_shaderProgram);
 
@@ -257,8 +329,48 @@ uint32_t Risalnik::NaloziTeksturo(std::string potDoSlike)
 
 void Risalnik::GumbCallBack(GLFWwindow *okno, int key, int scanCode, int akcija, int mods)
 {
-    if (key = GLFW_KEY_ESCAPE && akcija == GLFW_PRESS)
+    if (key == GLFW_KEY_ESCAPE && akcija == GLFW_PRESS)
     {
         glfwSetWindowShouldClose(m_okno, 1);
     }
+}
+
+Font Risalnik::NaloziFont(std::string potDoFonta, int velikost)
+{
+    std::string dejPot = sredstvaPath + '/' + potDoFonta;
+    io::war(dejPot.c_str());
+    Font t;
+    t.NaloziFont(dejPot, velikost);
+    return t;
+}
+
+void Risalnik::NarisiZnak(Znak znak, Barva Bobj, Barva Bozd, vec3 poz, float rot, float vel)
+{
+    //* fragment shader
+
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, znak.tekID);
+    glUniform1i(glGetUniformLocation(m_shaderProgramB, "uTekID"), 0);
+    glUniform4f(glGetUniformLocation(m_shaderProgramB, "uBobj"), Bobj.r, Bobj.g, Bobj.b, Bobj.a);
+    glUniform4f(glGetUniformLocation(m_shaderProgramB, "uBozd"), Bozd.r, Bozd.g, Bozd.b, Bozd.a);
+
+    glm::mat4 matrika;
+    matrika = glm::mat4(1);
+
+    float razmerje = (float)znak.velikost.x / (float)znak.velikost.y;
+    vec2 dejVelikost(razmerje * vel, vel);
+
+    matrika = glm::translate(matrika, glm::vec3(poz.x, poz.y, poz.z));
+    matrika = glm::rotate(matrika, glm::radians(rot), glm::vec3(0.0f, 0.0f, 1.0f));
+    matrika = glm::scale(matrika, glm::vec3(dejVelikost.x, dejVelikost.y, 0.0f));
+
+    //* vertex shader
+    glUniformMatrix4fv(glGetUniformLocation(m_shaderProgramB, "uTrans"), 1, GL_FALSE, &matrika[0][0]);
+    glUniformMatrix4fv(glGetUniformLocation(m_shaderProgramB, "uOrto"), 1, GL_FALSE, &m_orto[0][0]);
+
+    glBindVertexArray(m_VAO);
+    glUseProgram(m_shaderProgramB);
+
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    glBindVertexArray(0);
 }

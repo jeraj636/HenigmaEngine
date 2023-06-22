@@ -10,7 +10,10 @@
 
 #include "Barva.h"
 #include "Matematika.h"
+
 struct GLFWwindow;
+class Font;
+class Znak;
 
 class Risalnik
 {
@@ -19,9 +22,11 @@ public:
     static void Zanka();
     static bool AliSeMoramZapreti();
     static void Narisi(uint32_t tekID, Barva Bobj, Barva Bozd, vec3 poz, float rot, vec3 vel);
+    static void NarisiZnak(Znak znak, Barva Bobj, Barva Bozd, vec3 poz, float rot, float vel);
     static uint32_t NaloziTeksturo(std::string potDoSlike);
     static void ZacetekFrame();
     static void KonecFrame();
+    static Font NaloziFont(std::string potDoFonta, int velikost);
 
 public:
     inline static std::string sredstvaPath;
@@ -44,12 +49,13 @@ private:
     inline static uint32_t m_VBO;
     inline static uint32_t m_VAO;
     inline static uint32_t m_EBO;
+    inline static uint32_t m_VAOB;
 
     inline static uint32_t m_shaderProgram;
     inline static uint32_t m_vertexShader;
     inline static uint32_t m_fragmentShader;
 
-    inline static uint32_t m_ShaderProgramB;
+    inline static uint32_t m_shaderProgramB;
     inline static uint32_t m_vertexShaderB; //? Ali je sploh potreben?
     inline static uint32_t m_fragmentShaderB;
 

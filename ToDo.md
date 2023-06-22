@@ -1,11 +1,11 @@
 ## Henigma Engine
   - [ ] **Render**
-    - [ ] Narisi
+    - [] Narisi
       - [ ] Besedilo
       - [ ] Znak
-      - [ ] Kvadrat
-    - [ ] Init
-    - [ ] Barva Odzadja
+      - [X] Kvadrat
+    - [X] Init
+    - [X] Barva Odzadja
   - [x] **Log sistem**
     - [X] err
     - [X] msg
@@ -16,8 +16,8 @@
     - [ ] Konec
   - [ ] **Pisava**
     - [ ] NaloziPisavo
-  - [ ] **Tekstura**
-    - [ ] Nalozi Teksturo
-  - [ ] **Barva**
+  - [X] **Tekstura**
+    - [X] Nalozi Teksturo
+  - [X] **Barva**
   - [ ] **Objekt**
-  - [ ] **Matematika**
+  - [X] **Matematika**
