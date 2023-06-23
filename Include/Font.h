@@ -16,6 +16,7 @@ public:
     glm::ivec2 velikost;
     glm::ivec2 polozaj;
     uint32_t vnaprej;
+    Znak &operator=(Znak &o);
 };
 
 class Font
@@ -24,9 +25,10 @@ public:
     void NaloziFont(std::string potDoFonta, int velikost);
     const Znak &DobiZnak(int koda) const;
     const int DobiVelikost() const;
+    Font &operator=(Font &o);
+    Znak m_znaki[128];
 
 private:
-    Znak m_znaki[128];
     int m_velkost;
 };
 #endif
