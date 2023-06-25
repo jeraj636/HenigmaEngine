@@ -35,11 +35,16 @@ public:
 private:
     static void VelikostOknaCallBack(GLFWwindow *okno, int dolzina, int visina);
     static void GumbCallBack(GLFWwindow *okno, int key, int scanCode, int akcija, int mods);
+    static void NaloziCallBack();
     // static void GumbMiskeCallBack();
     // static void CharCallBack();
+
     static void NaloziBufferje();
+    static void NaloziBufferjeB();
+
     static void NarediShaderje();
-    static void NarediBesedilneShaderje();
+    static void NarediShaderjeB();
+    static void OdpriOkno(const char *naslov);
 
 private:
     inline static GLFWwindow *m_okno;
@@ -49,14 +54,17 @@ private:
     inline static uint32_t m_VBO;
     inline static uint32_t m_VAO;
     inline static uint32_t m_EBO;
-    inline static uint32_t m_VAOB;
 
     inline static uint32_t m_shaderProgram;
     inline static uint32_t m_vertexShader;
     inline static uint32_t m_fragmentShader;
 
+    inline static uint32_t m_EBOB;
+    inline static uint32_t m_VAOB;
+    inline static uint32_t m_VBOB;
+
     inline static uint32_t m_shaderProgramB;
-    inline static uint32_t m_vertexShaderB; //? Ali je sploh potreben?
+    inline static uint32_t m_vertexShaderB;
     inline static uint32_t m_fragmentShaderB;
 
     inline static vec2 m_velOkna;

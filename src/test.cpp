@@ -1,28 +1,28 @@
 #include "../Include/Risalnik.h"
 #include "../Include/Log.h"
 #include "../Include/Font.h"
+
 #include <string>
 #include <iostream>
+
 int main()
 {
     io::msg("DELA");
     Risalnik::Init("jakob");
-    Risalnik::sredstvaPath = "../Sredstva";
-    uint32_t Kokos = Risalnik::NaloziTeksturo("kokos.png");
 
-    Font courier;
-    courier.NaloziFont("../Sredstva/font.ttf", 20);
-    for (int i = 0; i < 128; i++)
-        std::cout << courier.m_znaki[i].tekID << std::endl;
+    Risalnik::sredstvaPath = "../Sredstva";
+    Font courier = Risalnik::NaloziFont("font.ttf", 20);
+
+    Barva spredi(0xff00ffff), zadi(0xffff00ff);
+    vec3 poz(300, 150, 0), vel(100, 100, 0);
+    float rot = 0;
+    uint32_t kokos = Risalnik::NaloziTeksturo("kokos.png");
     Risalnik::odzadje = 0x000000ff;
-    vec3 poz(100.0f, 100.0f, 0.0f), vel(100.0f, 100.0f, 0.0f);
-    Barva spredi(0xff0000ff);
-    Barva zadi(0xff0000ff);
     while (!Risalnik::AliSeMoramZapreti())
     {
         Risalnik::ZacetekFrame();
-        Risalnik::NarisiZnak(courier.m_znaki['j'], spredi, zadi, poz + 300, 0, 15);
-        Risalnik::Narisi(Kokos, spredi, zadi, poz, 90, vel);
+        Risalnik::NarisiZnak(courier.DobiZnak('J'), spredi, zadi, poz + vec3(100, 100, 0), 0, 15);
+        Risalnik::Narisi(kokos, spredi, zadi, poz, rot, vel);
         Risalnik::KonecFrame();
     }
 }

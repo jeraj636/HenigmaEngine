@@ -50,10 +50,9 @@ void Font::NaloziFont(std::string potDoFonta, int velikost)
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, obraz->glyph->bitmap.width, obraz->glyph->bitmap.rows, 0, GL_RED, GL_UNSIGNED_BYTE, obraz->glyph->bitmap.buffer);
 
         m_znaki[i].tekID = tek;
-        std::cout << tek << std::endl;
         m_znaki[i].velikost = glm::ivec2(obraz->glyph->bitmap.width, obraz->glyph->bitmap.rows);
         m_znaki[i].polozaj = glm::ivec2(obraz->glyph->bitmap_left, obraz->glyph->bitmap_top);
-        m_znaki[i].tekID = obraz->glyph->advance.x;
+        m_znaki[i].vnaprej = obraz->glyph->advance.x;
     }
     FT_Done_Face(obraz);
     FT_Done_FreeType(ft);

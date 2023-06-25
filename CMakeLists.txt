@@ -2,9 +2,17 @@ cmake_minimum_required(VERSION 3.20)
 
 project(HenigmaEngine)
 
+add_subdirectory(src/glfw/)
+
 add_executable(${PROJECT_NAME}
     ../src/test.cpp 
     ../src/Risalnik/Risalnik.cpp
+    ../src/Risalnik/CallBack.cpp
+    ../src/Risalnik/TeksturaFont.cpp
+    ../src/Risalnik/Zanka.cpp
+    ../src/Risalnik/NaloziBufferje.cpp
+    ../src/Risalnik/NarediShaderje.cpp
+    ../src/Risalnik/Narisi.cpp
     ../src/glad/src/glad.c 
     ../src/Matematika/Matematika.cpp
     ../src/Font/Font.cpp
@@ -23,4 +31,3 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
         fmt 
         freetype
 )
-add_subdirectory(src/glfw/)
