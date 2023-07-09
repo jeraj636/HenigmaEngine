@@ -20,9 +20,10 @@ void Risalnik::Narisi(uint32_t tekID, Barva Bobj, Barva Bozd, vec3 poz, float ro
 
     //* fragment shader
 
+    glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, tekID);
 
-    glUniform1i(glGetUniformLocation(m_shaderProgram, "uTekID"), 0);
+    // glUniform1i(glGetUniformLocation(m_shaderProgram, "uTekID"), 0);
 
     glUniform4f(glGetUniformLocation(m_shaderProgram, "uBobj"), Bobj.r, Bobj.g, Bobj.b, Bobj.a);
     glUniform4f(glGetUniformLocation(m_shaderProgram, "uBozd"), Bozd.r, Bozd.g, Bozd.b, Bozd.a);
@@ -51,10 +52,10 @@ void Risalnik::NarisiZnak(Znak znak, Barva Bobj, Barva Bozd, vec3 poz, float rot
     glUniformMatrix4fv(glGetUniformLocation(m_shaderProgramB, "uTrans"), 1, GL_FALSE, &matrika[0][0]);
 
     //* fragment shader
-
+    glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, znak.tekID);
 
-    glUniform1i(glGetUniformLocation(m_shaderProgramB, "uTekID"), 0);
+    // glUniform1i(glGetUniformLocation(m_shaderProgramB, "uTekID"), 0);
 
     glUniform4f(glGetUniformLocation(m_shaderProgramB, "uBobj"), Bobj.r, Bobj.g, Bobj.b, Bobj.a);
     glUniform4f(glGetUniformLocation(m_shaderProgramB, "uBozd"), Bozd.r, Bozd.g, Bozd.b, Bozd.a);
@@ -66,6 +67,6 @@ void Risalnik::NarisiZnak(Znak znak, Barva Bobj, Barva Bozd, vec3 poz, float rot
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
 
-    glActiveTexture(GL_TEXTURE0);
+    // glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, 0);
 }

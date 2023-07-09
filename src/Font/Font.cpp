@@ -47,6 +47,11 @@ void Font::NaloziFont(std::string potDoFonta, int velikost)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
+        // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, obraz->glyph->bitmap.width, obraz->glyph->bitmap.rows, 0, GL_RED, GL_UNSIGNED_BYTE, obraz->glyph->bitmap.buffer);
 
         m_znaki[i].tekID = tek;

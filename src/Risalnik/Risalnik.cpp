@@ -24,7 +24,9 @@ void Risalnik::Init(const char *naslov)
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     glfwSwapInterval(0);
-    glActiveTexture(GL_TEXTURE0);
+    // glActiveTexture(GL_TEXTURE0);
+
+    // glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 }
 void Risalnik::OdpriOkno(const char *naslov)
 {

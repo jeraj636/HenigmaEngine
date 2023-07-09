@@ -38,20 +38,7 @@ void Risalnik::NarediShaderje()
 
         void main()
         {
-            vec4 barva = uBobj * texture(uTekID,iTekPos);
-
-            if(barva.a==0)
-            {
-                FragColor = uBozd;  
-            }
-            else if (barva.a >= 0.5)
-            {
-                FragColor = barva;
-            }
-            else 
-            {
-                FragColor = barva * uBozd;
-            }
+            FragColor = uBobj * texture(uTekID,iTekPos);
         }
 
     )";
@@ -115,9 +102,7 @@ void Risalnik::NarediShaderjeB()
 
         void main()
         {
-            gl_Position = uOrto * uTrans * vec4(aPos.x, aPos.y, aPos.z, 1.0f);
-            //gl_Position =  vec4(aPos.x, aPos.y, aPos.z, 1.0f);
-            
+            gl_Position = uOrto * uTrans * vec4(aPos.x, aPos.y, aPos.z, 1.0f);            
             iTekPos = aTekPos;
         }
     )";
@@ -134,17 +119,8 @@ void Risalnik::NarediShaderjeB()
 
         void main()
         {
-
-            vec4 tek = texture(uTekID,iTekPos);
-            if (tek.r != 0.0f)
-            {
-                FragColor = uBobj * tek;
-            }
-            else
-            {
-                FragColor = uBozd;
-            }
-
+            //FragColor = vec4(1.0f,1.0f,1.0f,texture(uTekID,iTekPos).r ) * uBobj;
+            FragColor= vec4(1.0f,1.0f,1.0f,1.0f);
         }
     )";
 
