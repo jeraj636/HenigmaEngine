@@ -1,34 +1,10 @@
 #include "../../Include/Risalnik.h"
-#include "../../Include/Log.h"
-#include "../../Include/Font.h"
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include <iostream>
-
+#include "../../Include/Log.h"
 void Risalnik::Init(const char *naslov)
-{
-
-    OdpriOkno(naslov);
-
-    NaloziCallBack();
-
-    NarediShaderje();
-    NaloziBufferje();
-
-    NarediShaderjeB();
-    NaloziBufferjeB();
-
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-    glfwSwapInterval(0);
-    // glActiveTexture(GL_TEXTURE0);
-
-    // glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-}
-void Risalnik::OdpriOkno(const char *naslov)
 {
     glfwInit();
 
@@ -37,7 +13,7 @@ void Risalnik::OdpriOkno(const char *naslov)
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     m_okno = glfwCreateWindow(800, 600, naslov, NULL, NULL);
-    if (m_okno == nullptr)
+    if (m_okno == NULL)
     {
         glfwTerminate();
         io::err("NI OKNA");
@@ -48,14 +24,33 @@ void Risalnik::OdpriOkno(const char *naslov)
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
-        glfwTerminate();
         io::err("NI GLADA");
     }
-    io::msg("GLAD DELUJE");
+    io::msg("GLAD DELA");
 
     glViewport(0, 0, 800, 600);
+
+    NaloziCallBack();
 }
+
 bool Risalnik::AliSeMoramZapreti()
 {
     return glfwWindowShouldClose(m_okno);
+}
+
+void Risalnik::KonecFrame()
+{
+    glfwPollEvents();
+    glfwSwapBuffers(m_okno);
+}
+
+void Risalnik::ZacetekFrame()
+{
+    glClearColor(odzadje.r, odzadje.g, odzadje.b, odzadje.a);
+    glClear(GL_COLOR_BUFFER_BIT);
+}
+
+void Risalnik::Konec()
+{
+    glfwTerminate();
 }

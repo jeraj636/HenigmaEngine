@@ -1,5 +1,5 @@
 #include "../../Include/Risalnik.h"
-#include "../../Include/Log.h"
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -13,6 +13,7 @@ void Risalnik::GumbCallBack(GLFWwindow *okno, int key, int scanCode, int akcija,
     if (key == GLFW_KEY_ESCAPE && akcija == GLFW_PRESS)
     {
         glfwSetWindowShouldClose(m_okno, 1);
+        // glfwTerminate();
     }
 }
 

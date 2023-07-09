@@ -27,6 +27,7 @@ public:
     static void ZacetekFrame();
     static void KonecFrame();
     static Font NaloziFont(std::string potDoFonta, int velikost);
+    static void Konec();
 
 public:
     inline static std::string sredstvaPath;
@@ -44,7 +45,6 @@ private:
 
     static void NarediShaderje();
     static void NarediShaderjeB();
-    static void OdpriOkno(const char *naslov);
 
 private:
     inline static GLFWwindow *m_okno;

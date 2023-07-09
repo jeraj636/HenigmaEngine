@@ -3,9 +3,23 @@
     - [] Narisi
       - [ ] Besedilo
       - [ ] Znak
-      - [X] Kvadrat
-    - [X] Init
-    - [X] Barva Odzadja
+      - [ ] Kvadrat
+    - [x] Init
+    - [ ] Barva Odzadja
+    - [x] Ali se moram zapreti
+    - [ ] Nalozi teksturo
+    - [ ] Zacetek frame
+    - [ ] konec frame
+    - [ ] callBack
+      - [x] velikost okna
+      - [X] gumb
+      - [ ] glumb miske
+      - [ ] char 
+      - [X] Nalozi callback
+    - [ ] nalozi bufferje
+    - [ ] nalozi bufferje B
+    - [ ] Naredi shaderje
+    - [ ] naredi shaderje B
   - [x] **Log sistem**
     - [X] err
     - [X] msg
@@ -14,8 +28,8 @@
     - [ ] Zacetek
     - [ ] Zanka
     - [ ] Konec
-  - [ ] **Pisava**
-    - [ ] NaloziPisavo
+  - [x] **Pisava**
+    - [x] NaloziPisavo
   - [X] **Tekstura**
     - [X] Nalozi Teksturo
   - [X] **Barva**

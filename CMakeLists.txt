@@ -8,11 +8,6 @@ add_executable(${PROJECT_NAME}
     ../src/test.cpp 
     ../src/Risalnik/Risalnik.cpp
     ../src/Risalnik/CallBack.cpp
-    ../src/Risalnik/TeksturaFont.cpp
-    ../src/Risalnik/Zanka.cpp
-    ../src/Risalnik/NaloziBufferje.cpp
-    ../src/Risalnik/NarediShaderje.cpp
-    ../src/Risalnik/Narisi.cpp
     ../src/glad/src/glad.c 
     ../src/Matematika/Matematika.cpp
     ../src/Font/Font.cpp
