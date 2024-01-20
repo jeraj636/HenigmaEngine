@@ -42,21 +42,22 @@ public:
     static void konec();
 
     static uint32_t nalozi_teksturo(const std::string &pot_do_teksture);
-    static Font nalozi_font(const std::string &pot_do_pisave);
+    static Font nalozi_font(const std::string &pot_do_pisave, uint32_t velikost);
 
     static void narisi(uint32_t tekstura_id, const Barva &b_obj, const Barva &b_ozd, const mat::vec2 poz, float rot, const mat::vec2 vel);
     static void narisi_niz(const Font &font, const Barva &b_obj, const Barva b_ozd, mat::vec2 poz, float vel, const std::string &niz);
+    static void narisi_niz(const Font &font, const Barva &b_obj, const Barva b_ozd, float poz_y, float vel, const std::string &niz);
     // static void narisi_ploscice();
     // static void narisi_vec_objektov();
 
     static void zacetek_okvir();
     static void konec_okvir();
 
-    inline static const mat::vec2 &get_poz_kazalca();
-    inline static const mat::mat::mat3 &get_orto();
-    inline static const mat::vec2 &get_velikost_okna();
-    inline static const Gumb get_miskin_gumb();
-    inline static const uint32_t get_fps();
+    static const mat::vec2 &get_poz_kazalca();
+    static const mat::mat::mat3 &get_orto();
+    static const mat::vec2 &get_velikost_okna();
+    static const Gumb get_miskin_gumb();
+    static const uint32_t get_fps();
 
 public:
     inline static std::string sredstva_pot;

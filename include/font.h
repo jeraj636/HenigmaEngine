@@ -9,7 +9,7 @@
 class Font
 {
 public:
-    Font(const std::string &pot);
+    Font(const std::string &pot, uint32_t velikost);
     Font() = default;
     Font(const Font &f);
     Font &operator=(const Font &f);

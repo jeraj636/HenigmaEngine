@@ -6,7 +6,7 @@ int main()
     while (!Risalnik::ali_se_moram_zapreti())
     {
         Risalnik::zacetek_okvir();
-        Risalnik::narisi_niz(Font("../test.ttf", 50), Barva(0xffffffff), Barva(0), mat::vec2(-300, 0), 500, "pozz svet");
+        Risalnik::narisi_niz(Font("../test.ttf", 50), Barva(0xffffffff), Barva(0), 1080 / 2, 500, "Morski smetar");
         Risalnik::konec_okvir();
     }
     Risalnik::konec();

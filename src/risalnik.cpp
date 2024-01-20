@@ -115,11 +115,11 @@ uint32_t Risalnik::nalozi_teksturo(const std::string &pot_do_teksture)
     return tekstura;
 }
 
-Font Risalnik::nalozi_font(const std::string &pot_do_pisave)
+Font Risalnik::nalozi_font(const std::string &pot_do_pisave, uint32_t velikost)
 {
     std::string prava_pot = sredstva_pot;
     prava_pot = prava_pot + " /" + pot_do_pisave;
-    return Font(prava_pot);
+    return Font(prava_pot, velikost);
 }
 
 void Risalnik::narisi(uint32_t tekstura_id, const Barva &b_obj, const Barva &b_ozd, const mat::vec2 poz, float rot, const mat::vec2 vel)
@@ -154,13 +154,15 @@ void Risalnik::narisi(uint32_t tekstura_id, const Barva &b_obj, const Barva &b_o
 
 void Risalnik::narisi_niz(const Font &font, const Barva &b_obj, const Barva b_ozd, mat::vec2 poz, float vel, const std::string &niz)
 {
-    poz.x /= 100;
-    poz.y /= 100;
 
     float *tocke = new float[16 * niz.size()];
     uint32_t *indeksi = new uint32_t[6 * niz.size()];
 
     stbtt_aligned_quad quad;
+    poz.x /= (Risalnik::get_velikost_okna().x / 2);
+    poz.y /= (Risalnik::get_velikost_okna().y / 2);
+    poz.x -= 1;
+    poz.y -= 1;
 
     float x = 0.0f, y = 0.0f;
     for (int i = 0; i < niz.size(); i++)
@@ -172,23 +174,104 @@ void Risalnik::narisi_niz(const Font &font, const Barva &b_obj, const Barva b_oz
         quad.y0 /= -vel;
         quad.y1 /= -vel;
 
-        tocke[i * 16 + 0] = quad.x0;
-        tocke[i * 16 + 1] = quad.y0;
+        tocke[i * 16 + 0] = quad.x0 + poz.x;
+        tocke[i * 16 + 1] = quad.y0 + poz.y;
         tocke[i * 16 + 2] = quad.s0;
         tocke[i * 16 + 3] = quad.t0;
 
-        tocke[i * 16 + 4] = quad.x1;
-        tocke[i * 16 + 5] = quad.y0;
+        tocke[i * 16 + 4] = quad.x1 + poz.x;
+        tocke[i * 16 + 5] = quad.y0 + poz.y;
         tocke[i * 16 + 6] = quad.s1;
         tocke[i * 16 + 7] = quad.t0;
 
-        tocke[i * 16 + 8] = quad.x1;
-        tocke[i * 16 + 9] = quad.y1;
+        tocke[i * 16 + 8] = quad.x1 + poz.x;
+        tocke[i * 16 + 9] = quad.y1 + poz.y;
         tocke[i * 16 + 10] = quad.s1;
         tocke[i * 16 + 11] = quad.t1;
 
-        tocke[i * 16 + 12] = quad.x0;
-        tocke[i * 16 + 13] = quad.y1;
+        tocke[i * 16 + 12] = quad.x0 + poz.x;
+        tocke[i * 16 + 13] = quad.y1 + poz.y;
+        tocke[i * 16 + 14] = quad.s0;
+        tocke[i * 16 + 15] = quad.t1;
+
+        indeksi[i * 6 + 0] = 0 + i * 4;
+        indeksi[i * 6 + 1] = 1 + i * 4;
+        indeksi[i * 6 + 2] = 2 + i * 4;
+        indeksi[i * 6 + 3] = 0 + i * 4;
+        indeksi[i * 6 + 4] = 2 + i * 4;
+        indeksi[i * 6 + 5] = 3 + i * 4;
+        x += quad.x1 - quad.x0;
+    }
+
+    glBindVertexArray(m_VAO_b);
+
+    glUseProgram(m_shader_program_b);
+
+    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * 16 * niz.size(), tocke);
+    glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(uint32_t) * 6 * niz.size(), indeksi);
+
+    glActiveTexture(GL_TEXTURE0);
+
+    glBindTexture(GL_TEXTURE_2D, font.tekstura);
+
+    glUniform4f(glGetUniformLocation(m_shader_program_b, "u_b_obj"), b_obj.get_r(), b_obj.get_g(), b_obj.get_b(), b_obj.get_a());
+    glUniform4f(glGetUniformLocation(m_shader_program_b, "u_b_ozd"), b_ozd.get_r(), b_ozd.get_g(), b_ozd.get_b(), b_ozd.get_a());
+    glUniform1i(glGetUniformLocation(m_shader_program_b, "u_tek_id"), 0);
+
+    glDrawElements(GL_TRIANGLES, 6 * niz.size(), GL_UNSIGNED_INT, 0);
+
+    glBindVertexArray(0);
+    glUseProgram(0);
+}
+
+void Risalnik::narisi_niz(const Font &font, const Barva &b_obj, const Barva b_ozd, float poz_y, float vel, const std::string &niz)
+{
+
+    float *tocke = new float[16 * niz.size()];
+    uint32_t *indeksi = new uint32_t[6 * niz.size()];
+
+    stbtt_aligned_quad quad;
+
+    poz_y /= (Risalnik::get_velikost_okna().y / 2);
+    poz_y -= 1;
+
+    float x = 0.0f, y = 0.0f;
+
+    float poz_x = 0;
+    for (int i = 0; i < niz.size(); i++)
+    {
+        stbtt_GetBakedQuad(font.char_data, 512, 512, niz[i], &x, &y, &quad, false);
+    }
+    x /= Risalnik::get_velikost_okna().x;
+    poz_x = -x * 2;
+    x = 0.0f;
+    y = 0.0f;
+    for (int i = 0; i < niz.size(); i++)
+    {
+        stbtt_GetBakedQuad(font.char_data, 512, 512, niz[i], &x, &y, &quad, false);
+
+        quad.x0 /= vel;
+        quad.x1 /= vel;
+        quad.y0 /= -vel;
+        quad.y1 /= -vel;
+
+        tocke[i * 16 + 0] = quad.x0 + poz_x;
+        tocke[i * 16 + 1] = quad.y0 + poz_y;
+        tocke[i * 16 + 2] = quad.s0;
+        tocke[i * 16 + 3] = quad.t0;
+
+        tocke[i * 16 + 4] = quad.x1 + poz_x;
+        tocke[i * 16 + 5] = quad.y0 + poz_y;
+        tocke[i * 16 + 6] = quad.s1;
+        tocke[i * 16 + 7] = quad.t0;
+
+        tocke[i * 16 + 8] = quad.x1 + poz_x;
+        tocke[i * 16 + 9] = quad.y1 + poz_y;
+        tocke[i * 16 + 10] = quad.s1;
+        tocke[i * 16 + 11] = quad.t1;
+
+        tocke[i * 16 + 12] = quad.x0 + poz_x;
+        tocke[i * 16 + 13] = quad.y1 + poz_y;
         tocke[i * 16 + 14] = quad.s0;
         tocke[i * 16 + 15] = quad.t1;
 

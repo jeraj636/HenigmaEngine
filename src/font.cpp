@@ -7,7 +7,7 @@
 #define STB_TRUETYPE_IMPLEMENTATION
 #include "../lib/stb/stb_true_type.h"
 
-Font::Font(const std::string &pot)
+Font::Font(const std::string &pot, uint32_t velikost)
 {
     std::ifstream datoteka(pot, std::ios::binary);
 
