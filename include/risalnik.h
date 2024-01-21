@@ -47,7 +47,7 @@ public:
     static void narisi(uint32_t tekstura_id, const Barva &b_obj, const Barva &b_ozd, const mat::vec2 poz, float rot, const mat::vec2 vel);
     static void narisi_niz(const Font &font, const Barva &b_obj, const Barva b_ozd, mat::vec2 poz, float vel, const std::string &niz);
     static void narisi_niz(const Font &font, const Barva &b_obj, const Barva b_ozd, float poz_y, float vel, const std::string &niz);
-    // static void narisi_ploscice();
+    static void narisi_ploscice(uint32_t tekstura_id, const Barva &b_obj, float *tocke, uint32_t *indeksi, int n);
     // static void narisi_vec_objektov();
 
     static void zacetek_okvir();

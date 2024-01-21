@@ -5,7 +5,7 @@ project(HenigmaEngine)
 add_subdirectory(lib/glfw)
 add_subdirectory(lib/fmt)
 
-add_executable(${PROJECT_NAME}
+add_library()(${PROJECT_NAME}
 ../lib/matematika/matematika.cpp
 ../lib/glad/src/glad.c
 ../src/barva.cpp
@@ -13,6 +13,7 @@ add_executable(${PROJECT_NAME}
 ../src/main.cpp
 ../src/risalnik.cpp
 ../src/objekt.cpp
+../src/ploscice.cpp
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE

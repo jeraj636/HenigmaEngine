@@ -304,7 +304,29 @@ void Risalnik::narisi_niz(const Font &font, const Barva &b_obj, const Barva b_oz
     glBindVertexArray(0);
     glUseProgram(0);
 }
+void Risalnik::narisi_ploscice(uint32_t tekstura_id, const Barva &b_obj, float *tocke, uint32_t *indeksi, int n)
+{
 
+    glBindVertexArray(m_VAO_p);
+
+    glUseProgram(m_shader_program_p);
+
+    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * 16 * n, tocke);
+    glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(uint32_t) * 6 * n, indeksi);
+
+    glActiveTexture(GL_TEXTURE0);
+
+    glBindTexture(GL_TEXTURE_2D, tekstura_id);
+
+    glUniform4f(glGetUniformLocation(m_shader_program_p, "u_b_obj"), b_obj.get_r(), b_obj.get_g(), b_obj.get_b(), b_obj.get_a());
+    glUniform1i(glGetUniformLocation(m_shader_program_p, "u_tek_id"), 0);
+    glUniformMatrix3fv(glGetUniformLocation(m_shader_program_p, "u_orto"), 1, GL_TRUE, &Risalnik::get_orto().m_mat[0][0]);
+
+    glDrawElements(GL_TRIANGLES, 6 * n, GL_UNSIGNED_INT, 0);
+
+    glBindVertexArray(0);
+    glUseProgram(0);
+}
 void Risalnik::zacetek_okvir()
 {
     glClearColor(barva_odzadja.get_r(), barva_odzadja.get_g(), barva_odzadja.get_b(), barva_odzadja.get_a());
