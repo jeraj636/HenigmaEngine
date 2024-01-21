@@ -12,6 +12,7 @@ add_executable(${PROJECT_NAME}
 ../src/font.cpp
 ../src/main.cpp
 ../src/risalnik.cpp
+../src/objekt.cpp
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE

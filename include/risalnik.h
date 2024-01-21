@@ -76,8 +76,8 @@ private:
     static void nalozi_shaderje_b();
     static void nalozi_bufferje_b();
 
-    // static void nalozi_shaderje_p();
-    // static void nalozi_bufferje_p();
+    static void nalozi_shaderje_p();
+    static void nalozi_bufferje_p();
 
 private:
     inline static GLFWwindow *m_okno;

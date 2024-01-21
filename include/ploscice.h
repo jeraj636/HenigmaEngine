@@ -18,6 +18,8 @@ public:
     void narisi_me();
 
 private:
+    float *tocke;
+    uint32_t *indeksi;
 };
 
 #endif

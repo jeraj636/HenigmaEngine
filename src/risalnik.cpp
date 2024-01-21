@@ -56,8 +56,8 @@ void Risalnik::init(const std::string &naslov, const mat::vec2 &velikost)
     nalozi_shaderje_b();
     nalozi_bufferje_b();
 
-    //   nalozi_shaderje_p();
-    // nalozi_bufferje_p();
+    nalozi_shaderje_p();
+    nalozi_bufferje_p();
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -572,7 +572,7 @@ void Risalnik::nalozi_shaderje_b()
     if (!uspeh)
     {
         char info_log[512];
-        glGetProgramInfoLog(m_shader_program, 512, NULL, info_log);
+        glGetProgramInfoLog(m_shader_program_b, 512, NULL, info_log);
         std::cout << info_log << std::endl;
         log::err("NI SHADER PROGARMA B");
     }
@@ -582,6 +582,92 @@ void Risalnik::nalozi_shaderje_b()
     glDeleteShader(vertex_shader);
 }
 
+void Risalnik::nalozi_shaderje_p()
+{
+    const char *vertex_shader_source = R"(
+        #version 330 core
+        layout (location = 0) in vec2 a_poz;
+        layout (location = 1) in vec2 i_tek_poz;
+
+        uniform mat3 u_orto;
+
+        out vec2 tek_poz;
+
+        void main()
+        {
+            gl_Position = vec4(u_orto * vec3(a_poz,1.0),1.0);
+            tek_poz = i_tek_poz;
+        }
+
+    )";
+    const char *fragment_shader_source = R"(
+        #version 330 core
+        in vec2 tek_poz;
+
+        uniform vec4 u_b_obj;
+
+        uniform sampler2D u_tek_id;
+        out vec4 frag_color;
+        void main()
+        {
+            vec4 tekstura = texture(u_tek_id,tek_poz);
+            frag_color = tekstura.r * u_b_obj;
+        }
+    )";
+
+    uint32_t vertex_shader;
+    uint32_t fragment_shader;
+
+    int uspeh;
+
+    vertex_shader = glCreateShader(GL_VERTEX_SHADER);
+    glShaderSource(vertex_shader, 1, &vertex_shader_source, NULL);
+    glCompileShader(vertex_shader);
+
+    glGetShaderiv(vertex_shader, GL_COMPILE_STATUS, &uspeh);
+
+    if (!uspeh)
+    {
+        char info_log[512];
+        glGetShaderInfoLog(vertex_shader, 512, NULL, info_log);
+        std::cout << info_log << std::endl;
+        log::err("NI VERTEX SHADERJA P");
+    }
+    log::msg("VERTEX SHADER P");
+
+    fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
+    glShaderSource(fragment_shader, 1, &fragment_shader_source, NULL);
+    glCompileShader(fragment_shader);
+
+    glGetShaderiv(fragment_shader, GL_COMPILE_STATUS, &uspeh);
+
+    if (!uspeh)
+    {
+        char info_log[512];
+        glGetShaderInfoLog(fragment_shader, 512, NULL, info_log);
+        std::cout << info_log << std::endl;
+        log::err("NI FRAGMENT SHADERJA P");
+    }
+    log::msg("FRAGMENT SHADER P");
+
+    m_shader_program_p = glCreateProgram();
+    glAttachShader(m_shader_program_p, vertex_shader);
+    glAttachShader(m_shader_program_p, fragment_shader);
+    glLinkProgram(m_shader_program_p);
+
+    glGetProgramiv(m_shader_program_p, GL_LINK_STATUS, &uspeh);
+    if (!uspeh)
+    {
+        char info_log[512];
+        glGetProgramInfoLog(m_shader_program_p, 512, NULL, info_log);
+        std::cout << info_log << std::endl;
+        log::err("NI SHADER PROGARMA P");
+    }
+    log::msg("SHADER PROGARM P");
+
+    glDeleteShader(fragment_shader);
+    glDeleteShader(vertex_shader);
+}
 void Risalnik::nalozi_bufferje()
 {
     float tocke[] =
@@ -589,7 +675,7 @@ void Risalnik::nalozi_bufferje()
             -.5f, -.5f, .0f, .0f,
             .5f, -.5f, 1.0f, 0.0f,
             .5f, .5f, 1.0f, 1.0f,
-            -.5f, .5f, .0f, .0f};
+            -.5f, .5f, .0f, 1.0f};
     uint32_t indeksi[]{
         0, 1, 2,
         0, 2, 3};
@@ -614,6 +700,7 @@ void Risalnik::nalozi_bufferje()
 
     glUseProgram(0);
 }
+
 void Risalnik::nalozi_bufferje_b()
 {
 
@@ -629,6 +716,30 @@ void Risalnik::nalozi_bufferje_b()
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint32_t) * 100 * 6, nullptr, GL_DYNAMIC_DRAW);
 
     glUseProgram(m_shader_program_b);
+
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void *)0);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void *)(2 * sizeof(float)));
+    glEnableVertexAttribArray(1);
+
+    glUseProgram(0);
+}
+
+void Risalnik::nalozi_bufferje_p()
+{
+
+    glGenVertexArrays(1, &m_VAO_p);
+    glBindVertexArray(m_VAO_p);
+
+    glGenBuffers(1, &m_VBO_p);
+    glBindBuffer(GL_ARRAY_BUFFER, m_VBO_p);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 6000 * 16, nullptr, GL_DYNAMIC_DRAW);
+
+    glGenBuffers(1, &m_EBO_p);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO_p);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint32_t) * 6000 * 6, nullptr, GL_DYNAMIC_DRAW);
+
+    glUseProgram(m_shader_program_p);
 
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void *)0);
     glEnableVertexAttribArray(0);

@@ -8,8 +8,8 @@
 class Objekt
 {
 public:
-    Barva barva_objekta();
-    Barva barva_odzadja();
+    Barva barva_objekta;
+    Barva barva_odzadja;
     mat::vec2 velikost;
     mat::vec2 pozicija;
     float rotacija;
@@ -17,7 +17,7 @@ public:
     uint32_t id_teksture;
 
 public:
-    void nastavi(const mat::vec2 &poz, const mat::vec2 &vel, float rot, uint32_t barva_ozd, uint32_t barva_obj);
+    void nastavi(const mat::vec2 &poz, const mat::vec2 &vel, float rot, uint32_t barva_ojb, uint32_t barva_ozd);
     Objekt() = default;
     void narisi_me();
     bool trk(const Objekt &o);
@@ -31,14 +31,14 @@ class Animacija
 public:
     std::vector<uint32_t> tekstura_id;
     double perioda;
-    void posodobi(Objekt_anim *t);
     int naslednja_animacija;
 
-private:
-    int stopnaj_animacije;
+protected:
+    int stopnja_animacije;
     double naslednji;
+    friend class Objekt_anim;
 };
-class ObjektAnim : public Objekt
+class Objekt_anim : public Objekt
 {
 public:
     std::vector<Animacija> animacije;
