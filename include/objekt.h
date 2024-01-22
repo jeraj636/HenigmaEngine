@@ -22,6 +22,7 @@ public:
     void narisi_me();
     bool trk(const Objekt &o);
     bool je_miska_gor();
+    void unici();
 };
 
 class Objekt_anim;

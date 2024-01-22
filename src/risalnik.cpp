@@ -130,6 +130,10 @@ Zvok Risalnik::nalozi_zvok(const std::string &pot_do_zvoka)
     t.nastavi(prava_pot);
     return t;
 }
+void Risalnik::skenslaj_teksturo(uint32_t *tekstura_id)
+{
+    glDeleteTextures(1, tekstura_id);
+}
 void Risalnik::narisi(uint32_t tekstura_id, const Barva &b_obj, const Barva &b_ozd, const mat::vec2 poz, float rot, const mat::vec2 vel)
 {
     glBindVertexArray(m_VAO);

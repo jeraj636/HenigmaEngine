@@ -24,8 +24,10 @@ public:
     void stop();
     bool ali_predvajam();
     void nastavi_loop(bool t);
+    Zvok &operator=(const Zvok &z);
 
 private:
     ma_sound m_zvok;
+    std::string m_pot;
 };
 #endif

@@ -137,3 +137,8 @@ void Objekt_anim::narisi_me()
     }
     Objekt::narisi_me();
 }
+
+void Objekt::unici()
+{
+    Risalnik::skenslaj_teksturo(&id_teksture);
+}

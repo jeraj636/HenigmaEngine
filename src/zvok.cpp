@@ -17,6 +17,7 @@ void Zvok::nastavi(const std::string &pot)
         std::cout << pot << "\n";
         log::err("NI ZVOKA");
     }
+    m_pot = pot;
 }
 
 void Zvok::predvajaj()
@@ -37,4 +38,9 @@ bool Zvok::ali_predvajam()
 void Zvok::nastavi_loop(bool t)
 {
     ma_sound_set_looping(&m_zvok, t);
+}
+Zvok &Zvok::operator=(const Zvok &z)
+{
+    nastavi(z.m_pot);
+    return *this;
 }
