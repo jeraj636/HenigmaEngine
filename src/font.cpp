@@ -12,7 +12,10 @@ Font::Font(const std::string &pot, uint32_t velikost)
     std::ifstream datoteka(pot, std::ios::binary);
 
     if (!datoteka.is_open())
+    {
+        std::cout << pot << std::endl;
         log::err("NI FONTA");
+    }
 
     datoteka.seekg(0, std::ios::end);
     int vel = datoteka.tellg();
@@ -38,4 +41,17 @@ Font::Font(const std::string &pot, uint32_t velikost)
 
     delete[] ttf_data;
     delete[] bitmap;
+}
+
+Font::Font(const Font &f)
+{
+    tekstura = f.tekstura;
+    memcpy(char_data, f.char_data, sizeof(stbtt_bakedchar) * 128);
+}
+
+Font &Font::operator=(const Font &f)
+{
+    tekstura = f.tekstura;
+    memcpy(char_data, f.char_data, sizeof(stbtt_bakedchar) * 128);
+    return *this;
 }

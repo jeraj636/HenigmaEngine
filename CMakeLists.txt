@@ -10,17 +10,17 @@ add_subdirectory(lib/glfw)
 add_subdirectory(lib/fmt)
 
 add_library(${PROJECT_NAME}
-../lib/matematika/matematika.cpp
-../lib/glad/src/glad.c
-../src/barva.cpp
-../src/font.cpp
-../src/risalnik.cpp
-../src/objekt.cpp
-../src/ploscice.cpp
-../src/zvok.cpp
+lib/matematika/matematika.cpp
+lib/glad/src/glad.c
+src/barva.cpp
+src/font.cpp
+src/risalnik.cpp
+src/objekt.cpp
+src/ploscice.cpp
+src/zvok.cpp
 )
 
-target_include_directories(${PROJECT_NAME} PRIVATE
+target_include_directories(${PROJECT_NAME} PUBLIC
 lib/glad/include/
 lib/glfw/include/
 lib/fmt/include/

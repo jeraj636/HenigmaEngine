@@ -325,6 +325,9 @@ void Risalnik::narisi_ploscice(uint32_t tekstura_id, const Barva &b_obj, float *
 
     glBindVertexArray(m_VAO_p);
 
+    glBindBuffer(GL_ARRAY_BUFFER, m_VBO_p);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO_p);
+
     glUseProgram(m_shader_program_p);
 
     glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * 16 * n, tocke);
@@ -339,7 +342,7 @@ void Risalnik::narisi_ploscice(uint32_t tekstura_id, const Barva &b_obj, float *
     glUniformMatrix3fv(glGetUniformLocation(m_shader_program_p, "u_orto"), 1, GL_TRUE, &Risalnik::get_orto().m_mat[0][0]);
 
     glDrawElements(GL_TRIANGLES, 6 * n, GL_UNSIGNED_INT, 0);
-
+    // std::cout << n << "\n";
     glBindVertexArray(0);
     glUseProgram(0);
 }

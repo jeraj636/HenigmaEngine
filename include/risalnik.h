@@ -64,7 +64,7 @@ public:
 public:
     inline static std::string sredstva_pot;
     inline static Barva barva_odzadja;
-    inline static Scena *aktivna_svena;
+    inline static Scena *aktivna_scena;
 
 private:
     static void velikost_okna_klic_nazaj(GLFWwindow *okno, int dolzina, int visina);

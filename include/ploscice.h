@@ -17,6 +17,7 @@ public:
     void nastavi(char *zemljevid, int x, int y, char prepoznavni_znak, uint32_t tek_id, uint32_t barva_obj);
     void narisi_me();
     void unici();
+    Ploscice();
 
 private:
     float *m_tocke;
