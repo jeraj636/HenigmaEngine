@@ -3,6 +3,7 @@
 
 #include "../include/log.h"
 #include "../include/font.h"
+#include "../include/zvok.h"
 
 #include "../include/risalnik.h"
 
@@ -118,10 +119,17 @@ uint32_t Risalnik::nalozi_teksturo(const std::string &pot_do_teksture)
 Font Risalnik::nalozi_font(const std::string &pot_do_pisave, uint32_t velikost)
 {
     std::string prava_pot = sredstva_pot;
-    prava_pot = prava_pot + " /" + pot_do_pisave;
+    prava_pot = prava_pot + "/" + pot_do_pisave;
     return Font(prava_pot, velikost);
 }
-
+Zvok Risalnik::nalozi_zvok(const std::string &pot_do_zvoka)
+{
+    Zvok t;
+    std::string prava_pot = sredstva_pot;
+    prava_pot = prava_pot + "/" + pot_do_zvoka;
+    t.nastavi(prava_pot);
+    return t;
+}
 void Risalnik::narisi(uint32_t tekstura_id, const Barva &b_obj, const Barva &b_ozd, const mat::vec2 poz, float rot, const mat::vec2 vel)
 {
     glBindVertexArray(m_VAO);
@@ -204,7 +212,8 @@ void Risalnik::narisi_niz(const Font &font, const Barva &b_obj, const Barva b_oz
     }
 
     glBindVertexArray(m_VAO_b);
-
+    glBindBuffer(GL_ARRAY_BUFFER, m_VBO_b);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO_b);
     glUseProgram(m_shader_program_b);
 
     glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * 16 * niz.size(), tocke);
@@ -222,6 +231,9 @@ void Risalnik::narisi_niz(const Font &font, const Barva &b_obj, const Barva b_oz
 
     glBindVertexArray(0);
     glUseProgram(0);
+
+    delete[] tocke;
+    delete[] indeksi;
 }
 
 void Risalnik::narisi_niz(const Font &font, const Barva &b_obj, const Barva b_ozd, float poz_y, float vel, const std::string &niz)
@@ -285,7 +297,8 @@ void Risalnik::narisi_niz(const Font &font, const Barva &b_obj, const Barva b_oz
     }
 
     glBindVertexArray(m_VAO_b);
-
+    glBindBuffer(GL_ARRAY_BUFFER, m_VBO_b);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO_b);
     glUseProgram(m_shader_program_b);
 
     glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * 16 * niz.size(), tocke);
@@ -303,6 +316,9 @@ void Risalnik::narisi_niz(const Font &font, const Barva &b_obj, const Barva b_oz
 
     glBindVertexArray(0);
     glUseProgram(0);
+
+    delete[] tocke;
+    delete[] indeksi;
 }
 void Risalnik::narisi_ploscice(uint32_t tekstura_id, const Barva &b_obj, float *tocke, uint32_t *indeksi, int n)
 {

@@ -11,6 +11,7 @@ struct GLFWwindow;
 
 class Font;
 class Scena;
+class Zvok;
 // class Znak;
 //  class Objekt;
 //   class Glasba;
@@ -43,6 +44,7 @@ public:
 
     static uint32_t nalozi_teksturo(const std::string &pot_do_teksture);
     static Font nalozi_font(const std::string &pot_do_pisave, uint32_t velikost);
+    static Zvok nalozi_zvok(const std::string &pot_do_zvoka);
 
     static void narisi(uint32_t tekstura_id, const Barva &b_obj, const Barva &b_ozd, const mat::vec2 poz, float rot, const mat::vec2 vel);
     static void narisi_niz(const Font &font, const Barva &b_obj, const Barva b_ozd, mat::vec2 poz, float vel, const std::string &niz);

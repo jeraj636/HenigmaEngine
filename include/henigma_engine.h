@@ -7,4 +7,5 @@
 #include "objekt.h"
 #include "ploscice.h"
 #include "risalnik.h"
+#include "zvok.h"
 #endif
