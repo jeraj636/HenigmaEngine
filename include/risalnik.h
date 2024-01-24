@@ -61,6 +61,7 @@ public:
     static const mat::vec2 &get_velikost_okna();
     static const Gumb get_miskin_gumb();
     static const uint32_t get_fps();
+    static bool get_tipko_tipkovnice(char tipka);
 
 public:
     inline static std::string sredstva_pot;
@@ -106,9 +107,5 @@ private:
     inline static bool m_tipke[128];
     inline static mat::mat::mat3 m_orto;
     inline static mat::vec2 m_vel_okno;
-
-    inline static uint32_t m_t_fps;
-    inline static uint32_t m_fps;
-    inline static double m_naslednji_fsp_cas;
 };
 #endif

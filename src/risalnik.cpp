@@ -66,8 +66,6 @@ void Risalnik::init(const std::string &naslov, const mat::vec2 &velikost)
     glfwSwapInterval(0);
 
     m_miskin_gumb = Gumb::ni_pritisnjen;
-    m_fps = 0;
-    m_t_fps = 0;
 }
 
 bool Risalnik::ali_se_moram_zapreti()
@@ -368,14 +366,6 @@ void Risalnik::zacetek_okvir()
     m_poz_kazalca = mat::vec2((float)dx, (float)dy);
 
     Cas::m_zac_time = glfwGetTime();
-
-    if (m_naslednji_fsp_cas <= glfwGetTime())
-    {
-        m_naslednji_fsp_cas += 1;
-        m_fps = m_t_fps;
-        m_t_fps = 0;
-    }
-    m_t_fps++;
 }
 
 void Risalnik::konec_okvir()
@@ -409,7 +399,12 @@ const Gumb Risalnik::get_miskin_gumb()
 
 const uint32_t Risalnik::get_fps()
 {
-    return m_fps;
+    return 1 / Cas::m_delta_time;
+}
+
+bool Risalnik::get_tipko_tipkovnice(char tipka)
+{
+    return m_tipke[tipka];
 }
 
 void Risalnik::velikost_okna_klic_nazaj(GLFWwindow *okno, int dolzina, int visina)
