@@ -128,8 +128,8 @@ void Objekt_anim::narisi_me()
         animacije[trenutna_animacija].stopnja_animacije++;
         if (animacije[trenutna_animacija].stopnja_animacije >= animacije[trenutna_animacija].tekstura_id.size())
         {
-            trenutna_animacija = animacije[trenutna_animacija].naslednja_animacija;
             animacije[trenutna_animacija].stopnja_animacije = 0;
+            trenutna_animacija = animacije[trenutna_animacija].naslednja_animacija;
         }
         id_teksture = animacije[trenutna_animacija].tekstura_id[animacije[trenutna_animacija].stopnja_animacije];
 
