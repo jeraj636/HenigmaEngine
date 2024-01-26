@@ -87,6 +87,8 @@ void Ploscice::unici()
 {
     delete[] m_tocke;
     delete[] m_indeksi;
+    m_tocke = nullptr;
+    m_indeksi = nullptr;
 }
 Ploscice::Ploscice()
 {

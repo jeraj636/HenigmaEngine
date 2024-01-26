@@ -6,7 +6,7 @@
 #include "../include/log.h"
 #define STB_TRUETYPE_IMPLEMENTATION
 #include "../lib/stb/stb_true_type.h"
-
+#include "../include/risalnik.h"
 Font::Font(const std::string &pot, uint32_t velikost)
 {
     std::ifstream datoteka(pot, std::ios::binary);
@@ -54,4 +54,9 @@ Font &Font::operator=(const Font &f)
     tekstura = f.tekstura;
     memcpy(char_data, f.char_data, sizeof(stbtt_bakedchar) * 128);
     return *this;
+}
+
+void Font::unici()
+{
+    Risalnik::skenslaj_teksturo(&tekstura);
 }

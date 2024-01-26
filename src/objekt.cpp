@@ -11,7 +11,19 @@ void Objekt::nastavi(const mat::vec2 &poz, const mat::vec2 &vel, float rot, uint
     barva_odzadja = barva_ozd;
     aktiven = true;
 }
-
+void Animacija::posodobi(Objekt_anim &o)
+{
+    if (naslednji <= Cas::get_time())
+    {
+        stopnja_animacije++;
+        if (stopnja_animacije >= tekstura_id.size())
+        {
+            stopnja_animacije = 0;
+            o.trenutna_animacija = naslednja_animacija;
+        }
+        naslednji = Cas::get_time() + perioda;
+    }
+}
 void Objekt::narisi_me()
 {
     if (!aktiven)
@@ -123,22 +135,19 @@ bool Objekt::je_miska_gor()
 }
 void Objekt_anim::narisi_me()
 {
-    if (animacije[trenutna_animacija].naslednji <= Cas::get_time())
-    {
-        animacije[trenutna_animacija].stopnja_animacije++;
-        if (animacije[trenutna_animacija].stopnja_animacije >= animacije[trenutna_animacija].tekstura_id.size())
-        {
-            animacije[trenutna_animacija].stopnja_animacije = 0;
-            trenutna_animacija = animacije[trenutna_animacija].naslednja_animacija;
-        }
-        id_teksture = animacije[trenutna_animacija].tekstura_id[animacije[trenutna_animacija].stopnja_animacije];
-
-        animacije[trenutna_animacija].naslednji = Cas::get_time() + animacije[trenutna_animacija].perioda;
-    }
-    Objekt::narisi_me();
+    if (!aktiven)
+        return;
+    animacije[trenutna_animacija].posodobi(*this);
+    // Objekt::narisi_me();
+    Risalnik::narisi(animacije[trenutna_animacija].tekstura_id[animacije[trenutna_animacija].stopnja_animacije], barva_objekta, barva_odzadja, pozicija, rotacija, velikost);
 }
 
 void Objekt::unici()
 {
     Risalnik::skenslaj_teksturo(&id_teksture);
+}
+
+Animacija::Animacija()
+{
+    stopnja_animacije = 0;
 }

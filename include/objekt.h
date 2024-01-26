@@ -33,6 +33,8 @@ public:
     std::vector<uint32_t> tekstura_id;
     double perioda;
     int naslednja_animacija;
+    Animacija();
+    void posodobi(Objekt_anim &o);
 
 protected:
     int stopnja_animacije;

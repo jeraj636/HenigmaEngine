@@ -14,6 +14,7 @@ public:
     Font(const Font &f);
     Font &operator=(const Font &f);
     stbtt_bakedchar char_data[128];
+    void unici();
     uint32_t tekstura;
 
 private:
