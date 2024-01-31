@@ -32,8 +32,8 @@ void Ploscice::nastavi(char *zemljevid, int x, int y, char prepoznavni_znak, uin
         {
             if (zemljevid[i * (x + 2) + j] == prepoznavni_znak)
             {
-                tab_poz[t].x = j * 10 - 5;
-                tab_poz[t].y = i * 10 - 5;
+                tab_poz[t].x = j * velikost.x - velikost.x / 2;
+                tab_poz[t].y = i * velikost.y - velikost.y / 2;
                 t++;
             }
         }

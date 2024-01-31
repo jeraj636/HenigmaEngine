@@ -63,7 +63,7 @@ void Risalnik::init(const std::string &naslov, const mat::vec2 &velikost)
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    glfwSwapInterval(1);
+    glfwSwapInterval(0);
 
     m_miskin_gumb = Gumb::ni_pritisnjen;
 }
@@ -773,11 +773,11 @@ void Risalnik::nalozi_bufferje_p()
 
     glGenBuffers(1, &m_VBO_p);
     glBindBuffer(GL_ARRAY_BUFFER, m_VBO_p);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 6000 * 16, nullptr, GL_DYNAMIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 16000 * 16, nullptr, GL_DYNAMIC_DRAW);
 
     glGenBuffers(1, &m_EBO_p);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO_p);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint32_t) * 6000 * 6, nullptr, GL_DYNAMIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint32_t) * 16000 * 6, nullptr, GL_DYNAMIC_DRAW);
 
     glUseProgram(m_shader_program_p);
 
