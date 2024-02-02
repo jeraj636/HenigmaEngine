@@ -38,10 +38,10 @@ enum class Gumb
 class Risalnik
 {
 public:
+    static void init(const std::string &naslov);
     static void init(const std::string &naslov, const mat::vec2 &velikost);
     static bool ali_se_moram_zapreti();
     static void konec();
-
     static uint32_t nalozi_teksturo(const std::string &pot_do_teksture);
     static Font nalozi_font(const std::string &pot_do_pisave, uint32_t velikost);
     static Zvok nalozi_zvok(const std::string &pot_do_zvoka);
@@ -51,7 +51,6 @@ public:
     static void narisi_niz(const Font &font, const Barva &b_obj, const Barva b_ozd, mat::vec2 poz, float vel, const std::string &niz);
     static void narisi_niz(const Font &font, const Barva &b_obj, const Barva b_ozd, float poz_y, float vel, const std::string &niz);
     static void narisi_ploscice(uint32_t tekstura_id, const Barva &b_obj, float *tocke, uint32_t *indeksi, int n);
-    // static void narisi_vec_objektov();
 
     static void zacetek_okvir();
     static void konec_okvir();

@@ -19,16 +19,18 @@ double Cas::get_delta_time()
 {
     return m_delta_time;
 }
-
-void Risalnik::init(const std::string &naslov, const mat::vec2 &velikost)
+void Risalnik::init(const std::string &naslov)
 {
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_DECORATED, GL_FALSE);
-    glfwWindowHint(GLFW_SCALE_TO_MONITOR, GL_TRUE);
-    m_okno = glfwCreateWindow(1920, 1080, naslov.c_str(), NULL, NULL);
+    GLFWmonitor *primaryMonitor = glfwGetPrimaryMonitor();
+    const GLFWvidmode *mode = glfwGetVideoMode(primaryMonitor);
+    int screenWidth = mode->width;
+    int screenHeight = mode->height;
+    m_okno = glfwCreateWindow(screenWidth, screenHeight, naslov.c_str(), NULL, NULL);
 
     if (m_okno == nullptr)
     {
@@ -45,9 +47,56 @@ void Risalnik::init(const std::string &naslov, const mat::vec2 &velikost)
     }
     log::msg("GLAD DELA");
 
-    glViewport(0, 0, 1920, 1080);
+    glViewport(0, 0, screenWidth, screenHeight);
 
     m_vel_okno = mat::vec2(1920, 1080);
+
+    nalozi_klice_nazaj();
+
+    nalozi_shaderje();
+    nalozi_bufferje();
+
+    nalozi_shaderje_b();
+    nalozi_bufferje_b();
+
+    nalozi_shaderje_p();
+    nalozi_bufferje_p();
+
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    glfwSwapInterval(0);
+
+    m_miskin_gumb = Gumb::ni_pritisnjen;
+}
+void Risalnik::init(const std::string &naslov, const mat::vec2 &velikost)
+{
+    glfwInit();
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_DECORATED, GL_FALSE);
+
+    m_okno = glfwCreateWindow(velikost.x, velikost.y, naslov.c_str(), NULL, NULL);
+
+    if (m_okno == nullptr)
+    {
+        glfwTerminate();
+        log::err("NI OKNA");
+    }
+    log::msg("OKNO DELUJE");
+
+    glfwMakeContextCurrent(m_okno);
+
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    {
+        log::err("NI GLADA");
+    }
+    log::msg("GLAD DELA");
+
+    glViewport(0, 0, velikost.x, velikost.y);
+
+    m_vel_okno = mat::vec2(velikost.x, velikost.y);
 
     nalozi_klice_nazaj();
 
