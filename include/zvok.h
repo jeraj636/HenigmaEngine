@@ -11,8 +11,8 @@ public:
     friend class Zvok;
 
 protected:
-    static inline ma_result m_rezultat;
-    static inline ma_engine m_engine;
+    static inline ma_result *m_rezultat;
+    static inline ma_engine *m_engine;
 
 private:
 };
@@ -25,9 +25,11 @@ public:
     bool ali_predvajam();
     void nastavi_loop(bool t);
     Zvok &operator=(const Zvok &z);
+    void zacetek();
+    void unici();
 
 private:
-    ma_sound m_zvok;
+    ma_sound *m_zvok;
     std::string m_pot;
 };
 #endif

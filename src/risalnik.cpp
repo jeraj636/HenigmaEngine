@@ -126,6 +126,7 @@ Zvok Risalnik::nalozi_zvok(const std::string &pot_do_zvoka)
     std::string prava_pot = sredstva_pot;
     prava_pot = prava_pot + "/" + pot_do_zvoka;
     t.nastavi(prava_pot);
+
     return t;
 }
 void Risalnik::skenslaj_teksturo(uint32_t *tekstura_id)
