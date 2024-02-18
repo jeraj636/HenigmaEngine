@@ -14,9 +14,7 @@ void Muzika::init()
 void Zvok::nastavi(const std::string &pot)
 {
     m_zvok = new ma_sound;
-    std::cout << "tu" << std::endl;
     *Muzika::m_rezultat = ma_sound_init_from_file(Muzika::m_engine, pot.c_str(), 0, NULL, NULL, m_zvok);
-    std::cout << "tu" << std::endl;
 
     if (*Muzika::m_rezultat != MA_SUCCESS)
     {
