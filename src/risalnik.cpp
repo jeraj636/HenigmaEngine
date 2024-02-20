@@ -423,8 +423,11 @@ void Risalnik::konec_okvir()
     glfwPollEvents();
     glfwSwapBuffers(m_okno);
     Cas::m_delta_time = glfwGetTime() - Cas::m_zac_time;
-    if (Cas::m_delta_time < 1 / 15)
-        Cas::m_delta_time = 1 / 15;
+
+    /*
+        if (Cas::m_delta_time >= 0.001)
+            Cas::m_delta_time = 0.001;
+    */
 }
 
 const mat::vec2 &Risalnik::get_poz_kazalca()
