@@ -19,6 +19,7 @@ double Cas::get_delta_time()
 {
     return m_delta_time;
 }
+
 void Risalnik::init(const std::string &naslov)
 {
     glfwInit();
