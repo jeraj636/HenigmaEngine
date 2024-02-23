@@ -12,7 +12,7 @@
 
 double Cas::get_time()
 {
-    return glfwGetTime();
+    return glfwGetTime() - sin_cas;
 }
 
 double Cas::get_delta_time()
@@ -158,7 +158,7 @@ uint32_t Risalnik::nalozi_teksturo(const std::string &pot_do_teksture)
     }
     else
     {
-        log::msg("SLIKA DELUJE");
+        log::msg("SLIKA DELUJE " + pot);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
     }
     stbi_image_free(data);

@@ -24,6 +24,7 @@ public:
     static double get_time();
     static double get_delta_time();
     friend class Risalnik;
+    static inline double sin_cas = 0;
 
 protected:
     static inline double m_zac_time;
