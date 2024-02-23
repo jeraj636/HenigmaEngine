@@ -60,12 +60,13 @@ public:
     static const mat::vec2 &get_velikost_okna();
     static const Gumb get_miskin_gumb();
     static const uint32_t get_fps();
-    static bool get_tipko_tipkovnice(char tipka);
+    static bool get_tipko_tipkovnice(int tipka);
 
 public:
     inline static std::string sredstva_pot;
     inline static Barva barva_odzadja;
     inline static Scena *aktivna_scena;
+    inline static std::string *trenutni_buffer_za_vpisovanje;
 
 private:
     static void velikost_okna_klic_nazaj(GLFWwindow *okno, int dolzina, int visina);
@@ -103,7 +104,7 @@ private:
 
     inline static mat::vec2 m_poz_kazalca;
     inline static Gumb m_miskin_gumb;
-    inline static bool m_tipke[128];
+    inline static bool m_tipke[512];
     inline static mat::mat::mat3 m_orto;
     inline static mat::vec2 m_vel_okno;
 };

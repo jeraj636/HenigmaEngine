@@ -69,6 +69,7 @@ void Risalnik::init(const std::string &naslov)
     glfwSwapInterval(0);
 
     m_miskin_gumb = Gumb::ni_pritisnjen;
+    trenutni_buffer_za_vpisovanje = nullptr;
 }
 void Risalnik::init(const std::string &naslov, const mat::vec2 &velikost)
 {
@@ -456,7 +457,7 @@ const uint32_t Risalnik::get_fps()
     return 1 / Cas::m_delta_time;
 }
 
-bool Risalnik::get_tipko_tipkovnice(char tipka)
+bool Risalnik::get_tipko_tipkovnice(int tipka)
 {
     return m_tipke[tipka];
 }
@@ -468,10 +469,20 @@ void Risalnik::velikost_okna_klic_nazaj(GLFWwindow *okno, int dolzina, int visin
 
 void Risalnik::gumb_klic_nazaj(GLFWwindow *okno, int kljuc, int koda_pritiska, int akcija, int mods)
 {
-    if (kljuc < 0 || kljuc > 128)
+    std::cout << (int)kljuc << "\n";
+    if (kljuc < 0 || kljuc > 512)
         return;
     if (akcija == GLFW_PRESS)
+    {
         m_tipke[kljuc] = true;
+        if (trenutni_buffer_za_vpisovanje)
+        {
+            if (kljuc != 259)
+                trenutni_buffer_za_vpisovanje->push_back(kljuc);
+            else if (trenutni_buffer_za_vpisovanje->size() >= 1)
+                trenutni_buffer_za_vpisovanje->pop_back();
+        }
+    }
     if (akcija == GLFW_RELEASE)
         m_tipke[kljuc] = false;
 }
