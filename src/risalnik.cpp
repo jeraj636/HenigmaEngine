@@ -469,7 +469,6 @@ void Risalnik::velikost_okna_klic_nazaj(GLFWwindow *okno, int dolzina, int visin
 
 void Risalnik::gumb_klic_nazaj(GLFWwindow *okno, int kljuc, int koda_pritiska, int akcija, int mods)
 {
-    std::cout << (int)kljuc << "\n";
     if (kljuc < 0 || kljuc > 512)
         return;
     if (akcija == GLFW_PRESS)
